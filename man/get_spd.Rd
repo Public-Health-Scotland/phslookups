@@ -7,11 +7,9 @@
 get_spd()
 }
 \value{
-a \link[tibble:tibble-package]{tibble} of the Scottish Postcode Directory
+a \link[tibble:tibble-package]{tibble} of the
+Scottish Postcode Directory
 }
 \description{
 Get the Scottish Postcode Directory
-}
-\examples{
-get_spd()
 }

@@ -19,3 +19,4 @@ Imports:
     fs,
     readr,
     tibble,
+    magrittr

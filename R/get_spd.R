@@ -1,6 +1,7 @@
 #' Get the Scottish Postcode Directory
 #'
-#' @return a [tibble][tibble::tibble-package] of the Scottish Postcode Directory
+#' @return a [tibble][tibble::tibble-package] of the
+#' Scottish Postcode Directory
 #' @export
 #'
 #' @examples

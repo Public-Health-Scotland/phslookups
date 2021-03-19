@@ -3,3 +3,4 @@
 export("%>%")
 export(get_spd)
 importFrom(magrittr,"%>%")
+importFrom(tibble,tibble)
