@@ -1,5 +1,5 @@
 Package: phslookups
-Title: What the Package Does (One Line, Title Case)
+Title: PHS Lookups
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "James",
