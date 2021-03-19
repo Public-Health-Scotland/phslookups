@@ -20,3 +20,5 @@ Imports:
     readr,
     tibble,
     magrittr
+URL: https://github.com/Moohan/phslookups
+BugReports: https://github.com/Moohan/phslookups/issues
