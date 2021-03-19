@@ -13,3 +13,6 @@ Scottish Postcode Directory
 \description{
 Get the Scottish Postcode Directory
 }
+\examples{
+get_spd()
+}

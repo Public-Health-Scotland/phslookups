@@ -5,6 +5,7 @@
 #' @export
 #'
 #' @examples
+#' get_spd()
 get_spd <- function() {
   # Postcode directory
   lookups_dir <- fs::path("/conf/linkage/output/lookups/Unicode")
