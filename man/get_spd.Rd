@@ -4,11 +4,13 @@
 \alias{get_spd}
 \title{Get the Scottish Postcode Directory}
 \usage{
-get_spd()
+get_spd(version = "latest")
+}
+\arguments{
+\item{version}{Default is "latest", otherwise supply a tag e.g. "2023_2"}
 }
 \value{
-a \link[tibble:tibble-package]{tibble} of the
-Scottish Postcode Directory
+a \link[tibble:tibble-package]{tibble} of the Scottish Postcode Directory
 }
 \description{
 Get the Scottish Postcode Directory
