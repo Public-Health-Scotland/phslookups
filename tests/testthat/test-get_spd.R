@@ -9,3 +9,8 @@ test_that("spd is returned", {
 
   expect_named(spd, spd_variables)
 })
+
+test_that("col selection works", {
+  expect_named(get_spd(col_select = "pc7"), "pc7")
+  expect_named(get_spd(col_select = c("pc7", "pc8")), c("pc7", "pc8"))
+})

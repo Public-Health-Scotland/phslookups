@@ -4,10 +4,18 @@
 \alias{get_spd}
 \title{Get the Scottish Postcode Directory}
 \usage{
-get_spd(version = "latest")
+get_spd(version = "latest", col_select = NULL, as_data_frame = TRUE)
 }
 \arguments{
 \item{version}{Default is "latest", otherwise supply a tag e.g. "2023_2"}
+
+\item{col_select}{A character vector of column names to keep, as in the
+"select" argument to \code{data.table::fread()}, or a
+\link[tidyselect:eval_select]{tidy selection specification}
+of columns, as used in \code{dplyr::select()}.}
+
+\item{as_data_frame}{Should the function return a \code{tibble} (default) or
+an Arrow \link[arrow]{Table}?}
 }
 \value{
 a \link[tibble:tibble-package]{tibble} of the Scottish Postcode Directory
