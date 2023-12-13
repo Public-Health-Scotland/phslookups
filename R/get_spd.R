@@ -9,10 +9,8 @@
 #' @examples
 #' get_spd()
 get_spd <- function(version = "latest", col_select = NULL, as_data_frame = TRUE) {
-  # Postcode directory
-  lookups_dir <- fs::path("/conf/linkage/output/lookups/Unicode")
 
-  spd_dir <- fs::path(lookups_dir, "Geography/Scottish Postcode Directory")
+  spd_dir <- fs::path(get_lookups_dir(), "Geography", "Scottish Postcode Directory")
 
   if (version == "latest") {
     spd_path <- find_latest_file(
