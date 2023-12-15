@@ -21,3 +21,12 @@
 #'
 #' @format ## `hscp_locality_variables`
 #' A character vector with 42 elements
+"simd_postcode_variables"
+
+#' SIMD DataZone file Variables
+#'
+#' A character vector of the variable names for the latest SIMD DataZone file.
+#'
+#' @format ## `simd_datazone_variables`
+#' A character vector with 41 elements
+"simd_datazone_variables"
