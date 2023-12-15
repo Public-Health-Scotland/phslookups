@@ -35,19 +35,10 @@ find_latest_file <- function(directory,
     ) %>%
       dplyr::arrange(
         dplyr::desc(.data$birth_time),
-        dplyr::desc(.data$modification_time)
+        dplyr::desc(.data$modification_time),
+        dplyr::desc(.data$path)
       ) %>%
       magrittr::extract(1L, )
-
-    n_matched_files <- nrow(latest_file)
-
-    if (n_matched_files > 1L) {
-      cli::cli_inform(
-        c(i = "There were {.val {n_matched_files}} files matching the
-                    regexp {.val {regexp}}. {.val {fs::path_file(latest_file$path)}} has been selected,
-                    which was modified on {.val {latest_file$modification_time}}.")
-      )
-    }
   } else if (selection_method == "file_name") {
     latest_file <- fs::dir_info(
       path = directory,
@@ -56,22 +47,14 @@ find_latest_file <- function(directory,
       recurse = TRUE
     ) %>%
       dplyr::arrange(
-        dplyr::desc(.data$path)
+        dplyr::desc(.data$path),
+        dplyr::desc(.data$birth_time),
+        dplyr::desc(.data$modification_time)
       ) %>%
       magrittr::extract(1L, )
-
-    n_matched_files <- nrow(latest_file)
-
-    if (n_matched_files > 1L) {
-      cli::cli_inform(
-        c(i = "There were {.val {n_matched_files}} files matching the
-                    regexp {.val {regexp}}. {.val {fs::path_file(latest_file$path)}} has been selected,
-                    as it is first alphabetically.")
-      )
-    }
   }
 
-  if (n_matched_files == 1L) {
+  if (nrow(latest_file) == 1L) {
     cli::cli_alert_info("Using {.val {fs::path_file(latest_file$path)}}.")
   } else {
     cli::cli_abort(
