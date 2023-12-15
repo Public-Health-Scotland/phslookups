@@ -14,6 +14,6 @@ A character vector with 15 elements
 hscp_locality_variables
 }
 \description{
-A character vector of the variable names for the HSCP Locality Lookup.
+A character vector of the variable names for the latest HSCP Locality Lookup.
 }
 \keyword{datasets}

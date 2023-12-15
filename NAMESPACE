@@ -3,6 +3,7 @@
 export("%>%")
 export(find_latest_file)
 export(get_hscp_locality)
+export(get_simd_postcode)
 export(get_spd)
 importFrom(magrittr,"%>%")
 importFrom(tibble,tibble)

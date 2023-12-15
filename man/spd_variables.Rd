@@ -14,6 +14,7 @@ A character vector with 88 elements
 spd_variables
 }
 \description{
-A character vector of the variable names for the Scottish Postcode Directory.
+A character vector of the variable names for the latest Scottish Postcode
+Directory.
 }
 \keyword{datasets}
