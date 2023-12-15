@@ -1,5 +1,9 @@
 test_that("simd_datazone is returned", {
-  simd_datazone <- get_simd_datazone()
+  get_simd_datazone() |>
+    expect_message()
+
+  simd_datazone <- suppressMessages(get_simd_datazone())
+
   expect_s3_class(simd_datazone, "tbl_df")
   expect_equal(nrow(unique(simd_datazone["hb2019"])), 14)
   expect_equal(nrow(unique(simd_datazone["hscp2019"])), 31)

@@ -8,7 +8,10 @@
 #'
 #' @examples
 #' get_spd()
-get_spd <- function(version = "latest", col_select = NULL, as_data_frame = TRUE) {
+get_spd <- function(
+    version = "latest",
+    col_select = NULL,
+    as_data_frame = TRUE) {
   dir <- fs::path(get_lookups_dir(), "Geography", "Scottish Postcode Directory")
 
   if (version == "latest") {

@@ -9,11 +9,17 @@ fs::file_create(fs::path(
 test_that("By default will find the last created file", {
   fs::file_create(fs::path(dir, "b0.txt"))
 
-  expect_equal(find_latest_file(dir, "[a-z]\\d.txt"), fs::path(dir, "b0.txt")) |>
+  expect_equal(
+    find_latest_file(dir, "[a-z]\\d.txt"),
+    fs::path(dir, "b0.txt")
+  ) |>
     expect_message("\"b0.txt\"")
 })
 
 test_that("Can find latest file by file name", {
-  expect_equal(find_latest_file(dir, "[a-z]\\d.txt", "file_name"), fs::path(dir, "z9.txt")) |>
+  expect_equal(
+    find_latest_file(dir, "[a-z]\\d.txt", "file_name"),
+    fs::path(dir, "z9.txt")
+  ) |>
     expect_message("\"z9.txt\"")
 })

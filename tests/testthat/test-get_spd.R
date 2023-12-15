@@ -1,5 +1,9 @@
 test_that("spd is returned", {
-  spd <- get_spd()
+  get_spd() |>
+    expect_message()
+
+  spd <- suppressMessages(get_spd())
+
   expect_s3_class(spd, "tbl_df")
   expect_equal(names(spd)[1:2], c("pc7", "pc8"))
   expect_equal(nrow(unique(spd["hb2019"])), 14)
@@ -11,6 +15,14 @@ test_that("spd is returned", {
 })
 
 test_that("col selection works", {
-  expect_named(get_spd(col_select = "pc7"), "pc7")
-  expect_named(get_spd(col_select = c("pc7", "pc8")), c("pc7", "pc8"))
+  expect_named(
+    get_spd(col_select = "pc7"),
+    "pc7"
+  ) |>
+    expect_message()
+  expect_named(
+    get_spd(col_select = c("pc7", "pc8")),
+    c("pc7", "pc8")
+  ) |>
+    expect_message()
 })
