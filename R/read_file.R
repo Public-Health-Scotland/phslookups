@@ -36,16 +36,15 @@ read_file <- function(path, col_select = NULL, as_data_frame = TRUE, ...) {
     ))
   }
 
-  data <- switch(
-    ext,
+  data <- switch(ext,
     "rds" = readr::read_rds(file = path),
     "csv" = readr::read_csv(file = path, ..., show_col_types = FALSE),
     "parquet" = tibble::as_tibble(arrow::read_parquet(
-                   file = path,
-                   col_select = !!col_select,
-                   as_data_frame = as_data_frame,
-                   ...
-                 ))
+      file = path,
+      col_select = !!col_select,
+      as_data_frame = as_data_frame,
+      ...
+    ))
   )
 
   return(data)
