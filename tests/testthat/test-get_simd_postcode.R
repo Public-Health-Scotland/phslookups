@@ -1,5 +1,5 @@
 test_that("simd_postcode is returned", {
-  get_simd_postcode() |>
+  get_simd_postcode() %>%
     expect_message()
 
   simd_postcode <- suppressMessages(get_simd_postcode())
@@ -18,11 +18,11 @@ test_that("col selection works", {
   expect_named(
     get_simd_postcode(col_select = "pc7"),
     "pc7"
-  ) |>
+  ) %>%
     expect_message()
   expect_named(
     get_simd_postcode(col_select = c("pc7", "pc8")),
     c("pc7", "pc8")
-  ) |>
+  ) %>%
     expect_message()
 })
