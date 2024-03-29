@@ -4,7 +4,12 @@
 \alias{find_latest_file}
 \title{Find the latest version of a file}
 \usage{
-find_latest_file(directory, regexp, selection_method = "modification_date")
+find_latest_file(
+  directory,
+  regexp,
+  selection_method = "modification_date",
+  ...
+)
 }
 \arguments{
 \item{directory}{The directory in which to search.}
