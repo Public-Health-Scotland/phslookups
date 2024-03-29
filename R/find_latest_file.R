@@ -25,13 +25,15 @@
 #' }
 find_latest_file <- function(directory,
                              regexp,
-                             selection_method = "modification_date") {
+                             selection_method = "modification_date",
+                             ...) {
   if (selection_method == "modification_date") {
     latest_file <- fs::dir_info(
       path = directory,
       type = "file",
       regexp = regexp,
-      recurse = TRUE
+      recurse = TRUE,
+      ...
     ) |>
       dplyr::arrange(
         dplyr::desc(.data$birth_time),
