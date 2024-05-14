@@ -32,12 +32,12 @@ find_latest_file <- function(directory,
       type = "file",
       regexp = regexp,
       recurse = TRUE
-    ) %>%
+    ) |>
       dplyr::arrange(
         dplyr::desc(.data$birth_time),
         dplyr::desc(.data$modification_time),
         dplyr::desc(.data$path)
-      ) %>%
+      ) |>
       magrittr::extract(1L, )
   } else if (selection_method == "file_name") {
     latest_file <- fs::dir_info(
@@ -45,12 +45,12 @@ find_latest_file <- function(directory,
       type = "file",
       regexp = regexp,
       recurse = TRUE
-    ) %>%
+    ) |>
       dplyr::arrange(
         dplyr::desc(.data$path),
         dplyr::desc(.data$birth_time),
         dplyr::desc(.data$modification_time)
-      ) %>%
+      ) |>
       magrittr::extract(1L, )
   }
 
@@ -63,7 +63,7 @@ find_latest_file <- function(directory,
     )
   }
 
-  file_path <- latest_file %>%
+  file_path <- latest_file |>
     dplyr::pull(.data$path)
 
   return(file_path)

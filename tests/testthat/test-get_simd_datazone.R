@@ -1,5 +1,5 @@
 test_that("simd_datazone is returned", {
-  get_simd_datazone() %>%
+  get_simd_datazone() |>
     expect_message()
 
   simd_datazone <- suppressMessages(get_simd_datazone())

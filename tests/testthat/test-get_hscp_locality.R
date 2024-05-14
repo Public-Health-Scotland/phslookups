@@ -1,5 +1,5 @@
 test_that("hscp_locality lookup is returned", {
-  get_hscp_locality() %>%
+  get_hscp_locality() |>
     expect_message()
 
   hscp_locality <- suppressMessages(get_hscp_locality())
