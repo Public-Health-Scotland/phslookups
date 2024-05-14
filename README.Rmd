@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 # phslookups
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/Moohan/phslookups/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Moohan/phslookups/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of phslookups is to provide helper functions to easily access and use lookups which have been provided for analysis.
@@ -27,7 +26,7 @@ You can install the latest version of phslookups from [GitHub](https://github.co
 
 ``` r
 # Not yet added
-remotes::install_github(".../phslookups")
+remotes::install_github("moohan/phslookups")
 ```
 
 ## Example
