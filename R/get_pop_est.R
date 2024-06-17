@@ -1,7 +1,7 @@
 get_pop_est <- function(
-    level = c("datazone", "hscp", "ca", "hb", "intzone"),
+    level = c("datazone", "intzone", "hscp", "ca", "hb"),
     version = "latest") {
-  level <- match.arg(tolower(level))
+  level <- rlang::arg_match(level)
   ext <- "rds"
   pop_dir <- fs::path(get_lookups_dir(), "Populations", "Estimates")
 
