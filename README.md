@@ -4,6 +4,10 @@
 # phslookups
 
 <!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+
 <!-- badges: end -->
 
 The goal of phslookups is to provide helper functions to easily access
@@ -15,9 +19,12 @@ You can install the latest version of phslookups from
 [GitHub](https://github.com) with:
 
 ``` r
-# Not yet added
-remotes::install_github("moohan/phslookups")
+remotes::install_github("Public-Health-Scotland/phslookups")
 ```
+
+It is not yet available from the PHS Posit Package Manager, it will
+never be available on CRAN as it is intended to be an internal only
+package.
 
 ## Example
 
