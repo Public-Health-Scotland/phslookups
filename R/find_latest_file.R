@@ -12,8 +12,9 @@
 #' passed to [fs::dir_info()] to search for the file.
 #' @param selection_method Valid arguments are "modification_date"
 #' (the default) or "file_name".
+#' @param ... Additional arguments passed to [fs::dir_info()].
 #'
-#' @return the [fs::path()] to the file
+#' @return the [fs::path()] to the file.
 #' @export
 #'
 #' @examples
