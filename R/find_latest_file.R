@@ -13,6 +13,7 @@
 #' @param selection_method Valid arguments are "modification_date"
 #' (the default) or "file_name".
 #' @param quiet (default: FALSE) Used to suppress message output
+#' @param ... Additional arguments passed to [fs::dir_info()].
 #'
 #' @return the [fs::path()] to the file
 #' @examples
