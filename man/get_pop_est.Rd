@@ -8,7 +8,9 @@ get_pop_est(
   level = c("datazone", "intzone", "hscp", "ca", "hb"),
   version = "latest",
   min_year = NULL,
-  max_year = NULL
+  max_year = NULL,
+  age_groups = FALSE,
+  ...
 )
 }
 \arguments{
@@ -17,6 +19,10 @@ get_pop_est(
 \item{version}{default is "latest"}
 
 \item{min_year, max_year}{(optional) filter years}
+
+\item{age_groups}{should age groups be used}
+
+\item{...}{arguments passed to \code{\link[phsmethods:create_age_groups]{phsmethods::create_age_groups()}}}
 }
 \value{
 the pop data as a tibble
@@ -27,4 +33,5 @@ Get population estimates
 \examples{
 get_pop_est("datazone")
 get_pop_est("hb", min_year = 1995, max_year = 2020)
+get_pop_est("ca", age_groups = TRUE, by = 10)
 }
