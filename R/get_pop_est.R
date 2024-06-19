@@ -3,6 +3,8 @@
 #' @param level one of "datazone", "intzone", "hscp", "ca" or "hb"
 #' @param version default is "latest"
 #' @param min_year,max_year (optional) filter years
+#' @param age_groups should age groups be used
+#' @param ... arguments passed to [phsmethods::create_age_groups()]
 #'
 #' @return the pop data as a tibble
 #' @export
@@ -10,11 +12,14 @@
 #' @examples
 #' get_pop_est("datazone")
 #' get_pop_est("hb", min_year = 1995, max_year = 2020)
+#' get_pop_est("ca", age_groups = TRUE, by = 10)
 get_pop_est <- function(
     level = c("datazone", "intzone", "hscp", "ca", "hb"),
     version = "latest",
     min_year = NULL,
-    max_year = NULL) {
+    max_year = NULL,
+    age_groups = FALSE,
+    ...) {
   level <- rlang::arg_match(level)
   ext <- "rds"
   pop_dir <- fs::path(get_lookups_dir(), "Populations", "Estimates")
@@ -56,6 +61,16 @@ get_pop_est <- function(
       )
     }
     pop_est <- pop_est[pop_est$year <= max_year, ]
+  }
+
+  if (age_groups) {
+    pop_est <- pop_est |>
+      dplyr::mutate(
+        age_group = phsmethods::create_age_groups(x = .data$age, ...),
+        .keep = "unused"
+      ) |>
+      dplyr::group_by(dplyr::across(!pop)) |>
+      dplyr::summarise(pop = sum(pop), .groups = "drop")
   }
 
   return(pop_est)
