@@ -20,6 +20,7 @@ Imports:
     fs,
     glue,
     magrittr,
+    phsmethods,
     readr,
     rlang,
     tibble
