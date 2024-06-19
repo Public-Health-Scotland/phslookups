@@ -1,6 +1,20 @@
+#' Get population estimates
+#'
+#' @param level one of "datazone", "intzone", "hscp", "ca" or "hb"
+#' @param version default is "latest"
+#' @param min_year,max_year (optional) filter years
+#'
+#' @return the pop data as a tibble
+#' @export
+#'
+#' @examples
+#' get_pop_est("datazone")
+#' get_pop_est("hb", min_year = 1995, max_year = 2020)
 get_pop_est <- function(
     level = c("datazone", "intzone", "hscp", "ca", "hb"),
-    version = "latest") {
+    version = "latest",
+    min_year = NULL,
+    max_year = NULL) {
   level <- rlang::arg_match(level)
   ext <- "rds"
   pop_dir <- fs::path(get_lookups_dir(), "Populations", "Estimates")
@@ -13,5 +27,36 @@ get_pop_est <- function(
     ignore.case = TRUE
   )
 
-  return(read_file(pop_path))
+  pop_est <- read_file(pop_path)
+
+  # Year range validation
+  if (!is.null(min_year) && !is.null(max_year) && min_year > max_year) {
+    cli::cli_abort(
+      "Invalid years: {.arg min_year} must not be greater than {.arg max_year}"
+    )
+  }
+
+  if (!is.null(min_year)) {
+    min_year_available <- min(pop_est$year)
+    if (min_year < min_year_available) {
+      cli::cli_abort(
+        "{.arg min_year} must be at least {min_year_available} when using the
+        {.file {fs::path_file(pop_path)}} file."
+      )
+    }
+    pop_est <- pop_est[pop_est$year >= min_year, ]
+  }
+
+  if (!is.null(max_year)) {
+    max_year_available <- max(pop_est$year)
+    if (max_year > max_year_available) {
+      cli::cli_abort(
+        "{.arg max_year} must be at most {max_year_available} when using the
+        {.file {fs::path_file(pop_path)}} file."
+      )
+    }
+    pop_est <- pop_est[pop_est$year <= max_year, ]
+  }
+
+  return(pop_est)
 }
