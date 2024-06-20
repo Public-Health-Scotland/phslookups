@@ -116,42 +116,42 @@ get_pop_est <- function(
 
   # Create age groups
   if (age_groups) {
-    pop_est <- pop_est %>%
+    pop_est <- pop_est |>
       dplyr::mutate(
         age_group = phsmethods::create_age_groups(x = .data$age, ...),
         .keep = "unused"
-      ) %>%
-      dplyr::group_by(dplyr::across(!pop)) %>%
+      ) |>
+      dplyr::group_by(dplyr::across(!pop)) |>
       dplyr::summarise(pop = sum(pop), .groups = "drop")
   }
 
   # Pivot data
   if (pivot_wider %in% list(TRUE, "all")) {
-    pop_est <- pop_est %>%
+    pop_est <- pop_est |>
       pivot_data(
         id_cols = -"sex",
         names_from = c("sex_name", dplyr::if_else(age_groups, "age_group", "age"))
       )
   } else if (pivot_wider == "sex") {
-    pop_est <- pop_est %>%
+    pop_est <- pop_est |>
       pivot_data(
         id_cols = c(-"sex", dplyr::if_else(age_groups, "age_group", "age")),
         names_from = "sex_name"
       )
   } else if (pivot_wider == "sex-only") {
-    pop_est <- pop_est %>%
+    pop_est <- pop_est |>
       pivot_data(
         id_cols = c(-"sex", -dplyr::if_else(age_groups, "age_group", "age")),
         names_from = "sex_name"
       )
   } else if (pivot_wider == "age") {
-    pop_est <- pop_est %>%
+    pop_est <- pop_est |>
       pivot_data(
         id_cols = c(-"sex", "sex_name"),
         names_from = dplyr::if_else(age_groups, "age_group", "age")
       )
   } else if (pivot_wider == "age-only") {
-    pop_est <- pop_est %>%
+    pop_est <- pop_est |>
       pivot_data(
         id_cols = c(-"sex", -"sex_name"),
         names_from = dplyr::if_else(age_groups, "age_group", "age")
