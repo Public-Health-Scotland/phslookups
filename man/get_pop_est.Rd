@@ -64,7 +64,7 @@ get_pop_est("hb", age_groups = TRUE)
 
 # Age Groups with Custom Settings:
 # Aggregate into 5-year age groups, with an open-ended final group "85+"
-get_pop_est("hb", age_groups = TRUE, by = 5, to = "85+")
+get_pop_est("hb", age_groups = TRUE, by = 5, to = 85)
 
 # Pivot Wider (All): CA Population Estimates, Reshaped by Sex and Age Group
 # The result will have columns for each combination of sex and age group,
