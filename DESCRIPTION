@@ -8,9 +8,9 @@ Authors@R: c(
   )
 Description: Helper functions for reading the PHS standard lookups.
 License: MIT + file LICENSE
-URL: https://github.com/Moohan/phslookups,
-    https://moohan.github.io/phslookups/
-BugReports: https://github.com/Moohan/phslookups/issues
+URL: https://github.com/Public-Health-Scotland/phslookups,
+    https://Public-Health-Scotland.github.io/phslookups/
+BugReports: https://github.com/Public-Health-Scotland/phslookups/issues
 Depends: 
     R (>= 4.0)
 Imports: 
