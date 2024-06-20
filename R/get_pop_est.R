@@ -41,7 +41,7 @@
 #'
 #' # Age Groups with Custom Settings:
 #' # Aggregate into 5-year age groups, with an open-ended final group "85+"
-#' get_pop_est("hb", age_groups = TRUE, by = 5, to = "85+")
+#' get_pop_est("hb", age_groups = TRUE, by = 5, to = 85)
 #'
 #' # Pivot Wider (All): CA Population Estimates, Reshaped by Sex and Age Group
 #' # The result will have columns for each combination of sex and age group,
@@ -100,7 +100,7 @@ get_pop_est <- function(
         {.file {fs::path_file(pop_path)}} file."
       )
     }
-    pop_est <- pop_est[pop_est$year >= min_year, ]
+    pop_est <- dplyr::filter(pop_est, .data$year >= min_year)
   }
 
   if (!is.null(max_year)) {
@@ -111,18 +111,18 @@ get_pop_est <- function(
         {.file {fs::path_file(pop_path)}} file."
       )
     }
-    pop_est <- pop_est[pop_est$year <= max_year, ]
+    pop_est <- dplyr::filter(pop_est, .data$year <= max_year)
   }
 
   # Create age groups
   if (age_groups) {
     pop_est <- pop_est |>
       dplyr::mutate(
-        age_group = phsmethods::create_age_groups(x = age, ...),
+        age_group = phsmethods::create_age_groups(x = .data$age, ...),
         .keep = "unused"
       ) |>
-      dplyr::group_by(dplyr::across(!pop)) |>
-      dplyr::summarise(pop = sum(pop), .groups = "drop")
+      dplyr::group_by(dplyr::across(!.data$pop)) |>
+      dplyr::summarise(pop = sum(.data$pop), .groups = "drop")
   }
 
   # Pivot data
