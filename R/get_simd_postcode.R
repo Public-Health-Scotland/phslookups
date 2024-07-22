@@ -11,11 +11,11 @@
 #'
 #' @examples
 #' get_simd_postcode()
+#' get_simd_postcode(col_select = c("pc7", "simd2020v2_rank"))
 get_simd_postcode <- function(
     postcode_version = "latest",
     simd_version = "latest",
-    col_select = NULL,
-    as_data_frame = TRUE) {
+    col_select = NULL) {
   dir <- fs::path(get_lookups_dir(), "Deprivation")
 
   if (postcode_version != "latest" && simd_version != "latest") {
@@ -41,7 +41,6 @@ get_simd_postcode <- function(
 
   return(read_file(
     simd_postcode_path,
-    col_select = col_select,
-    as_data_frame = as_data_frame
+    col_select = col_select
   ))
 }

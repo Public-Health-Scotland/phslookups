@@ -7,8 +7,7 @@
 get_simd_postcode(
   postcode_version = "latest",
   simd_version = "latest",
-  col_select = NULL,
-  as_data_frame = TRUE
+  col_select = NULL
 )
 }
 \arguments{
@@ -22,9 +21,6 @@ e.g. "2020v2"}
 "select" argument to \code{data.table::fread()}, or a
 \link[tidyselect:eval_select]{tidy selection specification}
 of columns, as used in \code{dplyr::select()}.}
-
-\item{as_data_frame}{Should the function return a \code{tibble} (default) or
-an Arrow \link[arrow]{Table}?}
 }
 \value{
 a \link[tibble:tibble-package]{tibble} of the SIMD Postcode lookup
@@ -34,4 +30,5 @@ Get a SIMD Postcode Lookup
 }
 \examples{
 get_simd_postcode()
+get_simd_postcode(col_select = c("pc7", "simd2020v2_rank"))
 }
