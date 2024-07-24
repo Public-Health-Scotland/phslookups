@@ -1,7 +1,7 @@
 have_access <- function() {
   file.access(get_lookups_dir(), 4) >= 0L
 }
-check_access <- function(fail_on_no_access = TRUE) {
+check_lookups_access <- function(fail_on_no_access = TRUE) {
   if (!have_access()) {
     no_access_msg <- c(
       "x" = "You don't have the appropriate file permissions to {get_lookups_dir()}",
