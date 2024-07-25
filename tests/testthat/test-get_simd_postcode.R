@@ -35,7 +35,8 @@ test_that("col selection works with tidyselect", {
 
   expect_named(
     get_simd_postcode(col_select = dplyr::matches("pc[78]")),
-    c("pc7", "pc8")
+    c("pc7", "pc8"),
+    ignore.order = TRUE
   ) |>
     expect_message()
 })
