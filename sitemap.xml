@@ -1,54 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://moohan.github.io/phslookups/404.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/index.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/reference/find_latest_file.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/reference/get_hscp_locality.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/reference/get_simd_datazone.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/reference/get_simd_postcode.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/reference/get_spd.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/reference/hscp_locality_variables.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/reference/read_file.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/reference/simd_datazone_variables.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/reference/simd_postcode_variables.html</loc>
-  </url>
-  <url>
-    <loc>https://moohan.github.io/phslookups/reference/spd_variables.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://moohan.github.io/phslookups/404.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/LICENSE-text.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/LICENSE.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/authors.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/index.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/news/index.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/reference/find_latest_file.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/reference/get_hscp_locality.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/reference/get_simd_datazone.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/reference/get_simd_postcode.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/reference/get_spd.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/reference/hscp_locality_variables.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/reference/index.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/reference/read_file.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/reference/simd_datazone_variables.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/reference/simd_postcode_variables.html</loc></url>
+<url><loc>https://moohan.github.io/phslookups/reference/spd_variables.html</loc></url>
 </urlset>
+
