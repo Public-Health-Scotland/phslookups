@@ -41,6 +41,6 @@ get_simd_postcode <- function(
 
   return(read_file(
     simd_postcode_path,
-    col_select = col_select
+    col_select = {{ col_select }}
   ))
 }
