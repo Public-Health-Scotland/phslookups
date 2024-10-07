@@ -29,7 +29,7 @@ get_spd <- function(
 
   return(read_file(
     spd_path,
-    col_select = col_select,
+    col_select = {{ col_select }},
     as_data_frame = as_data_frame
   ))
 }
