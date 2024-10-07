@@ -29,7 +29,7 @@ read_file <- function(path, col_select = NULL, as_data_frame = TRUE, ...) {
     ))
   }
 
-  if ((!missing(col_select) || !missing(as_data_frame)) && ext != "parquet") {
+  if ((!rlang::quo_is_null(rlang::enquo(col_select)) || !missing(as_data_frame)) && ext != "parquet") {
     cli::cli_abort(c(
       "x" = "{.arg col_select} and/or {.arg as_data_frame} must only be used
         when reading a {.field .parquet} file."
@@ -41,7 +41,7 @@ read_file <- function(path, col_select = NULL, as_data_frame = TRUE, ...) {
     "csv" = readr::read_csv(file = path, ..., show_col_types = FALSE),
     "parquet" = tibble::as_tibble(arrow::read_parquet(
       file = path,
-      col_select = !!col_select,
+      col_select = {{ col_select }},
       as_data_frame = as_data_frame,
       ...
     ))

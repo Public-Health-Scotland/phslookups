@@ -26,3 +26,17 @@ test_that("col selection works", {
   ) |>
     expect_message()
 })
+
+test_that("col selection works with tidyselect", {
+  expect_named(
+    get_simd_postcode(col_select = c("pc7", dplyr::starts_with("simd")))
+  ) |>
+    expect_message()
+
+  expect_named(
+    get_simd_postcode(col_select = dplyr::matches("pc[78]")),
+    c("pc7", "pc8"),
+    ignore.order = TRUE
+  ) |>
+    expect_message()
+})
