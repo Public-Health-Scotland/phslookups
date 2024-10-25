@@ -2,6 +2,7 @@
 
 export(find_latest_file)
 export(get_hscp_locality)
+export(get_pop_est)
 export(get_simd_datazone)
 export(get_simd_postcode)
 export(get_spd)
