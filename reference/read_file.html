@@ -54,7 +54,7 @@ on the file path.</p><ul><li><p><code>.rds</code> uses <code><a href="https://re
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_file</span><span class="op">(</span><span class="va">path</span>, col_select <span class="op">=</span> <span class="cn">NULL</span>, as_data_frame <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_file</span><span class="op">(</span><span class="va">path</span>, col_select <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -70,11 +70,6 @@ on the file path.</p><ul><li><p><code>.rds</code> uses <code><a href="https://re
 "select" argument to <code>data.table::fread()</code>, or a
 <a href="https://tidyselect.r-lib.org/reference/eval_select.html" class="external-link">tidy selection specification</a>
 of columns, as used in <code><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">dplyr::select()</a></code>.</p></dd>
-
-
-<dt id="arg-as-data-frame">as_data_frame<a class="anchor" aria-label="anchor" href="#arg-as-data-frame"></a></dt>
-<dd><p>Should the function return a <code>tibble</code> (default) or
-an Arrow <a href="https://arrow.apache.org/docs/r/reference/Table-class.html" class="external-link">Table</a>?</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
