@@ -31,8 +31,8 @@ read_file <- function(path, col_select = NULL, ...) {
 
   if (!rlang::quo_is_null(rlang::enquo(col_select)) && ext != "parquet") {
     cli::cli_abort(c(
-      "x" = "{.arg col_select} and/or {.arg as_data_frame} must only be used
-        when reading a {.field .parquet} file."
+      "x" = "{.arg col_select} must only be used
+      when reading a {.field .parquet} file."
     ))
   }
 
