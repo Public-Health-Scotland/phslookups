@@ -64,6 +64,7 @@ get_pop_est <- function(
     age_groups = FALSE,
     pivot_wider = FALSE,
     ...) {
+  level <- tolower(level)
   level <- rlang::arg_match(level)
   if (!inherits(pivot_wider, "logical")) {
     pivot_wider <- rlang::arg_match(
