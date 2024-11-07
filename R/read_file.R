@@ -11,9 +11,12 @@
 #' @param ... Addition arguments passed to the relevant function.
 #'
 #' @return the data a [tibble][tibble::tibble-package]
+<<<<<<< HEAD
 #' @noRd
 #' @keywords internal
 
+=======
+>>>>>>> origin/main
 read_file <- function(path, col_select = NULL, ...) {
   valid_extensions <- c(
     "rds",
