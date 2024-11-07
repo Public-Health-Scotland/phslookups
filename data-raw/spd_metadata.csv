@@ -1,0 +1,94 @@
+varaible_name,variable_label,range
+pc7,The Royal Mail postcode in a 7 character format,
+pc8,The Royal Mail postcode in a 7 character format,
+split_char,"The split indicator added by NRS - A, B, C. Blank if postcode is whole.",A to C or empty
+pc_district,Postcode District.,
+pc_sector,Postcode Sector.,
+date_of_introduction,Postcode introduction date.,
+date_of_deletion,Postcode deletion date.,
+postcode_type,Small or Large User postcode indicator.,S or L
+pc_su_link,Provides the Small User postcode that contains the grid reference of the Large User postcode. PO Boxes shown as NO LINKP.,
+split_su_link,"The split indicator for small user link postcode added by NRS - A, B, C.  Blank if postcode is whole.",A to C or empty
+imputed,Indicates whether the postcode's higher area values have been imputed.,Y or empty
+dpc,The Royal Mail delivery point count.,
+dpc_nr,The Royal Mail delivery point count (non-residential).,
+hhc,The Royal Mail Household count.,
+grid_reference_easting,Grid reference easting to 1 metre resolution.,
+grid_reference_northing,Grid reference northing to 1 metre resolution.,
+latitude,Postcode co-ordinates in degrees latitude.,
+longitude,Postcode co-ordinates in degrees longitude.,
+split_indicator,Split postcode indicator.,Y or N
+ca2019,2019 Council Area.,S12000005 to S12000050
+ca2019name,Name of 2019 Council Area,
+ca2018,2018 Council Area.,S12000005 to S12000048
+ca2011,2011 Council Area.,S12000005 to S12000046
+upc2024,2024 UK Parliamentary Constituency.,S14000021 to S14000111
+spr2021,2021 Scottish Parliamentary Region.,S17000011 to S17000020
+spc2021,2021 Scottish Parliamentary Constituency.,S16000074 to S16000150
+hb2019,2019 Health Board.,S08000015 to S08000032
+hb2019name,Name of 2019 Health Board,
+hb2018,2018 Health Board.,S08000015 to S08000030
+hb2014,2014 Health Board.,S08000015 to S08000028
+hb2006,2006 Health Board.,S08000001 to S08000014
+hb1995,1995 Health Board.,01 to 15
+hscp2019,"2019 Integration Authority, also known as Health and Social Care Partnership.",S37000001 to S37000035
+hscp2019name,"Name of 2019 Intergration Authority, also known as Health and Social Care Partnership.",
+hscp2018,"2018 Integration Authority, also known as Health and Social Care Partnership.",S37000001 to S37000033
+hscp2016,"2016 Integration Authority, also known as Health and Social Care Partnership.",S37000001 to S37000031
+oa2022,2022 Census Output Area.,S00135307 to S00181669
+oa2011,2011 Census Output Area.,S00088956 to S00135306
+oa2001,2001 Census Output Area.,S00000001 to S00042604
+oa1991,1991 Census Output Area.,5601AB02 to 6756AK12
+datazone2011,2011 Data Zone.,S01006506 to S01013481
+datazone2011name,Name of 2011 Data Zone.,
+datazone2001,2001 Data Zone.,S01000001 to S01006505
+intzone2011,2011 Intermediate Zone.,S02001236 to S02002514
+intzone2011name,Name of 2011 Intermediate Zone.,
+intzone2001,2001 Intermediate Zone.,S02000001 to S02001235
+hhc2022,2022 Census postcode household count.,
+pop2022,2022 Census postcode residential count.,
+hhc2011,2011 Census postcode household count.,
+pop2011,2011 Census postcode residential count.,
+hhc2001,2001 Census postcode household count.,
+pop2001,2001 Census postcode residential count.,
+hhc1991,1991 Census postcode usually resident household count.,
+pop1991,1991 Census postcode residential count.,
+lau_level1_2019,European Area Classification Local Administrative Unit (LAU) 2019 Level 1.,S30000003 to S30000053
+itl2021level2code,International Territorial Levels (ITLs) 2021 Level 2.,TLM5 to TLM9
+itl2021level3code,International Territorial Levels (ITLs) 2021 Level 3.,TLM50 to TLM95
+locality_2022,2022 Census Locality.,S52000001 to S52000656
+locality_2001,2001 Census Locality.,001001 to 521001
+locality_1991,1991 Census Locality.,001 to 603
+settlement_2022,2022 Census Settlement,S53000001 to S53000503
+settlement_2001,2001 Census Settlement.,001 to 521
+civil_parish_1930,1930 Civil Parish.,S35000001 to S35000871
+ent_region_2008,2008 Scottish Enterprise Region.,S09000001 to S09000006
+lgd_1995,1995 Local Government District.,01 to 56
+lgd_1991,1991 Local Government District.,01 to 56
+nat_park_2010,2010 National Park.,S21000002 to S21000003
+reg_dist_2007,2019 Council Area.,S12000005 to S12000050
+roa_cpp_2006,2006 Regeneration Outcome Area Community Planning Partnerships (CPP).,S05000001 to S05000028
+roa_local_2006,2006 Regeneration Outcome Area Local.,S06000001 to S06000180
+sdpa_2013,2013 Strategic Development Planning Area.,S11000001 to S11000005
+ttwa_2011,2011 Travel to Work Area.,"S22000005 to S22000086, K01000009 and K01000010"
+gridlink_ind,Indicates whether the grid reference has been assigned via GridLink.,Y or N
+gridlink_pos_accuracy,Indicates the positional accuracy of the GridLink grid reference allocated to each postcode.,1 to 8
+never_digitised,Indicates whether a postcode boundary has been digitised.,Y or empty
+chp_2012,2012 Community Health Partnership.,S03000001 to S03000044
+chp_2011,2011 Community Health Partnership.,S03000001 to S03000043
+chp_Sub_2011,2011 Community Health Partnership sub sector.,S26000001 to S26000038
+chp_2007,2007 Community Health Partnership.,S03000001 to S03000042
+chp_2004,2004 Community Health Partnership.,S03000001 to S03000041
+ew2022,2022 Electoral Ward.,S13002516 to S13003156
+simd2020_rank,Scottish Index of Multiple Deprivation 2020 rank.,0001 to 6976
+locality_2020,2020 Locality.,S19001928 to S19002583
+settlement_2020,2020 Settlement.,S20001538 to S20002051
+ur6_2020,Scottish Government Urban Rural classification (6 fold).,1 to 6
+ur8_2020,Scottish Government Urban Rural classification (8 fold).,1 to 8
+ur2_2020,Scottish Government Urban Rural classification (2 fold).,1 to 2
+ur3_2020,Scottish Government Urban Rural classification (3 fold).,1 to 3
+ur2_2020_name,Name of Scottish Government Urban Rural classification (2 fold).,
+ur3_2020_name,Name of Scottish Government Urban Rural classification (3 fold).,
+ur6_2020_name,Name of Scottish Government Urban Rural classification (6 fold).,
+ur8_2020_name,Name of Scottish Government Urban Rural classification (8 fold).,
+island,Island code,000 to 180

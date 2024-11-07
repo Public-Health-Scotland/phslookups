@@ -8,10 +8,10 @@
 #'
 #' @examples
 #' get_spd()
+#' get_spd(col_select = c("pc7", "latitude", "longitude"))
 get_spd <- function(
     version = "latest",
-    col_select = NULL,
-    as_data_frame = TRUE) {
+    col_select = NULL) {
   dir <- fs::path(get_lookups_dir(), "Geography", "Scottish Postcode Directory")
 
   if (version == "latest") {
@@ -29,7 +29,6 @@ get_spd <- function(
 
   return(read_file(
     spd_path,
-    col_select = col_select,
-    as_data_frame = as_data_frame
+    col_select = {{ col_select }}
   ))
 }
