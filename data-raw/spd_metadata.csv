@@ -1,6 +1,6 @@
-varaible_name,variable_label,range
+variable_name,variable_label,range
 pc7,The Royal Mail postcode in a 7 character format,
-pc8,The Royal Mail postcode in a 7 character format,
+pc8,The Royal Mail postcode in a 8 character format,
 split_char,"The split indicator added by NRS - A, B, C. Blank if postcode is whole.",A to C or empty
 pc_district,Postcode District.,
 pc_sector,Postcode Sector.,

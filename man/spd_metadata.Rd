@@ -3,9 +3,9 @@
 \docType{data}
 \name{spd_metadata}
 \alias{spd_metadata}
-\title{Data dictionary for the Scottish Postcode Directory (SPD) file}
+\title{Data dictionary for the Scottish Postcode Directory (SPD)}
 \format{
-Data frame with three columns
+Tibble with three columns
 \describe{
 \item{variable_name}{Variable name.}
 \item{variable_label}{Variable label.}
@@ -16,7 +16,8 @@ Data frame with three columns
 spd_metadata
 }
 \description{
-Variables with their labels and ranges of values
+List of variables with their labels and ranges of values that are available
+in the latest SPD file (2024_2)
 }
 \examples{
 spd_metadata

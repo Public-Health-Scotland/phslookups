@@ -1,7 +1,8 @@
-#' Data dictionary for the Scottish Postcode Directory (SPD) file
+#' Data dictionary for the Scottish Postcode Directory (SPD)
 #'
-#' Variables with their labels and ranges of values
-#' @format Data frame with three columns
+#' List of variables with their labels and ranges of values that are available
+#' in the latest SPD file (2024_2)
+#' @format Tibble with three columns
 #' \describe{
 #' \item{variable_name}{Variable name.}
 #' \item{variable_label}{Variable label.}

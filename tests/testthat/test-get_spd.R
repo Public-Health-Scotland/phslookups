@@ -10,7 +10,7 @@ test_that("spd is returned", {
   expect_equal(nrow(unique(spd["hscp2019"])), 31)
   expect_equal(nrow(unique(spd["ca2019"])), 32)
   expect_equal(nrow(unique(spd["datazone2011"])), 6976)
-  # expect_named(spd, spd_variables)
+  expect_named(spd, spd_metadata$variable_name)
 })
 
 test_that("col selection works", {
