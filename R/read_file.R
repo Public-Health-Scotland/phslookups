@@ -45,7 +45,7 @@ read_file <- function(path, col_select = NULL, ...) {
   )
 
   if (!rlang::quo_is_null(rlang::enquo(col_select)) && ext == "rds") {
-    data <- dplyr::select(data, {{col_select}})
+    data <- dplyr::select(data, {{ col_select }})
   }
 
   return(data)
