@@ -12,3 +12,38 @@ test_that("simd_datazone is returned", {
 
   expect_named(simd_datazone, simd_datazone_variables)
 })
+
+test_that("col selection works", {
+  expect_named(
+    get_simd_datazone(col_select = "datazone2011"),
+    "datazone2011"
+  ) |>
+    expect_message()
+  expect_named(
+    get_simd_datazone(col_select = c("datazone2011", "hscp2019", "simd2020v2_rank")),
+    c("datazone2011", "hscp2019", "simd2020v2_rank")
+  ) |>
+    expect_message()
+})
+
+test_that("col selection works with tidyselect", {
+  expect_named(
+    get_simd_datazone(col_select = dplyr::starts_with("simd"))
+  ) |>
+    expect_message()
+
+  expect_named(
+    get_simd_datazone(col_select = c(dplyr::starts_with("simd"), "datazone2011"))
+  ) |>
+    expect_message()
+
+  expect_named(
+    get_simd_datazone(col_select = c(dplyr::starts_with("simd"), dplyr::starts_with("datazone")))
+  ) |>
+    expect_message()
+
+  expect_named(
+    get_simd_datazone(col_select = dplyr::matches("^simd\\d{4}.+?decile$"))
+  ) |>
+    expect_message()
+})
