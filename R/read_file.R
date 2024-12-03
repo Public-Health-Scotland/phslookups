@@ -17,9 +17,7 @@ read_file <- function(path, col_select = NULL, ...) {
     "csv",
     "parquet"
   )
-
   ext <- fs::path_ext(path)
-
 
   if (!(ext %in% valid_extensions)) {
     cli::cli_abort(c(
@@ -44,7 +42,9 @@ read_file <- function(path, col_select = NULL, ...) {
     ))
   )
 
-  if (!rlang::quo_is_null(rlang::enquo(col_select)) && ext == "rds") {
+  # If col_select was supplied keep only those variables
+  # This may sometimes be redundant, but it offers a final guarantee.
+  if (!rlang::quo_is_null(rlang::enquo(col_select))) {
     data <- dplyr::select(data, {{ col_select }})
   }
 
