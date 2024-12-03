@@ -11,21 +11,9 @@
 #' get_spd(col_select = c("pc7", "latitude", "longitude"))
 get_spd <- function(
     version = "latest",
-    col_select = NULL) {
-  dir <- fs::path(get_lookups_dir(), "Geography", "Scottish Postcode Directory")
+    col_select = all_of(names(.metadata$spd))) {
 
-  if (version == "latest") {
-    spd_path <- find_latest_file(
-      directory = dir,
-      regexp = "Scottish_Postcode_Directory_\\d{4}_[1-2]\\.parquet",
-      selection_method = "file_name"
-    )
-  } else {
-    spd_path <- fs::path(
-      dir,
-      glue::glue("Scottish_Postcode_Directory_{version}.parquet")
-    )
-  }
+  spd_path <- get_spd_path(version, quiet = FALSE)
 
   return(read_file(
     spd_path,

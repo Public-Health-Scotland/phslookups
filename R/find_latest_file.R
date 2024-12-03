@@ -12,6 +12,7 @@
 #' passed to [fs::dir_info()] to search for the file.
 #' @param selection_method Valid arguments are "modification_date"
 #' (the default) or "file_name".
+#' @param quiet Placeholder.
 #'
 #' @return the [fs::path()] to the file
 #' @export
@@ -25,7 +26,8 @@
 #' }
 find_latest_file <- function(directory,
                              regexp,
-                             selection_method = "modification_date") {
+                             selection_method = "modification_date",
+                             quiet = FALSE) {
   if (selection_method == "modification_date") {
     latest_file <- fs::dir_info(
       path = directory,
@@ -55,7 +57,9 @@ find_latest_file <- function(directory,
   }
 
   if (nrow(latest_file) == 1L) {
-    cli::cli_alert_info("Using {.val {fs::path_file(latest_file$path)}}.")
+    if (!quiet){
+      cli::cli_alert_info("Using {.val {fs::path_file(latest_file$path)}}.")
+    }
   } else {
     cli::cli_abort(
       "There was no file in {.path {directory}} that matched the

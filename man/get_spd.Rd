@@ -4,7 +4,7 @@
 \alias{get_spd}
 \title{Get the Scottish Postcode Directory}
 \usage{
-get_spd(version = "latest", col_select = NULL)
+get_spd(version = "latest", col_select = all_of(names(.metadata$spd)))
 }
 \arguments{
 \item{version}{Default is "latest", otherwise supply a tag e.g. "2023_2"}
