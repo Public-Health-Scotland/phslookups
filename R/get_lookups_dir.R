@@ -17,8 +17,7 @@ get_lookups_dir <- function() {
   )
 }
 
-get_spd_path <- function(version = "latest", quiet = FALSE){
-
+get_spd_path <- function(version = "latest", quiet = FALSE) {
   dir <- get_lookups_dir()
 
   if (version == "latest") {
@@ -35,4 +34,3 @@ get_spd_path <- function(version = "latest", quiet = FALSE){
     )
   }
 }
-

@@ -12,7 +12,6 @@
 get_spd <- function(
     version = "latest",
     col_select = all_of(names(.metadata$spd))) {
-
   spd_path <- get_spd_path(version, quiet = FALSE)
 
   return(read_file(

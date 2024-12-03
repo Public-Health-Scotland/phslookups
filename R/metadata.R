@@ -6,8 +6,7 @@
 #' @importFrom tidyselect all_of
 #' @rdname metadata
 #' @export
-load_metadata <- function(){
-
+load_metadata <- function() {
   ### Placeholder code
   ### The production code should load the metadata files when this fn is called
 
@@ -29,7 +28,6 @@ load_metadata <- function(){
   #     col_c = "placeholderc"
   #   )
   # )
-
 }
 
 # This object is to be replaced in .onLoad()

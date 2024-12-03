@@ -57,7 +57,7 @@ find_latest_file <- function(directory,
   }
 
   if (nrow(latest_file) == 1L) {
-    if (!quiet){
+    if (!quiet) {
       cli::cli_alert_info("Using {.val {fs::path_file(latest_file$path)}}.")
     }
   } else {
