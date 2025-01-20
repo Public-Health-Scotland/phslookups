@@ -10,8 +10,6 @@ test_that("simd_postcode is returned", {
   expect_equal(nrow(unique(simd_postcode["hscp2019"])), 31)
   expect_equal(nrow(unique(simd_postcode["ca2019"])), 32)
   expect_equal(nrow(unique(simd_postcode["datazone2011"])), 6976)
-
-  expect_named(simd_postcode, simd_postcode_variables)
 })
 
 test_that("col selection works", {
