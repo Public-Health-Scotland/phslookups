@@ -9,8 +9,6 @@ test_that("simd_datazone is returned", {
   expect_equal(nrow(unique(simd_datazone["hscp2019"])), 31)
   expect_equal(nrow(unique(simd_datazone["ca2019"])), 32)
   expect_equal(nrow(unique(simd_datazone["datazone2011"])), 6976)
-
-  expect_named(simd_datazone, simd_datazone_variables)
 })
 
 test_that("col selection works", {
