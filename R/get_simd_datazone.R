@@ -4,6 +4,7 @@
 #' e.g. "2011"
 #' @param simd_version Default is "latest", otherwise supply a version
 #' e.g. "2020v2"
+#' @inheritParams readr::read_csv
 #'
 #' @return a [tibble][tibble::tibble-package] of the SIMD DataZone lookup
 #' @export
@@ -12,7 +13,8 @@
 #' get_simd_datazone()
 get_simd_datazone <- function(
     datazone_version = "latest",
-    simd_version = "latest") {
+    simd_version = "latest",
+    col_select = NULL) {
   dir <- fs::path(get_lookups_dir(), "Deprivation")
 
   if (datazone_version != "latest" && simd_version != "latest") {
@@ -36,5 +38,5 @@ get_simd_datazone <- function(
     )
   }
 
-  return(read_file(simd_datazone_path))
+  return(read_file(simd_datazone_path, col_select = {{ col_select }}))
 }

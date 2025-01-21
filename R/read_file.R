@@ -17,9 +17,7 @@ read_file <- function(path, col_select = NULL, ...) {
     "csv",
     "parquet"
   )
-
   ext <- fs::path_ext(path)
-
 
   if (!(ext %in% valid_extensions)) {
     cli::cli_abort(c(
@@ -29,22 +27,26 @@ read_file <- function(path, col_select = NULL, ...) {
     ))
   }
 
-  if (!rlang::quo_is_null(rlang::enquo(col_select)) && ext != "parquet") {
-    cli::cli_abort(c(
-      "x" = "{.arg col_select} must only be used
-      when reading a {.field .parquet} file."
-    ))
-  }
-
   data <- switch(ext,
     "rds" = readr::read_rds(file = path),
-    "csv" = readr::read_csv(file = path, ..., show_col_types = FALSE),
+    "csv" = readr::read_csv(
+      file = path,
+      ...,
+      col_select = {{ col_select }},
+      show_col_types = FALSE
+    ),
     "parquet" = tibble::as_tibble(arrow::read_parquet(
       file = path,
       col_select = {{ col_select }},
       ...
     ))
   )
+
+  # If col_select was supplied keep only those variables
+  # This may sometimes be redundant, but it offers a final guarantee.
+  if (!rlang::quo_is_null(rlang::enquo(col_select))) {
+    data <- dplyr::select(data, {{ col_select }})
+  }
 
   return(data)
 }
