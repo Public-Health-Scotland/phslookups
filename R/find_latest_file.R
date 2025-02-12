@@ -14,8 +14,6 @@
 #' (the default) or "file_name".
 #'
 #' @return the [fs::path()] to the file
-#' @export
-#'
 #' @examples
 #' \dontrun{
 #' find_latest_file(
@@ -23,6 +21,8 @@
 #'   regexp = "Scottish_Postcode_Directory_.+?\\.rds"
 #' )
 #' }
+#' @noRd
+#' @keywords internal
 find_latest_file <- function(directory,
                              regexp,
                              selection_method = "modification_date") {
