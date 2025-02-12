@@ -4,7 +4,12 @@
 \alias{find_latest_file}
 \title{Find the latest version of a file}
 \usage{
-find_latest_file(directory, regexp, selection_method = "modification_date")
+find_latest_file(
+  directory,
+  regexp,
+  selection_method = "modification_date",
+  ...
+)
 }
 \arguments{
 \item{directory}{The directory in which to search.}
@@ -15,9 +20,11 @@ passed to \code{\link[fs:dir_ls]{fs::dir_info()}} to search for the file.}
 
 \item{selection_method}{Valid arguments are "modification_date"
 (the default) or "file_name".}
+
+\item{...}{Additional arguments passed to \code{\link[fs:dir_ls]{fs::dir_info()}}.}
 }
 \value{
-the \code{\link[fs:path]{fs::path()}} to the file
+the \code{\link[fs:path]{fs::path()}} to the file.
 }
 \description{
 This will return the latest created file matching
