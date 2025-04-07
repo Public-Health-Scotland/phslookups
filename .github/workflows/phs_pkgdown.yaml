@@ -1,0 +1,22 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+  release:
+    types: [published]
+  workflow_dispatch:
+
+name: phs_pkgdown.yaml
+
+permissions:
+  contents: read
+
+jobs:
+  pkgdown:
+    uses: Public-Health-Scotland/actions/.github/workflows/phs_pkgdown.yaml@v1.5.0
+    permissions:
+      contents: write
+    secrets: inherit
