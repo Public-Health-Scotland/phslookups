@@ -1,0 +1,15 @@
+on:
+  push:
+    branches: main
+  pull_request:
+  workflow_dispatch:
+
+name: phs_style_and_document.yaml
+
+jobs:
+  style-and-document:
+    uses: Public-Health-Scotland/actions/.github/workflows/phs_style_and_document.yaml@v1.5.0
+    permissions:
+      contents: write
+      pull-requests: write
+    secrets: inherit
