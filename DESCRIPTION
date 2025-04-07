@@ -21,6 +21,7 @@ Imports:
     dplyr,
     fs,
     janitor,
+    magrittr,
     phsmethods,
     readr,
     rlang,
