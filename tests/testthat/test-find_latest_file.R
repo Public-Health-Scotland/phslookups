@@ -7,6 +7,8 @@ fs::file_create(fs::path(
 ))
 
 test_that("By default will find the last created file", {
+  # Wait a second so the file gets a different timestamp
+  Sys.sleep(1)
   fs::file_create(fs::path(dir, "b0.txt"))
 
   expect_equal(
