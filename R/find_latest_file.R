@@ -12,6 +12,7 @@
 #' passed to [fs::dir_info()] to search for the file.
 #' @param selection_method Valid arguments are "modification_date"
 #' (the default) or "file_name".
+#' @param ... Additional arguments passed to [fs::dir_info()].
 #'
 #' @return the [fs::path()] to the file
 #' @examples
@@ -25,13 +26,15 @@
 #' @keywords internal
 find_latest_file <- function(directory,
                              regexp,
-                             selection_method = "modification_date") {
+                             selection_method = "modification_date",
+                             ...) {
   if (selection_method == "modification_date") {
     latest_file <- fs::dir_info(
       path = directory,
       type = "file",
       regexp = regexp,
-      recurse = TRUE
+      recurse = TRUE,
+      ...
     ) |>
       dplyr::arrange(
         dplyr::desc(.data$birth_time),
