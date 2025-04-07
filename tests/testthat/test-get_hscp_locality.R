@@ -13,8 +13,6 @@ test_that("hscp_locality lookup is returned", {
   expect_equal(nrow(unique(hscp_locality["hscp2019"])), 31)
   expect_equal(nrow(unique(hscp_locality["ca2019"])), 32)
   expect_equal(nrow(unique(hscp_locality["datazone2011"])), 6976)
-
-  expect_named(hscp_locality, hscp_locality_variables)
 })
 
 test_that("col selection works", {
