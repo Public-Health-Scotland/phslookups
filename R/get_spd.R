@@ -21,8 +21,15 @@ get_spd <- function(
       selection_method = "file_name"
     )
   } else {
+    if (!stringr::str_detect(version, "^20\\d{2}_[1-2]$")) {
+      cli::cli_abort(c(
+        "x" = "Invalid version name: {.val {version}}",
+        "i" = "It should follow pattern YYYY_1 or YYYY_2",
+        call = NULL
+      ))
+    }
     spd_path <- fs::path(
-      dir,
+      dir, "Archive" ,
       glue::glue("Scottish_Postcode_Directory_{version}.parquet")
     )
   }

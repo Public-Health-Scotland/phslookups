@@ -20,6 +20,7 @@ read_file <- function(path, col_select = NULL, ...) {
 
   ext <- fs::path_ext(path)
 
+  options(rlang_backtrace_on_error = "none")
 
   if (!(ext %in% valid_extensions)) {
     cli::cli_abort(c(
@@ -35,6 +36,14 @@ read_file <- function(path, col_select = NULL, ...) {
       when reading a {.field .parquet} file."
     ))
   }
+
+  if (!(file.exists(path))) {cli::cli_abort(
+    c("x" = "File {.val {fs::path_file(fs::path_ext_remove(path))}}
+             is NOT available",
+      "i" = "Contact phs.geography@phs.scot"),
+       call = NULL, rlang_backtrace_on_error = "none")}
+
+  options(rlang_backtrace_on_error = "full")
 
   data <- switch(ext,
     "rds" = readr::read_rds(file = path),
