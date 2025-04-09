@@ -29,7 +29,7 @@ get_spd <- function(
       ))
     }
     spd_path <- fs::path(
-      dir, "Archive" ,
+      dir, "Archive",
       glue::glue("Scottish_Postcode_Directory_{version}.parquet")
     )
   }

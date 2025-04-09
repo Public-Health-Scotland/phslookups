@@ -37,11 +37,16 @@ read_file <- function(path, col_select = NULL, ...) {
     ))
   }
 
-  if (!(file.exists(path))) {cli::cli_abort(
-    c("x" = "File {.val {fs::path_file(fs::path_ext_remove(path))}}
+  if (!(file.exists(path))) {
+    cli::cli_abort(
+      c(
+        "x" = "File {.val {fs::path_file(fs::path_ext_remove(path))}}
              is NOT available",
-      "i" = "Contact phs.geography@phs.scot"),
-       call = NULL, rlang_backtrace_on_error = "none")}
+        "i" = "Contact phs.geography@phs.scot"
+      ),
+      call = NULL, rlang_backtrace_on_error = "none"
+    )
+  }
 
   options(rlang_backtrace_on_error = "full")
 

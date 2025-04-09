@@ -58,7 +58,8 @@ find_latest_file <- function(directory,
     cli::cli_alert_info(
       "Using the latest available version: {.val {fs::path_file(
        fs::path_ext_remove(latest_file$path))}}.
-       If you require an older version specify an argument `version`.")
+       If you require an older version specify an argument `version`."
+    )
   } else {
     cli::cli_abort(
       "There was no file in {.path {directory}} that matched the
