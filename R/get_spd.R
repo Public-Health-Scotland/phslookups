@@ -29,11 +29,12 @@ get_spd <- function(
       ))
     }
 
-    name_ver_list <- paste0("Scottish_Postcode_Directory_", version,
-                       c(".parquet", ".rds", ".csv"))
+    name_ver_list <- paste0(
+      "Scottish_Postcode_Directory_", version,
+      c(".parquet", ".rds", ".csv")
+    )
     path_ver_list <- fs::path(dir, "Archive", name_ver_list)
     spd_path <- path_ver_list[file.exists(path_ver_list)][1]
-
   }
 
   if (is.na(spd_path)) {

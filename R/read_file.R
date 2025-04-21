@@ -52,8 +52,10 @@ read_file <- function(path, col_select = NULL, ...) {
 
   data <- switch(ext,
     "rds" = readr::read_rds(file = path),
-    "csv" = readr::read_csv(file = path, guess_max = 50000, ...,
-                            show_col_types = FALSE),
+    "csv" = readr::read_csv(
+      file = path, guess_max = 50000, ...,
+      show_col_types = FALSE
+    ),
     "parquet" = tibble::as_tibble(arrow::read_parquet(
       file = path,
       col_select = {{ col_select }},
