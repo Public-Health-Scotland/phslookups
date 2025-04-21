@@ -28,9 +28,21 @@ get_spd <- function(
         call = NULL
       ))
     }
-    spd_path <- fs::path(
-      dir, "Archive",
-      glue::glue("Scottish_Postcode_Directory_{version}.parquet")
+
+    name_ver_list <- paste0("Scottish_Postcode_Directory_", version,
+                       c(".parquet", ".rds", ".csv"))
+    path_ver_list <- fs::path(dir, "Archive", name_ver_list)
+    spd_path <- path_ver_list[file.exists(path_ver_list)][1]
+
+  }
+
+  if (is.na(spd_path)) {
+    cli::cli_abort(
+      c(
+        "x" = "SPD version {.val {version}} is NOT available",
+        "i" = "Contact phs.geography@phs.scot"
+      ),
+      call = NULL, rlang_backtrace_on_error = "none"
     )
   }
 
