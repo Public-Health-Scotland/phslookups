@@ -40,7 +40,7 @@ get_spd <- function(
       c(".parquet", ".rds", ".csv")
     )
     path_ver_list <- fs::path(dir, "Archive", name_ver_list)
-    spd_path <- path_ver_list[file.exists(path_ver_list)][1]
+    spd_path <- path_ver_list[fs::file_exists(path_ver_list)][1]
   }
 
   if (is.na(spd_path)) {
