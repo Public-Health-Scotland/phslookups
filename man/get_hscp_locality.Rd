@@ -4,10 +4,17 @@
 \alias{get_hscp_locality}
 \title{Get the HSCP Locality lookup}
 \usage{
-get_hscp_locality(version = "latest")
+get_hscp_locality(version = "latest", col_select = NULL)
 }
 \arguments{
 \item{version}{Default is "latest", otherwise supply a date e.g. "20230804"}
+
+\item{col_select}{Columns to include in the results. You can use the same
+mini-language as \code{dplyr::select()} to refer to the columns by name. Use
+\code{c()} to use more than one selection expression. Although this
+usage is less common, \code{col_select} also accepts a numeric column index. See
+\code{\link[tidyselect:language]{?tidyselect::language}} for full details on the
+selection language.}
 }
 \value{
 a \link[tibble:tibble-package]{tibble} of the HSCP localities lookup

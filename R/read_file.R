@@ -11,16 +11,15 @@
 #' @param ... Addition arguments passed to the relevant function.
 #'
 #' @return the data a [tibble][tibble::tibble-package]
+#' @noRd
+#' @keywords internal
 read_file <- function(path, col_select = NULL, ...) {
   valid_extensions <- c(
     "rds",
     "csv",
     "parquet"
   )
-
   ext <- fs::path_ext(path)
-
-  options(rlang_backtrace_on_error = "none")
 
   if (!(ext %in% valid_extensions)) {
     cli::cli_abort(c(
@@ -29,13 +28,6 @@ read_file <- function(path, col_select = NULL, ...) {
                      {.val {valid_extensions}}"
     ))
   }
-
-  # if (!rlang::quo_is_null(rlang::enquo(col_select)) && ext != "parquet") {
-  #   cli::cli_abort(c(
-  #     "x" = "{.arg col_select} must only be used
-  #     when reading a {.field .parquet} file."
-  #   ))
-  # }
 
   if (!(file.exists(path))) {
     cli::cli_abort(
@@ -47,8 +39,6 @@ read_file <- function(path, col_select = NULL, ...) {
       call = NULL, rlang_backtrace_on_error = "none"
     )
   }
-
-  options(rlang_backtrace_on_error = "full")
 
   data <- switch(ext,
     "rds" = readr::read_rds(file = path),
@@ -62,6 +52,12 @@ read_file <- function(path, col_select = NULL, ...) {
       ...
     ))
   )
+
+  # If col_select was supplied keep only those variables
+  # This may sometimes be redundant, but it offers a final guarantee.
+  if (!rlang::quo_is_null(rlang::enquo(col_select))) {
+    data <- dplyr::select(data, {{ col_select }})
+  }
 
   return(data)
 }
