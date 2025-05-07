@@ -41,7 +41,7 @@ read_file <- function(path, col_select = NULL, ...) {
   }
 
   data <- switch(ext,
-    "rds" = readr::read_rds(file = path),
+    "rds" = tibble::as_tibble(readr::read_rds(file = path)),
     "csv" = readr::read_csv(
       file = path, guess_max = 50000, ...,
       show_col_types = FALSE
