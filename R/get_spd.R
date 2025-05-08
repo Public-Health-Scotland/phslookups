@@ -33,7 +33,7 @@ get_spd <- function(version = "latest", col_select = NULL) {
       ))
     }
 
-   spd_path <- find_specific_file(
+    spd_path <- find_specific_file(
       directory = dir,
       lookup_type = "SPD",
       version = version
