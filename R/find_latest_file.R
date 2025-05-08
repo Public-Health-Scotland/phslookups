@@ -44,7 +44,7 @@ find_latest_file <- function(directory,
       path = directory,
       type = "file",
       regexp = regexp,
-      recurse = TRUE
+      recurse = FALSE
     ) |>
       dplyr::arrange(
         dplyr::desc(.data$path),
@@ -55,11 +55,15 @@ find_latest_file <- function(directory,
   }
 
   if (nrow(latest_file) == 1L) {
-    cli::cli_alert_info("Using {.val {fs::path_file(latest_file$path)}}.")
+    cli::cli_alert_info(
+      "Using the latest available version: {.val {fs::path_file(
+       fs::path_ext_remove(latest_file$path))}}.
+       If you require an older version specify an argument `version`."
+    )
   } else {
     cli::cli_abort(
       "There was no file in {.path {directory}} that matched the
-        regular expression {.val {regexp}}"
+       regular expression {.val {regexp}}"
     )
   }
 

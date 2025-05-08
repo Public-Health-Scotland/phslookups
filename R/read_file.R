@@ -29,12 +29,21 @@ read_file <- function(path, col_select = NULL, ...) {
     ))
   }
 
+  if (!(file.exists(path))) {
+    cli::cli_abort(
+      c(
+        "x" = "File {.val {fs::path_file(fs::path_ext_remove(path))}}
+             is NOT available",
+        "i" = "Contact {.email phs.geography@phs.scot}"
+      ),
+      call = NULL, rlang_backtrace_on_error = "none"
+    )
+  }
+
   data <- switch(ext,
-    "rds" = readr::read_rds(file = path),
+    "rds" = tibble::as_tibble(readr::read_rds(file = path)),
     "csv" = readr::read_csv(
-      file = path,
-      ...,
-      col_select = {{ col_select }},
+      file = path, guess_max = 50000, ...,
       show_col_types = FALSE
     ),
     "parquet" = tibble::as_tibble(arrow::read_parquet(
