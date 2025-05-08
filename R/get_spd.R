@@ -15,9 +15,7 @@
 #' @examples
 #' get_spd()
 #' get_spd(version = "2023_2", col_select = c("pc7", "latitude", "longitude"))
-get_spd <- function(
-    version = "latest",
-    col_select = NULL) {
+get_spd <- function(version = "latest", col_select = NULL) {
   dir <- fs::path(get_lookups_dir(), "Geography", "Scottish Postcode Directory")
 
   if (version == "latest") {
@@ -35,23 +33,13 @@ get_spd <- function(
       ))
     }
 
-    name_ver_list <- paste0(
-      "Scottish_Postcode_Directory_", version,
-      c(".parquet", ".rds", ".csv")
+    spd_path <- find_version_file(
+      version = version,
+      directory = dir,
+      lookup_type = "SPD"
     )
-    path_ver_list <- fs::path(dir, "Archive", name_ver_list)
-    spd_path <- path_ver_list[fs::file_exists(path_ver_list)][1]
   }
 
-  if (is.na(spd_path)) {
-    cli::cli_abort(
-      c(
-        "x" = "SPD version {.val {version}} is NOT available",
-        "i" = "Contact phs.geography@phs.scot"
-      ),
-      call = NULL, rlang_backtrace_on_error = "none"
-    )
-  }
 
   return(read_file(
     spd_path,
