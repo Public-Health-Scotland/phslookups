@@ -8,21 +8,21 @@
 #' must be a named list or vector with the appropriate keys (e.g., `simd_version`
 #' and `postcode_version`).
 #'
+#' @param directory The base directory where lookup files are stored. The function
+#'   searches within the "Archive" subdirectory of this directory.
+#' @param lookup_type A string specifying the type of lookup file to find. Supported
+#'   values include `"SPD"`, `"HSCP Locality"`, `"SIMD DataZone"`, and `"SIMD Postcode"`.
 #' @param version A string defining the version to locate, or a named list/vector
 #'   for lookup types requiring multiple versions. For example:
 #'   - `"YYYY_1"` for `lookup_type = "SPD"`
 #'   - `"YYYYMMDD"` for `lookup_type = "HSCP Locality"`
 #'   - `list(postcode_version = "2023_2", simd_version = "2020v2")` for
 #'     `lookup_type = "SIMD Postcode"`
-#' @param directory The base directory where lookup files are stored. The function
-#'   searches within the "Archive" subdirectory of this directory.
-#' @param lookup_type A string specifying the type of lookup file to find. Supported
-#'   values include `"SPD"`, `"HSCP Locality"`, `"SIMD DataZone"`, and `"SIMD Postcode"`.
 #'
 #' @return The [fs::path()] of the file if found.
 #' @keywords internal
 #' @noRd
-find_version_file <- function(version, directory, lookup_type) {
+find_specific_file <- function(directory, lookup_type, version) {
   # Determine the file prefix and version handling based on the lookup_type
   if (length(version) == 1) {
     # Handle single-version cases
