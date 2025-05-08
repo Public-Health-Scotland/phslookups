@@ -34,7 +34,7 @@ read_file <- function(path, col_select = NULL, ...) {
       c(
         "x" = "File {.val {fs::path_file(fs::path_ext_remove(path))}}
              is NOT available",
-        "i" = "Contact phs.geography@phs.scot"
+        "i" = "Contact {.email phs.geography@phs.scot}"
       ),
       call = NULL, rlang_backtrace_on_error = "none"
     )
