@@ -18,8 +18,9 @@ test_that("col selection works", {
   ) |>
     expect_message()
   expect_named(
-    get_simd_datazone(col_select = c("datazone2011", "hscp2019", "simd2020v2_rank")),
-    c("datazone2011", "hscp2019", "simd2020v2_rank")
+    get_simd_datazone(
+      col_select = c("datazone2011", "hscp2019", "simd2020v2_rank")),
+      c("datazone2011", "hscp2019", "simd2020v2_rank")
   ) |>
     expect_message()
 })
@@ -31,12 +32,14 @@ test_that("col selection works with tidyselect", {
     expect_message()
 
   expect_named(
-    get_simd_datazone(col_select = c(dplyr::starts_with("simd"), "datazone2011"))
+    get_simd_datazone(col_select = c(dplyr::starts_with("simd"),
+                                     "datazone2011"))
   ) |>
     expect_message()
 
   expect_named(
-    get_simd_datazone(col_select = c(dplyr::starts_with("simd"), dplyr::starts_with("datazone")))
+    get_simd_datazone(col_select = c(dplyr::starts_with("simd"),
+                                     dplyr::starts_with("datazone")))
   ) |>
     expect_message()
 

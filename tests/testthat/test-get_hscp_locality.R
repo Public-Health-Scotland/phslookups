@@ -35,17 +35,20 @@ test_that("col selection works with tidyselect", {
     expect_message()
 
   expect_named(
-    get_hscp_locality(col_select = c(dplyr::starts_with("hscp"), "datazone2011"))
+    get_hscp_locality(col_select = c(dplyr::starts_with("hscp"),
+                                     "datazone2011"))
   ) |>
     expect_message()
 
   expect_named(
-    get_hscp_locality(col_select = c(dplyr::starts_with("hscp"), dplyr::starts_with("datazone")))
+    get_hscp_locality(col_select = c(dplyr::starts_with("hscp"),
+                                     dplyr::starts_with("datazone")))
   ) |>
     expect_message()
 
   expect_named(
-    get_hscp_locality(col_select = c("hscp_locality", dplyr::matches(".+?2019name$")))
+    get_hscp_locality(col_select = c("hscp_locality",
+                                    dplyr::matches(".+?2019name$")))
   ) |>
     expect_message()
 })
