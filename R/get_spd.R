@@ -35,9 +35,11 @@ get_spd <- function(
       ))
     }
 
-    spd_path <- select_specific_file(directory = dir,
-                                     name = "Scottish_Postcode_Directory_",
-                                     version = version)
+    spd_path <- select_specific_file(
+      directory = dir,
+      name = "Scottish_Postcode_Directory_",
+      version = version
+    )
   }
 
   if (is.na(spd_path)) {
