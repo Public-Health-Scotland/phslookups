@@ -41,6 +41,6 @@ test_that("col selection works with tidyselect", {
 
 test_that("reading from archive works", {
   expect_s3_class(get_spd(version = "2024_1"), "tbl_df")
-  expect_error(get_spd(version = "2010_1"))
-  expect_error(get_spd(version = "20243"))
+  expect_error(get_spd(version = "2010_1", "SPD version .+? is NOT available"))
+  expect_error(get_spd(version = "20243"), "Invalid version name:")
 })
