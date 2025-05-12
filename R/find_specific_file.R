@@ -51,7 +51,10 @@ find_specific_file <- function(directory, lookup_type, version) {
     file_prefix,
     c(".parquet", ".rds", ".csv")
   )
-  path_ver_list <- fs::path(directory, "Archive", name_ver_list)
+  path_ver_list <- c(
+    fs::path(directory, name_ver_list),
+    fs::path(directory, "Archive", name_ver_list)
+  )
 
   # Find the first valid file that exists
   file_path <- path_ver_list[fs::file_exists(path_ver_list)][1]
