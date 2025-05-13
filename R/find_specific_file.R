@@ -36,7 +36,7 @@ find_specific_file <- function(directory, lookup_type, version) {
     # Handle multi-version cases
     file_prefix <- dplyr::case_match(
       lookup_type,
-      "SIMD DataZone" ~ paste0("DataZone_", version[["datazone_version"]], "_simd", version[["simd_version"]]),
+      "SIMD DataZone" ~ paste0("DataZone", version[["datazone_version"]], "_simd", version[["simd_version"]]),
       "SIMD Postcode" ~ paste0("postcode_", version[["postcode_version"]], "_simd", version[["simd_version"]]),
       .default = NA_character_
     )
