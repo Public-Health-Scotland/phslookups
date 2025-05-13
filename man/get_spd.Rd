@@ -7,20 +7,22 @@
 get_spd(version = "latest", col_select = NULL)
 }
 \arguments{
-\item{version}{Default is "latest", otherwise supply a tag e.g. "2023_2"}
+\item{version}{A string defining a version to read in. The default value
+is "latest" and the latest SPD file available on cl-out will be loaded.
+Alternatively you can supply a tag, e.g. "2023_2", to load a specific file.}
 
-\item{col_select}{A character vector of column names to keep, as in the
-"select" argument to \code{data.table::fread()}, or a
-\link[tidyselect:eval_select]{tidy selection specification}
-of columns, as used in \code{dplyr::select()}.}
+\item{col_select}{A character vector of column names to keep, as in
+the "select" argument to data.table::fread(), or a tidy selection
+specification of columns, as used in dplyr::select().}
 }
 \value{
-a \link[tibble:tibble-package]{tibble} of the Scottish Postcode Directory
+A \link[tibble:tibble-package]{tibble} of the Scottish Postcode
+Directory lookup file or its selected columns.
 }
 \description{
-Get the Scottish Postcode Directory
+Read a Scottish Postcode Directory (SPD) lookup file into a tibble.
 }
 \examples{
 get_spd()
-get_spd(col_select = c("pc7", "latitude", "longitude"))
+get_spd(version = "2023_2", col_select = c("pc7", "latitude", "longitude"))
 }
