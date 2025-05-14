@@ -21,7 +21,7 @@ test_that("find_specific_file works for SPD and prioritizes parquet over csv", {
   )
   expect_true(fs::file_exists(result))
   expect_equal(
-    fs::path_file(result), 
+    fs::path_file(result),
     "Scottish_Postcode_Directory_2023_1.parquet"
   )
 })
@@ -34,7 +34,7 @@ test_that("find_specific_file works for HSCP Locality", {
   )
   expect_true(fs::file_exists(result))
   expect_equal(
-    fs::path_file(result), 
+    fs::path_file(result),
     "HSCP Localities_DZ11_Lookup_20230804.csv"
   )
 })
@@ -57,7 +57,7 @@ test_that("find_specific_file works prioritises parquet over csv", {
   )
   expect_true(fs::file_exists(result))
   expect_equal(
-    fs::path_file(result), 
+    fs::path_file(result),
     "postcode_2023_2_simd2020v2.parquet"
   )
 })
