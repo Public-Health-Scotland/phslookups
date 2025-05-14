@@ -20,7 +20,10 @@ test_that("find_specific_file works for SPD and prioritizes parquet over csv", {
     lookup_type = "SPD"
   )
   expect_true(fs::file_exists(result))
-  expect_equal(fs::path_file(result), "Scottish_Postcode_Directory_2023_1.parquet")
+  expect_equal(
+    fs::path_file(result), 
+    "Scottish_Postcode_Directory_2023_1.parquet"
+  )
 })
 
 test_that("find_specific_file works for HSCP Locality", {
@@ -30,7 +33,10 @@ test_that("find_specific_file works for HSCP Locality", {
     lookup_type = "HSCP Locality"
   )
   expect_true(fs::file_exists(result))
-  expect_equal(fs::path_file(result), "HSCP Localities_DZ11_Lookup_20230804.csv")
+  expect_equal(
+    fs::path_file(result), 
+    "HSCP Localities_DZ11_Lookup_20230804.csv"
+  )
 })
 
 test_that("find_specific_file works for SIMD DataZone", {
@@ -50,7 +56,10 @@ test_that("find_specific_file works prioritises parquet over csv", {
     lookup_type = "SIMD Postcode"
   )
   expect_true(fs::file_exists(result))
-  expect_equal(fs::path_file(result), "postcode_2023_2_simd2020v2.parquet")
+  expect_equal(
+    fs::path_file(result), 
+    "postcode_2023_2_simd2020v2.parquet"
+  )
 })
 
 test_that("find_specific_file errors on unsupported lookup_type", {
