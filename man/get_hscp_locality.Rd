@@ -24,4 +24,6 @@ Get the HSCP Locality lookup
 }
 \examples{
 get_hscp_locality()
+get_hscp_locality(version = "20240308")
+get_hscp_locality(col_select = c("datazone2011", "hscp_locality"))
 }

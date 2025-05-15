@@ -32,4 +32,10 @@ Get a SIMD DataZone Lookup
 }
 \examples{
 get_simd_datazone()
+get_simd_datazone(datazone_version = "2011", simd_version = "2016")
+get_simd_datazone(
+  datazone_version = "2011",
+  simd_version = "2016",
+  col_select = c("DataZone2011", "simd2016rank")
+)
 }

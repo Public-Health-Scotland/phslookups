@@ -4,9 +4,7 @@
 #' @param version A string defining a version to read in. The default value
 #'  is "latest" and the latest SPD file available on cl-out will be loaded.
 #'  Alternatively you can supply a tag, e.g. "2023_2", to load a specific file.
-#' @param col_select A character vector of column names to keep, as in
-#'  the "select" argument to data.table::fread(), or a tidy selection
-#'  specification of columns, as used in dplyr::select().
+#' @inheritParams readr::read_csv
 #'
 #' @return A [tibble][tibble::tibble-package] of the Scottish Postcode
 #'  Directory lookup file or its selected columns.
@@ -15,9 +13,7 @@
 #' @examples
 #' get_spd()
 #' get_spd(version = "2023_2", col_select = c("pc7", "latitude", "longitude"))
-get_spd <- function(
-    version = "latest",
-    col_select = NULL) {
+get_spd <- function(version = "latest", col_select = NULL) {
   dir <- fs::path(get_lookups_dir(), "Geography", "Scottish Postcode Directory")
 
   if (version == "latest") {
@@ -35,22 +31,13 @@ get_spd <- function(
       ))
     }
 
-    spd_path <- select_specific_file(
+    spd_path <- find_specific_file(
       directory = dir,
-      name = "Scottish_Postcode_Directory_",
+      lookup_type = "SPD",
       version = version
     )
   }
 
-  if (is.na(spd_path)) {
-    cli::cli_abort(
-      c(
-        "x" = "SPD version {.val {version}} is NOT available",
-        "i" = "Contact phs.geography@phs.scot"
-      ),
-      call = NULL, rlang_backtrace_on_error = "none"
-    )
-  }
 
   return(read_file(
     spd_path,

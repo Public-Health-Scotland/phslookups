@@ -8,6 +8,8 @@
 #'
 #' @examples
 #' get_hscp_locality()
+#' get_hscp_locality(version = "20240308")
+#' get_hscp_locality(col_select = c("datazone2011", "hscp_locality"))
 get_hscp_locality <- function(version = "latest", col_select = NULL) {
   dir <- fs::path(get_lookups_dir(), "Geography", "HSCP Locality")
 
@@ -21,9 +23,18 @@ get_hscp_locality <- function(version = "latest", col_select = NULL) {
       selection_method = "file_name"
     )
   } else {
-    hscp_locality_path <- fs::path(
-      dir,
-      glue::glue("HSCP Localities_DZ11_Lookup_{date}.{ext}")
+    if (!stringr::str_detect(version, "^20\\d{2}[0,1][0-9][0-3][0-9]$")) {
+      cli::cli_abort(c(
+        "x" = "Invalid version name: {.val {version}}",
+        "i" = "It should follow pattern the YYYYMMDD",
+        call = NULL
+      ))
+    }
+
+    hscp_locality_path <- find_specific_file(
+      directory = dir,
+      lookup_type = "HSCP Locality",
+      version = version
     )
   }
 
