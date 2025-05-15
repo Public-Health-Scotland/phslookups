@@ -7,7 +7,7 @@ fs::file_create(
     "Scottish_Postcode_Directory_2023_1.parquet",
     "Scottish_Postcode_Directory_2023_1.csv",
     "HSCP Localities_DZ11_Lookup_20230804.csv",
-    "DataZone_2011_simd2020v2.rds",
+    "DataZone2011_simd2020v2.rds",
     "postcode_2023_2_simd2020v2.parquet",
     "postcode_2023_2_simd2020v2.csv"
   ))
@@ -46,9 +46,9 @@ test_that("find_specific_file works for SIMD DataZone", {
     lookup_type = "SIMD DataZone"
   )
   expect_true(fs::file_exists(result))
-  expect_equal(fs::path_file(result), "DataZone_2011_simd2020v2.rds")
+  expect_equal(fs::path_file(result), "DataZone2011_simd2020v2.rds")
 })
-# prioritises
+
 test_that("find_specific_file works prioritises parquet over csv", {
   result <- find_specific_file(
     version = list(postcode_version = "2023_2", simd_version = "2020v2"),
