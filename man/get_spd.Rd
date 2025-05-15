@@ -11,9 +11,12 @@ get_spd(version = "latest", col_select = NULL)
 is "latest" and the latest SPD file available on cl-out will be loaded.
 Alternatively you can supply a tag, e.g. "2023_2", to load a specific file.}
 
-\item{col_select}{A character vector of column names to keep, as in
-the "select" argument to data.table::fread(), or a tidy selection
-specification of columns, as used in dplyr::select().}
+\item{col_select}{Columns to include in the results. You can use the same
+mini-language as \code{dplyr::select()} to refer to the columns by name. Use
+\code{c()} to use more than one selection expression. Although this
+usage is less common, \code{col_select} also accepts a numeric column index. See
+\code{\link[tidyselect:language]{?tidyselect::language}} for full details on the
+selection language.}
 }
 \value{
 A \link[tibble:tibble-package]{tibble} of the Scottish Postcode

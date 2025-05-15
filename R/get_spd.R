@@ -4,9 +4,7 @@
 #' @param version A string defining a version to read in. The default value
 #'  is "latest" and the latest SPD file available on cl-out will be loaded.
 #'  Alternatively you can supply a tag, e.g. "2023_2", to load a specific file.
-#' @param col_select A character vector of column names to keep, as in
-#'  the "select" argument to data.table::fread(), or a tidy selection
-#'  specification of columns, as used in dplyr::select().
+#' @inheritParams readr::read_csv
 #'
 #' @return A [tibble][tibble::tibble-package] of the Scottish Postcode
 #'  Directory lookup file or its selected columns.
