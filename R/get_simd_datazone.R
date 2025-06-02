@@ -36,8 +36,14 @@ get_simd_datazone <- function(
       selection_method = "file_name"
     )
   } else if (datazone_version != "latest" && simd_version != "latest") {
-    valid_datazone_version <- stringr::str_detect(datazone_version, "^20[0-9]{2}$")
-    valid_simd_version <- stringr::str_detect(datazone_version, "^20[0-9]{2}(:?v2)?$")
+    valid_datazone_version <- stringr::str_detect(
+        string = datazone_version, 
+        pattern = "^20[0-9]{2}$"
+    )
+    valid_simd_version <- stringr::str_detect(
+        string = datazone_version,
+        pattern = "^20[0-9]{2}(:?v2)?$"
+    )
 
     if (!valid_datazone_version || !valid_simd_version) {
       cli::cli_abort(c(
@@ -50,7 +56,10 @@ get_simd_datazone <- function(
     simd_datazone_path <- find_specific_file(
       directory = dir,
       lookup_type = "SIMD DataZone",
-      version = list(datazone_version = datazone_version, simd_version = simd_version)
+      version = list(
+          datazone_version = datazone_version, 
+          simd_version = simd_version
+      )
     )
   } else {
     # Case when one of the versions is 'latest' but the other isn't
