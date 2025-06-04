@@ -70,7 +70,8 @@ find_specific_file <- function(directory, lookup_type, version) {
     cli::cli_abort(c(
       "x" = "{.val {lookup_type}} version {.val {version}} is NOT available",
       "i" = "Contact phs.geography@phs.scot"
-    ))
+    ),
+    call = NULL, rlang_backtrace_on_error = "none")
   }
 
   return(file_path)

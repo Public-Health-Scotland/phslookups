@@ -1,10 +1,22 @@
 #' Get the Scottish Postcode Directory
 #'
-#' Read a Scottish Postcode Directory (SPD) lookup file into a tibble.
+#' Read a Scottish Postcode Directory (SPD) lookup file from cl-out into
+#' a tibble.
 #' @param version A string defining a version to read in. The default value
 #'  is "latest" and the latest SPD file available on cl-out will be loaded.
-#'  Alternatively you can supply a tag, e.g. "2023_2", to load a specific file.
+#'  Alternatively you can supply a string defining a specific version that you
+#'  would like to load. It should follow pattern "YYYY_1" or "YYYY_2",
+#'  e.g. "2023_2". See details for further information.
 #' @inheritParams readr::read_csv
+#'
+#' @details
+#' SPD lookup files are sourced from the following folder
+#' '\\stats\cl-out\lookups\Unicode\Geography\Scottish Postcode Directory'
+#' and its 'Archive' subfolder.
+#' They are updated twice a year, which is denoted by the suffix of their
+#' name: Scottish_Postcode_Directory_YYYY_X", where YYYY denotes a year and
+#' X denotes release number for this year (X = 1 or X = 2). Please note that
+#' the oldest available version is "2016_1".
 #'
 #' @return A [tibble][tibble::tibble-package] of the Scottish Postcode
 #'  Directory lookup file or its selected columns.
