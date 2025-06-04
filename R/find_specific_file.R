@@ -69,11 +69,13 @@ find_specific_file <- function(directory, lookup_type, version) {
 
   # Handle case where no matching file is found
   if (is.na(file_path)) {
-    cli::cli_abort(c(
-      "x" = "{.val {lookup_type}} version {.val {version}} is NOT available",
-      "i" = "Contact phs.geography@phs.scot"
-    ),
-    call = NULL, rlang_backtrace_on_error = "none")
+    cli::cli_abort(
+      c(
+        "x" = "{.val {lookup_type}} version {.val {version}} is NOT available",
+        "i" = "Contact phs.geography@phs.scot"
+      ),
+      call = NULL, rlang_backtrace_on_error = "none"
+    )
   }
 
   return(file_path)

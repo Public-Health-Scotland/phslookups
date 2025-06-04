@@ -37,12 +37,12 @@ get_simd_datazone <- function(
     )
   } else if (datazone_version != "latest" && simd_version != "latest") {
     valid_datazone_version <- stringr::str_detect(
-        string = datazone_version, 
-        pattern = "^20[0-9]{2}$"
+      string = datazone_version,
+      pattern = "^20[0-9]{2}$"
     )
     valid_simd_version <- stringr::str_detect(
-        string = datazone_version,
-        pattern = "^20[0-9]{2}(:?v2)?$"
+      string = datazone_version,
+      pattern = "^20[0-9]{2}(:?v2)?$"
     )
 
     if (!valid_datazone_version || !valid_simd_version) {
@@ -57,8 +57,8 @@ get_simd_datazone <- function(
       directory = dir,
       lookup_type = "SIMD DataZone",
       version = list(
-          datazone_version = datazone_version, 
-          simd_version = simd_version
+        datazone_version = datazone_version,
+        simd_version = simd_version
       )
     )
   } else {
