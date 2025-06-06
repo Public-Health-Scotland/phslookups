@@ -4,16 +4,9 @@
 \alias{get_simd_datazone}
 \title{Get a SIMD DataZone Lookup}
 \usage{
-get_simd_datazone(
-  datazone_version = "latest",
-  simd_version = "latest",
-  col_select = NULL
-)
+get_simd_datazone(simd_version = "latest", col_select = NULL)
 }
 \arguments{
-\item{datazone_version}{Default is "latest", otherwise supply a year
-e.g. "2011"}
-
 \item{simd_version}{Default is "latest", otherwise supply a version
 e.g. "2020v2"}
 
@@ -32,9 +25,8 @@ Get a SIMD DataZone Lookup
 }
 \examples{
 get_simd_datazone()
-get_simd_datazone(datazone_version = "2011", simd_version = "2016")
+get_simd_datazone(simd_version = "2016")
 get_simd_datazone(
-  datazone_version = "2011",
   simd_version = "2016",
   col_select = c("DataZone2011", "simd2016rank")
 )

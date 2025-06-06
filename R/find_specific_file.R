@@ -4,15 +4,14 @@
 #' This function retrieves the file path for a specific version of a lookup
 #' file based on the provided directory and lookup type. It validates the
 #' existence of the file and throws an error if no matching file is found.
-#' For lookup types requiring multiple versions (e.g., SIMD Postcode or
-#' SIMD DataZone), `version` must be a named list or vector with the
+#' For lookup types requiring multiple versions (SIMD Postcode),
+#' `version` must be a named list or vector with the
 #' appropriate names (e.g., `simd_version` and `postcode_version`).
 #'
 #' @param directory The base directory where lookup files are stored.
 #' The function searches here and this directory's "Archive" subdirectory.
 #' @param lookup_type A string specifying the type of lookup file to find.
-#' Supported values include `"SPD"`, `"HSCP Locality"`, `"SIMD DataZone"`,
-#' and `"SIMD Postcode"`.
+#' Supported values include `"SPD"`, `"HSCP Locality"`, and `"SIMD Postcode"`.
 #' @param version A string defining the version to locate, or a
 #' named list/vector for lookup types requiring multiple versions.
 #' For example:
@@ -38,10 +37,6 @@ find_specific_file <- function(directory, lookup_type, version) {
     # Handle multi-version cases
     file_prefix <- dplyr::case_match(
       lookup_type,
-      "SIMD DataZone" ~ paste0(
-        "DataZone", version[["datazone_version"]],
-        "_simd", version[["simd_version"]]
-      ),
       "SIMD Postcode" ~ paste0(
         "postcode_", version[["postcode_version"]],
         "_simd", version[["simd_version"]]
