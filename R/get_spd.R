@@ -11,8 +11,8 @@
 #'
 #' @details
 #' SPD lookup files are sourced from the following folder
-#' '\\stats\cl-out\lookups\Unicode\Geography\Scottish Postcode Directory'
-#' and its 'Archive' subfolder.
+#' `\\stats\cl-out\lookups\Unicode\Geography\Scottish Postcode Directory`
+#' and its `Archive` subfolder.
 #' They are updated twice a year, which is denoted by the suffix of their
 #' name: Scottish_Postcode_Directory_YYYY_X", where YYYY denotes a year and
 #' X denotes release number for this year (X = 1 or X = 2). Please note that
