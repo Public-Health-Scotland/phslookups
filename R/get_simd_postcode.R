@@ -20,9 +20,10 @@
 #'   col_select = c("pc7", starts_with("simd"))
 #' )
 get_simd_postcode <- function(
-    postcode_version = "latest",
-    simd_version = "latest",
-    col_select = NULL) {
+  postcode_version = "latest",
+  simd_version = "latest",
+  col_select = NULL
+) {
   dir <- fs::path(get_lookups_dir(), "Deprivation")
 
   if (postcode_version == "latest" && simd_version == "latest") {
@@ -40,8 +41,14 @@ get_simd_postcode <- function(
       selection_method = "file_name"
     )
   } else if (postcode_version != "latest" && simd_version != "latest") {
-    valid_postcode_version <- stringr::str_detect(postcode_version, "\\d{4}_[1-2]")
-    valid_simd_version <- stringr::str_detect(simd_version, "^20[0-9]{2}(:?v2)?$")
+    valid_postcode_version <- stringr::str_detect(
+      postcode_version,
+      "\\d{4}_[1-2]"
+    )
+    valid_simd_version <- stringr::str_detect(
+      simd_version,
+      "^20[0-9]{2}(:?v2)?$"
+    )
 
     if (!valid_postcode_version || !valid_simd_version) {
       cli::cli_abort(c(
@@ -54,7 +61,10 @@ get_simd_postcode <- function(
     simd_postcode_path <- find_specific_file(
       directory = dir,
       lookup_type = "SIMD Postcode",
-      version = list(postcode_version = postcode_version, simd_version = simd_version)
+      version = list(
+        postcode_version = postcode_version,
+        simd_version = simd_version
+      )
     )
   } else {
     # Case when one of the versions is 'latest' but the other isn't

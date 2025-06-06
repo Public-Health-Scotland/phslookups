@@ -37,10 +37,13 @@ find_specific_file <- function(directory, lookup_type, version) {
     # Handle multi-version cases
     file_prefix <- dplyr::case_match(
       lookup_type,
-      "SIMD Postcode" ~ paste0(
-        "postcode_", version[["postcode_version"]],
-        "_simd", version[["simd_version"]]
-      ),
+      "SIMD Postcode" ~
+        paste0(
+          "postcode_",
+          version[["postcode_version"]],
+          "_simd",
+          version[["simd_version"]]
+        ),
       .default = NA_character_
     )
   }
@@ -69,7 +72,8 @@ find_specific_file <- function(directory, lookup_type, version) {
         "x" = "{.val {lookup_type}} version {.val {version}} is NOT available",
         "i" = "Contact phs.geography@phs.scot"
       ),
-      call = NULL, rlang_backtrace_on_error = "none"
+      call = NULL,
+      rlang_backtrace_on_error = "none"
     )
   }
 

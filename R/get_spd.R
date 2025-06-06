@@ -50,7 +50,6 @@ get_spd <- function(version = "latest", col_select = NULL) {
     )
   }
 
-
   return(read_file(
     spd_path,
     col_select = {{ col_select }}

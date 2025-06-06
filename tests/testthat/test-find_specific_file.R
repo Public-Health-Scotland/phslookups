@@ -3,14 +3,18 @@ fs::dir_create(fs::path(mock_dir, "Archive"))
 
 # Create mock files for different lookup types
 fs::file_create(
-  fs::path(mock_dir, "Archive", c(
-    "Scottish_Postcode_Directory_2023_1.parquet",
-    "Scottish_Postcode_Directory_2023_1.csv",
-    "HSCP Localities_DZ11_Lookup_20230804.csv",
-    "DataZone2011_simd2020v2.rds",
-    "postcode_2023_2_simd2020v2.parquet",
-    "postcode_2023_2_simd2020v2.csv"
-  ))
+  fs::path(
+    mock_dir,
+    "Archive",
+    c(
+      "Scottish_Postcode_Directory_2023_1.parquet",
+      "Scottish_Postcode_Directory_2023_1.csv",
+      "HSCP Localities_DZ11_Lookup_20230804.csv",
+      "DataZone2011_simd2020v2.rds",
+      "postcode_2023_2_simd2020v2.parquet",
+      "postcode_2023_2_simd2020v2.csv"
+    )
+  )
 )
 
 test_that("find_specific_file works for SPD and prioritizes parquet over csv", {

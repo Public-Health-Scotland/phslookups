@@ -17,11 +17,12 @@ get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
 
   if (simd_version == "latest") {
     regexp <- paste0(
-      "DataZone", "\\d{4}", "_simd", "\\d{4}(:?v[1-2])?",
+      "DataZone",
+      "\\d{4}",
+      "_simd",
+      "\\d{4}(:?v[1-2])?",
       "\\.rds"
     )
-
-
   } else {
     valid_simd_version <- stringr::str_detect(
       string = simd_version,
@@ -36,7 +37,10 @@ get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
     }
 
     regexp <- paste0(
-      "DataZone", "\\d{4}", "_simd", simd_version,
+      "DataZone",
+      "\\d{4}",
+      "_simd",
+      simd_version,
       "\\.rds"
     )
   }
