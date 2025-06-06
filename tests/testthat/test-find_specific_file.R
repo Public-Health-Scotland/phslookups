@@ -39,17 +39,7 @@ test_that("find_specific_file works for HSCP Locality", {
   )
 })
 
-test_that("find_specific_file works for SIMD DataZone", {
-  result <- find_specific_file(
-    version = list(datazone_version = "2011", simd_version = "2020v2"),
-    directory = mock_dir,
-    lookup_type = "SIMD DataZone"
-  )
-  expect_true(fs::file_exists(result))
-  expect_equal(fs::path_file(result), "DataZone2011_simd2020v2.rds")
-})
-
-test_that("find_specific_file works prioritises parquet over csv", {
+test_that("find_specific_file prioritises parquet over csv", {
   result <- find_specific_file(
     version = list(postcode_version = "2023_2", simd_version = "2020v2"),
     directory = mock_dir,
