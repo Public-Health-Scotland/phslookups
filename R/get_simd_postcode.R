@@ -20,10 +20,9 @@
 #'   col_select = c("pc7", starts_with("simd"))
 #' )
 get_simd_postcode <- function(
-  postcode_version = "latest",
-  simd_version = "latest",
-  col_select = NULL
-) {
+    postcode_version = "latest",
+    simd_version = "latest",
+    col_select = NULL) {
   dir <- fs::path(get_lookups_dir(), "Deprivation")
 
   if (postcode_version == "latest" && simd_version == "latest") {
