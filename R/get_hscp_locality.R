@@ -23,7 +23,8 @@ get_hscp_locality <- function(version = "latest", col_select = NULL) {
       selection_method = "file_name"
     )
   } else {
-    if (!stringr::str_detect(version, "^20\\d{2}[0,1][0-9][0-3][0-9]$")) {
+    if (!stringr::str_detect(version,
+                       "^20\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])$")) {
       cli::cli_abort(c(
         "x" = "Invalid version name: {.val {version}}",
         "i" = "It should follow pattern the YYYYMMDD",

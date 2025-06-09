@@ -60,7 +60,7 @@ find_latest_file <- function(
       "Using the latest available version: {.val {fs::path_file(
        fs::path_ext_remove(latest_file$path))}}.
        If you require an older version or for reproducibility purposes
-       please specify an argument `version`."
+       please specify version argument(s) accordingly."
     )
   } else {
     cli::cli_abort(
