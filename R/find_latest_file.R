@@ -12,6 +12,7 @@
 #' passed to [fs::dir_info()] to search for the file.
 #' @param selection_method Valid arguments are "modification_date"
 #' (the default) or "file_name".
+#' @param quiet (default: FALSE) Used to suppress message output
 #'
 #' @return the [fs::path()] to the file
 #' @examples
@@ -26,7 +27,8 @@
 find_latest_file <- function(
     directory,
     regexp,
-    selection_method = "modification_date") {
+    selection_method = "modification_date",
+    quiet = FALSE) {
   if (selection_method == "modification_date") {
     latest_file <- fs::dir_info(
       path = directory,
@@ -56,12 +58,14 @@ find_latest_file <- function(
   }
 
   if (nrow(latest_file) == 1L) {
+    if (!quiet) {
     cli::cli_alert_info(
       "Using the latest available version: {.val {fs::path_file(
        fs::path_ext_remove(latest_file$path))}}.
        If you require an older version or for reproducibility purposes
-       please specify version argument(s) accordingly."
+       please specify the version argument accordingly."
     )
+    }
   } else {
     cli::cli_abort(
       "There was no file in {.path {directory}} that matched the
