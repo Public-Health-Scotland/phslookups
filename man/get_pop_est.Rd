@@ -18,14 +18,18 @@ get_pop_est(
 \item{level}{The geographic level for which to retrieve population estimates.
 One of "datazone", "intzone", "hscp", "ca", or "hb".}
 
-\item{version}{The version of the population estimates to use (default: "latest").}
+\item{version}{The version of the population estimates to use
+(default: "latest").}
 
-\item{min_year, max_year}{(optional) The minimum and maximum years to include in the results.}
+\item{min_year, max_year}{(optional) The minimum and maximum years to
+include in the results.}
 
-\item{age_groups}{Logical, indicating whether to aggregate population estimates by age groups.
+\item{age_groups}{Logical, indicating whether to aggregate population
+estimates by age groups.
 If \code{TRUE}, the \code{phsmethods::create_age_groups} function is used.}
 
-\item{pivot_wider}{Optionally reshape the data into a wider format, summarising population counts by the specified columns.
+\item{pivot_wider}{Optionally reshape the data into a wider format,
+summarising population counts by the specified columns.
 Allowed values:
 \itemize{
 \item \code{FALSE} (default): Do not pivot.
@@ -39,7 +43,8 @@ Allowed values:
 \item{...}{Additional arguments passed to \code{\link[phsmethods:create_age_groups]{phsmethods::create_age_groups()}}.}
 }
 \value{
-A tibble containing the filtered and possibly transformed population data.
+A tibble containing the filtered and possibly transformed
+population data.
 }
 \description{
 This function retrieves population estimates based on various parameters.
@@ -72,11 +77,21 @@ get_pop_est("hb", age_groups = TRUE, by = 5, to = 85)
 get_pop_est("ca", age_groups = TRUE, pivot_wider = "all")
 
 # Pivot Wider (Age Only): CA Population Estimates, Reshaped by Age Group Only
-# This is useful if you only need the total population for each age group, regardless of sex.
+# This is useful if you only need the total population for each age group,
+# regardless of sex.
 get_pop_est("ca", age_groups = TRUE, pivot_wider = "age-only")
 
 # Combined Filtering, Age Groups, and Pivoting:
-# CA population from 2015-2020, aggregated by 10-year age groups, and pivoted by sex
-# The result will have columns for each sex ("pop_f", "pop_m") and a row per age group.
-get_pop_est("ca", min_year = 2015, max_year = 2020, age_groups = TRUE, by = 10, pivot_wider = "sex")
+# CA population from 2015-2020, aggregated by 10-year age groups,
+# and pivoted by sex
+# The result will have columns for each sex ("pop_f", "pop_m")
+# and a row per age group.
+get_pop_est(
+  level = "ca",
+  min_year = 2015,
+  max_year = 2020,
+  age_groups = TRUE,
+  by = 10,
+  pivot_wider = "sex"
+)
 }
