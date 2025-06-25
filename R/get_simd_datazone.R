@@ -48,7 +48,8 @@ get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
   simd_datazone_path <- find_latest_file(
     directory = dir,
     regexp = regexp,
-    selection_method = "file_name"
+    selection_method = "file_name",
+    quiet = simd_version != "latest"
   )
 
   return(read_file(simd_datazone_path, col_select = {{ col_select }}))
