@@ -59,12 +59,12 @@ find_latest_file <- function(
 
   if (nrow(latest_file) == 1L) {
     if (!quiet) {
-    cli::cli_alert_info(
-      "Using the latest available version: {.val {fs::path_file(
+      cli::cli_alert_info(
+        "Using the latest available version: {.val {fs::path_file(
        fs::path_ext_remove(latest_file$path))}}.
        If you require an older version or for reproducibility purposes
        please specify the version argument accordingly."
-    )
+      )
     }
   } else {
     cli::cli_abort(
