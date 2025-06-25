@@ -6,11 +6,15 @@
 #' the data for wider format.
 #' @param level The geographic level for which to retrieve population estimates.
 #' One of "datazone", "intzone", "hscp", "ca", or "hb".
-#' @param version The version of the population estimates to use (default: "latest").
-#' @param min_year,max_year (optional) The minimum and maximum years to include in the results.
-#' @param age_groups Logical, indicating whether to aggregate population estimates by age groups.
+#' @param version The version of the population estimates to use
+#'  (default: "latest").
+#' @param min_year,max_year (optional) The minimum and maximum years to
+#'  include in the results.
+#' @param age_groups Logical, indicating whether to aggregate population
+#'  estimates by age groups.
 #' If `TRUE`, the `phsmethods::create_age_groups` function is used.
-#' @param pivot_wider Optionally reshape the data into a wider format, summarising population counts by the specified columns.
+#' @param pivot_wider Optionally reshape the data into a wider format,
+#'  summarising population counts by the specified columns.
 #'   Allowed values:
 #'   * `FALSE` (default): Do not pivot.
 #'   * `TRUE` or `"all"`: Pivot by both sex and age/age group.
@@ -20,7 +24,8 @@
 #'   * `"sex-only"`: Pivot by sex group and aggregate to remove age/age group
 #' @param ... Additional arguments passed to [phsmethods::create_age_groups()].
 #'
-#' @return A tibble containing the filtered and possibly transformed population data.
+#' @return A tibble containing the filtered and possibly transformed
+#'  population data.
 #'
 #' @note
 #' Depending on the values for `age_groups` and `pivot_wider`, the resulting
@@ -49,21 +54,32 @@
 #' get_pop_est("ca", age_groups = TRUE, pivot_wider = "all")
 #'
 #' # Pivot Wider (Age Only): CA Population Estimates, Reshaped by Age Group Only
-#' # This is useful if you only need the total population for each age group, regardless of sex.
+#' # This is useful if you only need the total population for each age group,
+#' # regardless of sex.
 #' get_pop_est("ca", age_groups = TRUE, pivot_wider = "age-only")
 #'
 #' # Combined Filtering, Age Groups, and Pivoting:
-#' # CA population from 2015-2020, aggregated by 10-year age groups, and pivoted by sex
-#' # The result will have columns for each sex ("pop_f", "pop_m") and a row per age group.
-#' get_pop_est("ca", min_year = 2015, max_year = 2020, age_groups = TRUE, by = 10, pivot_wider = "sex")
+#' # CA population from 2015-2020, aggregated by 10-year age groups,
+#' # and pivoted by sex
+#' # The result will have columns for each sex ("pop_f", "pop_m")
+#' # and a row per age group.
+#' get_pop_est(
+#'   level = "ca",
+#'   min_year = 2015,
+#'   max_year = 2020,
+#'   age_groups = TRUE,
+#'   by = 10,
+#'   pivot_wider = "sex"
+#' )
 get_pop_est <- function(
-    level = c("datazone", "intzone", "hscp", "ca", "hb"),
-    version = "latest",
-    min_year = NULL,
-    max_year = NULL,
-    age_groups = FALSE,
-    pivot_wider = FALSE,
-    ...) {
+  level = c("datazone", "intzone", "hscp", "ca", "hb"),
+  version = "latest",
+  min_year = NULL,
+  max_year = NULL,
+  age_groups = FALSE,
+  pivot_wider = FALSE,
+  ...
+) {
   level <- tolower(level)
   level <- rlang::arg_match(level)
   if (!inherits(pivot_wider, "logical")) {
@@ -131,7 +147,10 @@ get_pop_est <- function(
     pop_est <- pop_est |>
       pivot_data(
         id_cols = -"sex",
-        names_from = c("sex_name", dplyr::if_else(age_groups, "age_group", "age"))
+        names_from = c(
+          "sex_name",
+          dplyr::if_else(age_groups, "age_group", "age")
+        )
       )
   } else if (pivot_wider == "sex") {
     pop_est <- pop_est |>
