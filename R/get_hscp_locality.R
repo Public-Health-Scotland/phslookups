@@ -1,6 +1,9 @@
-#' Get the HSCP Locality lookup
+#' Get HSCP Locality lookup
 #'
-#' @param version Default is "latest", otherwise supply a date e.g. "20230804"
+#' Read a Health and Social Care Partnership (HSCP) Locality lookup file from
+#' cl-out into a tibble.
+#' @param version A string defining a version to read in. The default value
+#'  is "latest", otherwise supply a date (file name suffix), e.g. "20230804".
 #' @inheritParams readr::read_csv
 #'
 #' @return a [tibble][tibble::tibble-package] of the HSCP localities lookup
@@ -8,6 +11,8 @@
 #'
 #' @examples
 #' get_hscp_locality()
+#' get_hscp_locality(version = "20240308")
+#' get_hscp_locality(col_select = c("datazone2011", "hscp_locality"))
 get_hscp_locality <- function(version = "latest", col_select = NULL) {
   dir <- fs::path(get_lookups_dir(), "Geography", "HSCP Locality")
 
@@ -21,9 +26,21 @@ get_hscp_locality <- function(version = "latest", col_select = NULL) {
       selection_method = "file_name"
     )
   } else {
-    hscp_locality_path <- fs::path(
-      dir,
-      glue::glue("HSCP Localities_DZ11_Lookup_{date}.{ext}")
+    if (!stringr::str_detect(
+      version,
+      "^20\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])$"
+    )) {
+      cli::cli_abort(c(
+        "x" = "Invalid version name: {.val {version}}",
+        "i" = "It should follow pattern the YYYYMMDD",
+        call = NULL
+      ))
+    }
+
+    hscp_locality_path <- find_specific_file(
+      directory = dir,
+      lookup_type = "HSCP Locality",
+      version = version
     )
   }
 
