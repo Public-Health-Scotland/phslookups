@@ -38,8 +38,10 @@ get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
       ))
     }
 
-    if (!(simd_version %in% c("2004", "2006", "2009v2", "2012",
-                              "2016", "2020v2"))) {
+    if (!(simd_version %in% c(
+      "2004", "2006", "2009v2", "2012",
+      "2016", "2020v2"
+    ))) {
       cli::cli_abort(c(
         "x" = "SIMD version {.val {simd_version}} does NOT exit.",
         "i" = "Note that \"2009\" and \"2020\" versions have been corrected and
