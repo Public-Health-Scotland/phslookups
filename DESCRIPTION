@@ -4,7 +4,10 @@ Version: 0.1.0
 Authors@R: c(
     person("James", "McMahon", , "james.mcmahon@phs.scot", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-5380-2029")),
+    person("Nicolaos", "Christofidis", , "nicolaos.christofidis@phs.scot", role = "aut"),
+    person("Beata", "Nowok", , "beata.nowok@phs.scot", role = "aut"),
     person("Public Health Scotland", role = "cph")
+    
   )
 Description: Helper functions for reading the PHS standard lookups.
 License: MIT + file LICENSE
