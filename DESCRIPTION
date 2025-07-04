@@ -7,7 +7,6 @@ Authors@R: c(
     person("Nicolaos", "Christofidis", , "nicolaos.christofidis@phs.scot", role = "aut"),
     person("Beata", "Nowok", , "beata.nowok@phs.scot", role = "aut"),
     person("Public Health Scotland", role = "cph")
-    
   )
 Description: Helper functions for reading the PHS standard lookups.
 License: MIT + file LICENSE
