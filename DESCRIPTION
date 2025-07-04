@@ -18,7 +18,6 @@ Imports:
     cli,
     dplyr,
     fs,
-    magrittr,
     readr,
     rlang,
     stringr,

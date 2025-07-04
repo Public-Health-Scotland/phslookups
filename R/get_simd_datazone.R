@@ -1,5 +1,7 @@
-#' Get a SIMD DataZone Lookup
+#' Get Data Zone-SIMD lookup
 #'
+#' Read a Data Zone-Scottish Index of Multiple Deprivation (SIMD) lookup file
+#' from cl-out into a tibble.
 #' @inheritParams get_simd_postcode
 #'
 #' @return a [tibble][tibble::tibble-package] of the SIMD DataZone lookup
@@ -20,7 +22,7 @@ get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
       "DataZone",
       "\\d{4}",
       "_simd",
-      "\\d{4}(:?v[1-2])?",
+      "\\d{4}(:?v2)?",
       "\\.rds"
     )
   } else {
@@ -31,8 +33,17 @@ get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
 
     if (!valid_simd_version) {
       cli::cli_abort(c(
-        "x" = "Invalid version specification, SIMD: {.val {simd_version}}",
+        "x" = "Invalid version specification of SIMD: {.val {simd_version}}",
         "i" = "SIMD should follow the pattern YYYY or YYYYv2"
+      ))
+    }
+
+    if (!(simd_version %in% c("2004", "2006", "2009v2", "2012",
+                              "2016", "2020v2"))) {
+      cli::cli_abort(c(
+        "x" = "SIMD version {.val {simd_version}} does NOT exit.",
+        "i" = "Note that \"2009\" and \"2020\" versions have been corrected and
+               replaced with versions \"2009v2\" and \"2020v2\" respectively."
       ))
     }
 

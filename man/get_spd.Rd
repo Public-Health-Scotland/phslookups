@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_spd.R
 \name{get_spd}
 \alias{get_spd}
-\title{Get the Scottish Postcode Directory}
+\title{Get Scottish Postcode Directory lookup}
 \usage{
 get_spd(version = "latest", col_select = NULL)
 }

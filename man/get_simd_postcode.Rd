@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_simd_postcode.R
 \name{get_simd_postcode}
 \alias{get_simd_postcode}
-\title{Get a SIMD Postcode Lookup}
+\title{Get Postcode-SIMD lookup}
 \usage{
 get_simd_postcode(
   postcode_version = "latest",
@@ -11,11 +11,14 @@ get_simd_postcode(
 )
 }
 \arguments{
-\item{postcode_version}{Default is "latest", otherwise supply a tag
-e.g. "2023_2"}
+\item{postcode_version}{A string defining a postcode version. The default
+value is "latest". Alternatively you can supply a string defining
+a specific version that you would like to load. It should follow pattern
+"YYYY_1" or "YYYY_2", e.g. "2023_2".}
 
-\item{simd_version}{Default is "latest", otherwise supply a version
-e.g. "2020v2"}
+\item{simd_version}{A string defining a SIMD version. The default value
+is "latest". Alternatively you can supply a string defining a specific
+version. It should follow pattern "YYYY" or "YYYYv2", e.g. "2020v2".}
 
 \item{col_select}{Columns to include in the results. You can use the same
 mini-language as \code{dplyr::select()} to refer to the columns by name. Use
@@ -28,7 +31,8 @@ selection language.}
 a \link[tibble:tibble-package]{tibble} of the SIMD Postcode lookup
 }
 \description{
-Get a SIMD Postcode Lookup
+Read a Postcode-Scottish Index of Multiple Deprivation (SIMD) lookup file
+from cl-out into a tibble.
 }
 \examples{
 get_simd_postcode()

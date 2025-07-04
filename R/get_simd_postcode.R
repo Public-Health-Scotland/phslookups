@@ -1,9 +1,14 @@
-#' Get a SIMD Postcode Lookup
+#' Get Postcode-SIMD lookup
 #'
-#' @param postcode_version Default is "latest", otherwise supply a tag
-#' e.g. "2023_2"
-#' @param simd_version Default is "latest", otherwise supply a version
-#' e.g. "2020v2"
+#' Read a Postcode-Scottish Index of Multiple Deprivation (SIMD) lookup file
+#' from cl-out into a tibble.
+#' @param postcode_version A string defining a postcode version. The default
+#'  value is "latest". Alternatively you can supply a string defining
+#'  a specific version that you would like to load. It should follow pattern
+#'  "YYYY_1" or "YYYY_2", e.g. "2023_2".
+#' @param simd_version A string defining a SIMD version. The default value
+#'  is "latest". Alternatively you can supply a string defining a specific
+#'  version. It should follow pattern "YYYY" or "YYYYv2", e.g. "2020v2".
 #' @inheritParams readr::read_csv
 #'
 #' @return a [tibble][tibble::tibble-package] of the SIMD Postcode lookup
@@ -51,7 +56,8 @@ get_simd_postcode <- function(
 
     if (!valid_postcode_version || !valid_simd_version) {
       cli::cli_abort(c(
-        "x" = "Invalid version specification, Postcode: {.val {postcode_version}}, SIMD: {.val {simd_version}}",
+        "x" = "Invalid version specification, Postcode:
+        {.val {postcode_version}}, SIMD: {.val {simd_version}}",
         "i" = "Postcode should be follow the pattern YYYY_1 or YYYY_2",
         "i" = "SIMD should follow the pattern YYYY or YYYYv2"
       ))
@@ -68,7 +74,8 @@ get_simd_postcode <- function(
   } else {
     # Case when one of the versions is 'latest' but the other isn't
     cli::cli_abort(c(
-      "x" = "When using a version other than {.val latest} both {.arg postcode_version} and {.arg simd_version} must be specified."
+      "x" = "When using a version other than {.val latest} both
+      {.arg postcode_version} and {.arg simd_version} must be specified."
     ))
   }
 
