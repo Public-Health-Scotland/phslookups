@@ -2,25 +2,40 @@
 % Please edit documentation in R/get_spd.R
 \name{get_spd}
 \alias{get_spd}
-\title{Get the Scottish Postcode Directory}
+\title{Get Scottish Postcode Directory lookup}
 \usage{
 get_spd(version = "latest", col_select = NULL)
 }
 \arguments{
 \item{version}{A string defining a version to read in. The default value
 is "latest" and the latest SPD file available on cl-out will be loaded.
-Alternatively you can supply a tag, e.g. "2023_2", to load a specific file.}
+Alternatively you can supply a string defining a specific version that you
+would like to load. It should follow pattern "YYYY_1" or "YYYY_2",
+e.g. "2023_2". See details for further information.}
 
-\item{col_select}{A character vector of column names to keep, as in
-the "select" argument to data.table::fread(), or a tidy selection
-specification of columns, as used in dplyr::select().}
+\item{col_select}{Columns to include in the results. You can use the same
+mini-language as \code{dplyr::select()} to refer to the columns by name. Use
+\code{c()} to use more than one selection expression. Although this
+usage is less common, \code{col_select} also accepts a numeric column index. See
+\code{\link[tidyselect:language]{?tidyselect::language}} for full details on the
+selection language.}
 }
 \value{
 A \link[tibble:tibble-package]{tibble} of the Scottish Postcode
 Directory lookup file or its selected columns.
 }
 \description{
-Read a Scottish Postcode Directory (SPD) lookup file into a tibble.
+Read a Scottish Postcode Directory (SPD) lookup file from cl-out into
+a tibble.
+}
+\details{
+SPD lookup files are sourced from the following folder
+\verb{\\\\stats\\cl-out\\lookups\\Unicode\\Geography\\Scottish Postcode Directory}
+and its \code{Archive} subfolder.
+They are updated twice a year, which is denoted by the suffix of their
+name: Scottish_Postcode_Directory_YYYY_X", where YYYY denotes a year and
+X denotes release number for this year (X = 1 or X = 2). Please note that
+the oldest available version is "2016_1".
 }
 \examples{
 get_spd()

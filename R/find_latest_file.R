@@ -12,6 +12,7 @@
 #' passed to [fs::dir_info()] to search for the file.
 #' @param selection_method Valid arguments are "modification_date"
 #' (the default) or "file_name".
+#' @param quiet (default: FALSE) Used to suppress message output
 #'
 #' @return the [fs::path()] to the file
 #' @examples
@@ -23,11 +24,13 @@
 #' }
 #' @noRd
 #' @keywords internal
-find_latest_file <- function(directory,
-                             regexp,
-                             selection_method = "modification_date") {
+find_latest_file <- function(
+    directory,
+    regexp,
+    selection_method = "modification_date",
+    quiet = FALSE) {
   if (selection_method == "modification_date") {
-    latest_file <- fs::dir_info(
+    latest_file_options <- fs::dir_info(
       path = directory,
       type = "file",
       regexp = regexp,
@@ -38,9 +41,9 @@ find_latest_file <- function(directory,
         dplyr::desc(.data$modification_time),
         dplyr::desc(.data$path)
       ) |>
-      magrittr::extract(1L, )
+      dplyr::pull(.data$path)
   } else if (selection_method == "file_name") {
-    latest_file <- fs::dir_info(
+    latest_file_options <- fs::dir_info(
       path = directory,
       type = "file",
       regexp = regexp,
@@ -51,24 +54,27 @@ find_latest_file <- function(directory,
         dplyr::desc(.data$birth_time),
         dplyr::desc(.data$modification_time)
       ) |>
-      magrittr::extract(1L, )
+      dplyr::pull(.data$path)
   }
 
-  if (nrow(latest_file) == 1L) {
-    cli::cli_alert_info(
-      "Using the latest available version: {.val {fs::path_file(
-       fs::path_ext_remove(latest_file$path))}}.
-       If you require an older version specify an argument `version`."
-    )
+  if (length(latest_file_options) >= 1) {
+    file_path <- latest_file_options |>
+      dplyr::first()
+
+    if (!quiet) {
+      cli::cli_alert_info(
+        "Using the latest available version:
+        {.val {fs::path_file(fs::path_ext_remove(file_path))}}.
+        If you require an older version or for reproducibility purposes
+        please specify the version argument accordingly."
+      )
+    }
+
+    return(file_path)
   } else {
     cli::cli_abort(
       "There was no file in {.path {directory}} that matched the
        regular expression {.val {regexp}}"
     )
   }
-
-  file_path <- latest_file |>
-    dplyr::pull(.data$path)
-
-  return(file_path)
 }
