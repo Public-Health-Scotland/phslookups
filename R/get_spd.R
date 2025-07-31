@@ -31,6 +31,8 @@ get_spd <- function(version = "latest", col_select = NULL) {
     "Scottish Postcode Directory"
   )
 
+  metadata_dir <- fs::path(dir, "Metadata")
+
   if (version == "latest") {
     spd_path <- find_latest_file(
       directory = dir,
@@ -53,8 +55,21 @@ get_spd <- function(version = "latest", col_select = NULL) {
     )
   }
 
-  return(read_file(
+  metadata <- readr::read_csv(fs::path(metadata_dir, "spd_metadata.csv")) %>%
+    dplyr::select(1:2) %>%
+    stats::setNames(c("variable", "description"))
+
+  cli::cli_inform(c("", "i" = "SPD metadata has been attached to the data and can be accessed via {.run attr(, 'metadata')}"))
+
+
+  cli::cat_line("\n--- Metadata ---\n", col = "blue")
+  cli::cat_print(metadata)
+  cli::cat_line("")
+
+  spd <- read_file(
     spd_path,
     col_select = {{ col_select }}
-  ))
+  )
+  attr(spd, "metadata") <- metadata
+  return(spd)
 }
