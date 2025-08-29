@@ -33,3 +33,9 @@ set_metadata <- function(data, metadata){
 inform_metadata_access <- function(){
   cli::cli_inform(c("", "i" = "SPD metadata has been attached to the data and can be accessed via `metadata()`"))
 }
+
+inform_metadata_version <- function(version){
+  if (version != "latest"){
+    cli::cli_warn("Metadata is based on the latest version of the data and may not be relevant to the requested data")
+  }
+}
