@@ -59,8 +59,7 @@ get_spd <- function(version = "latest", col_select = NULL) {
     dplyr::select(1:2) %>%
     stats::setNames(c("variable", "description"))
 
-  cli::cli_inform(c("", "i" = "SPD metadata has been attached to the data and can be accessed via {.run attr(, 'metadata')}"))
-
+  inform_metadata_access()
 
   cli::cat_line("\n--- Metadata ---\n", col = "blue")
   cli::cat_print(metadata)
@@ -70,6 +69,6 @@ get_spd <- function(version = "latest", col_select = NULL) {
     spd_path,
     col_select = {{ col_select }}
   )
-  attr(spd, "metadata") <- metadata
+  spd <- set_metadata(spd, metadata)
   return(spd)
 }

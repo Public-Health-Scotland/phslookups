@@ -24,3 +24,12 @@ metadata <- function(data){
 
   out
 }
+
+set_metadata <- function(data, metadata){
+  attr(data, "metadata") <- metadata
+  data
+}
+
+inform_metadata_access <- function(){
+  cli::cli_inform(c("", "i" = "SPD metadata has been attached to the data and can be accessed via `metadata()`"))
+}
