@@ -1,7 +1,7 @@
 # phslookups (development version)
 
 - Add [`get_pop_est()`](https://public-health-scotland.github.io/phslookups/reference/get_pop_est.html) 
-for retrieving the population lookups. This functions have arguments that should
+for retrieving the population lookups. This function has arguments that should
 make it simple to reshape the files as needed.
 
 # phslookups 0.1.0
