@@ -25,10 +25,11 @@
 #' @noRd
 #' @keywords internal
 find_latest_file <- function(
-    directory,
-    regexp,
-    selection_method = "modification_date",
-    quiet = FALSE) {
+  directory,
+  regexp,
+  selection_method = "modification_date",
+  quiet = FALSE
+) {
   if (selection_method == "modification_date") {
     latest_file_options <- fs::dir_info(
       path = directory,
