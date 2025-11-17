@@ -8,7 +8,7 @@ name: phs_style_and_document.yaml
 
 jobs:
   style-and-document:
-    uses: Public-Health-Scotland/actions/.github/workflows/phs_style_and_document.yaml@v1.6.0
+    uses: Public-Health-Scotland/actions/.github/workflows/phs_style_and_document.yaml@v2.1.0
     permissions:
       contents: write
       pull-requests: write
