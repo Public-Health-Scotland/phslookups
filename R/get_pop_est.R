@@ -72,13 +72,14 @@
 #'   pivot_wider = "sex"
 #' )
 get_pop_est <- function(
-    level = c("datazone", "intzone", "hscp", "ca", "hb"),
-    version = "latest",
-    min_year = NULL,
-    max_year = NULL,
-    age_groups = FALSE,
-    pivot_wider = FALSE,
-    ...) {
+  level = c("datazone", "intzone", "hscp", "ca", "hb"),
+  version = "latest",
+  min_year = NULL,
+  max_year = NULL,
+  age_groups = FALSE,
+  pivot_wider = FALSE,
+  ...
+) {
   level <- tolower(level)
   level <- rlang::arg_match(level)
   if (!inherits(pivot_wider, "logical")) {
