@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   pkgdown:
-    uses: Public-Health-Scotland/actions/.github/workflows/phs_pkgdown.yaml@v2.1.0
+    uses: Public-Health-Scotland/actions/.github/workflows/phs_pkgdown.yaml@v2.2.0
     permissions:
       contents: write
     secrets: inherit
