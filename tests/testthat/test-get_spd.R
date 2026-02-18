@@ -44,3 +44,26 @@ test_that("reading from archive works", {
   expect_error(get_spd(version = "2010_1", "SPD version .+? is NOT available"))
   expect_error(get_spd(version = "20243"), "Invalid version name:")
 })
+
+test_that("invalid version format errors", {
+  expect_error(
+    get_spd(version = "abcd"),
+    "Invalid version name"
+  )
+  expect_error(
+    get_spd(version = "2024-1"),
+    "Invalid version name"
+  )
+})
+
+test_that("col_select = NULL returns all columns", {
+  all_cols <- suppressMessages(get_spd(col_select = NULL))
+  expect_gt(ncol(all_cols), 2)
+})
+
+test_that("nonexistent but valid version errors", {
+  expect_error(
+    get_spd(version = "2099_1"),
+    "file" # should error about file not found
+  )
+})
