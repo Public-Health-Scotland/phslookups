@@ -2,12 +2,13 @@
 % Please edit documentation in R/get_hscp_locality.R
 \name{get_hscp_locality}
 \alias{get_hscp_locality}
-\title{Get the HSCP Locality lookup}
+\title{Get HSCP Locality lookup}
 \usage{
 get_hscp_locality(version = "latest", col_select = NULL)
 }
 \arguments{
-\item{version}{Default is "latest", otherwise supply a date e.g. "20230804"}
+\item{version}{A string defining a version to read in. The default value
+is "latest", otherwise supply a date (file name suffix), e.g. "20230804".}
 
 \item{col_select}{Columns to include in the results. You can use the same
 mini-language as \code{dplyr::select()} to refer to the columns by name. Use
@@ -20,7 +21,8 @@ selection language.}
 a \link[tibble:tibble-package]{tibble} of the HSCP localities lookup
 }
 \description{
-Get the HSCP Locality lookup
+Read a Health and Social Care Partnership (HSCP) Locality lookup file from
+cl-out into a tibble.
 }
 \examples{
 get_hscp_locality()

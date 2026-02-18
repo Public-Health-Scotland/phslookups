@@ -1,6 +1,9 @@
-#' Get the HSCP Locality lookup
+#' Get HSCP Locality lookup
 #'
-#' @param version Default is "latest", otherwise supply a date e.g. "20230804"
+#' Read a Health and Social Care Partnership (HSCP) Locality lookup file from
+#' cl-out into a tibble.
+#' @param version A string defining a version to read in. The default value
+#'  is "latest", otherwise supply a date (file name suffix), e.g. "20230804".
 #' @inheritParams readr::read_csv
 #'
 #' @return a [tibble][tibble::tibble-package] of the HSCP localities lookup

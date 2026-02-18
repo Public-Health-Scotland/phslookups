@@ -1,4 +1,4 @@
-#' Get the Scottish Postcode Directory
+#' Get Scottish Postcode Directory lookup
 #'
 #' Read a Scottish Postcode Directory (SPD) lookup file from cl-out into
 #' a tibble.
@@ -26,7 +26,10 @@
 #' get_spd()
 #' get_spd(version = "2023_2", col_select = c("pc7", "latitude", "longitude"))
 get_spd <- function(version = "latest", col_select = NULL) {
-  dir <- fs::path(get_lookups_dir(), "Geography", "Scottish Postcode Directory")
+  dir <- fs::path(
+    get_lookups_dir(), "Geography",
+    "Scottish Postcode Directory"
+  )
 
   if (version == "latest") {
     spd_path <- find_latest_file(
