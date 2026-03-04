@@ -491,7 +491,9 @@ validate_years <- function(
   max_year,
   call = rlang::caller_call()
 ) {
-  if (is.null(min_year) && is.null(max_year)) return(data)
+  if (is.null(min_year) && is.null(max_year)) {
+    return(data)
+  }
 
   if (!is.null(min_year) && !is.null(max_year) && min_year > max_year) {
     cli::cli_abort(
