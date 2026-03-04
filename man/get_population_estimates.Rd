@@ -55,8 +55,8 @@ get_iz_pop_est(
 )
 }
 \arguments{
-\item{version}{The version of the population estimates to use
-(default: "latest").}
+\item{version}{The geography version of the population estimates to use
+(default: "latest"). For example for HB2019 use \code{"2019"}.}
 
 \item{min_year, max_year}{(optional) The minimum and maximum years to
 include in the results.}
