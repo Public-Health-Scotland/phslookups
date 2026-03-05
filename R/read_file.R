@@ -23,8 +23,8 @@ read_file <- function(path, col_select = NULL, ...) {
 
   if (!(ext %in% valid_extensions)) {
     cli::cli_abort(c(
-      "x" = "Invalid extension: {.val {ext}}",
-      "i" = "{.fun read_file} supports
+      x = "Invalid extension: {.val {ext}}",
+      i = "{.fun read_file} supports
                      {.val {valid_extensions}}"
     ))
   }
@@ -32,18 +32,18 @@ read_file <- function(path, col_select = NULL, ...) {
   if (!(file.exists(path))) {
     cli::cli_abort(
       c(
-        "x" = "File {.val {fs::path_file(fs::path_ext_remove(path))}}
+        x = "File {.val {fs::path_file(fs::path_ext_remove(path))}}
              is NOT available",
-        "i" = "Contact {.email phs.geography@phs.scot}"
+        i = "Contact {.email phs.geography@phs.scot}"
       ),
       call = NULL, rlang_backtrace_on_error = "none"
     )
   }
 
-  data <- switch(ext,
+  lookup <- switch(ext,
     "rds" = tibble::as_tibble(readr::read_rds(file = path)),
     "csv" = readr::read_csv(
-      file = path, guess_max = 50000, ...,
+      file = path, guess_max = 50000L, ...,
       show_col_types = FALSE
     ),
     "parquet" = tibble::as_tibble(arrow::read_parquet(
@@ -56,8 +56,8 @@ read_file <- function(path, col_select = NULL, ...) {
   # If col_select was supplied keep only those variables
   # This may sometimes be redundant, but it offers a final guarantee.
   if (!rlang::quo_is_null(rlang::enquo(col_select))) {
-    data <- dplyr::select(data, {{ col_select }})
+    lookup <- dplyr::select(lookup, {{ col_select }})
   }
 
-  return(data)
+  return(lookup)
 }

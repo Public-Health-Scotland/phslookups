@@ -14,14 +14,14 @@
 #' get_hscp_locality(version = "20240308")
 #' get_hscp_locality(col_select = c("datazone2011", "hscp_locality"))
 get_hscp_locality <- function(version = "latest", col_select = NULL) {
-  dir <- fs::path(get_lookups_dir(), "Geography", "HSCP Locality")
+  hscp_locality_dir <- fs::path(get_lookups_dir(), "Geography", "HSCP Locality")
 
   # If col_select is specified use CSV otherwise use RDS
   ext <- ifelse(rlang::quo_is_null(rlang::enquo(col_select)), "rds", "csv")
 
   if (version == "latest") {
     hscp_locality_path <- find_latest_file(
-      directory = dir,
+      directory = hscp_locality_dir,
       regexp = paste0("HSCP Localities_DZ11_Lookup_\\d{8}\\.", ext),
       selection_method = "file_name"
     )
@@ -38,7 +38,7 @@ get_hscp_locality <- function(version = "latest", col_select = NULL) {
     }
 
     hscp_locality_path <- find_specific_file(
-      directory = dir,
+      directory = hscp_locality_dir,
       lookup_type = "HSCP Locality",
       version = version
     )

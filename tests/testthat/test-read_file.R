@@ -9,7 +9,7 @@ test_that("read_file works", {
   readr::write_csv(anscombe, csv_path)
   arrow::write_parquet(anscombe, parquet_path)
 
-  expect_equal(anscombe, read_file(rds_path))
-  expect_equal(anscombe, read_file(csv_path))
-  expect_equal(anscombe, read_file(parquet_path))
+  expect_identical(anscombe, read_file(rds_path))
+  expect_identical(anscombe, read_file(csv_path))
+  expect_identical(anscombe, read_file(parquet_path))
 })

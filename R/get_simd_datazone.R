@@ -15,7 +15,7 @@
 #'   col_select = c("DataZone2011", "simd2016rank")
 #' )
 get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
-  dir <- fs::path(get_lookups_dir(), "Deprivation")
+  deprivation_dir <- fs::path(get_lookups_dir(), "Deprivation")
 
   if (simd_version == "latest") {
     regexp <- paste0(
@@ -33,8 +33,8 @@ get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
 
     if (!valid_simd_version) {
       cli::cli_abort(c(
-        "x" = "Invalid version specification of SIMD: {.val {simd_version}}",
-        "i" = "SIMD should follow the pattern YYYY or YYYYv2"
+        x = "Invalid version specification of SIMD: {.val {simd_version}}",
+        i = "SIMD should follow the pattern YYYY or YYYYv2"
       ))
     }
 
@@ -43,8 +43,8 @@ get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
       "2016", "2020v2"
     ))) {
       cli::cli_abort(c(
-        "x" = "SIMD version {.val {simd_version}} does NOT exit.",
-        "i" = "Note that \"2009\" and \"2020\" versions have been corrected and
+        x = "SIMD version {.val {simd_version}} does NOT exit.",
+        i = "Note that \"2009\" and \"2020\" versions have been corrected and
                replaced with versions \"2009v2\" and \"2020v2\" respectively."
       ))
     }
@@ -59,7 +59,7 @@ get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
   }
 
   simd_datazone_path <- find_latest_file(
-    directory = dir,
+    directory = deprivation_dir,
     regexp = regexp,
     selection_method = "file_name",
     quiet = simd_version != "latest"

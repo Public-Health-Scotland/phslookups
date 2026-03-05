@@ -5,11 +5,11 @@ test_that("simd_postcode is returned", {
   simd_postcode <- suppressMessages(get_simd_postcode())
 
   expect_s3_class(simd_postcode, "tbl_df")
-  expect_equal(names(simd_postcode)[1:2], c("pc8", "pc7"))
-  expect_equal(nrow(unique(simd_postcode["hb2019"])), 14)
-  expect_equal(nrow(unique(simd_postcode["hscp2019"])), 31)
-  expect_equal(nrow(unique(simd_postcode["ca2019"])), 32)
-  expect_equal(nrow(unique(simd_postcode["datazone2011"])), 6976)
+  expect_identical(names(simd_postcode)[1:2], c("pc8", "pc7"))
+  expect_identical(nrow(unique(simd_postcode["hb2019"])), 14)
+  expect_identical(nrow(unique(simd_postcode["hscp2019"])), 31)
+  expect_identical(nrow(unique(simd_postcode["ca2019"])), 32)
+  expect_identical(nrow(unique(simd_postcode["datazone2011"])), 6976)
 })
 
 test_that("col selection works", {
