@@ -1,0 +1,6 @@
+linters: all_linters(
+  packages = c("lintr", "lifecycle"),
+  pipe_consistency_linter = pipe_consistency_linter(pipe = "|>")
+  ) # see vignette("lintr")
+encoding: "UTF-8"
+exclusions: list("renv", "packrat") # see ?lintr::exclude
