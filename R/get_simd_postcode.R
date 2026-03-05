@@ -61,8 +61,8 @@ get_simd_postcode <- function(
         {.val {postcode_version}}, SIMD: {.val {simd_version}}",
         i = paste0(
           "Postcode should be follow the pattern YYYY_1 or YYYY_2",
-        "SIMD should follow the pattern YYYY or YYYYv2",
-        collapse = "\n"
+          "SIMD should follow the pattern YYYY or YYYYv2",
+          collapse = "\n"
         )
       ))
     }
