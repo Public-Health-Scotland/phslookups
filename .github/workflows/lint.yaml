@@ -18,7 +18,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     container:
-      image: rocker/r-ver
+      image: rocker/tidyverse
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
