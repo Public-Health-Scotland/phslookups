@@ -25,7 +25,7 @@
 #' @noRd
 find_specific_file <- function(directory, lookup_type, version) {
   # Determine the file prefix and version handling based on the lookup_type
-  if (length(version) == 1) {
+  if (length(version) == 1L) {
     # Handle single-version cases
     file_prefix <- dplyr::case_match(
       lookup_type,
@@ -69,8 +69,8 @@ find_specific_file <- function(directory, lookup_type, version) {
   if (is.na(file_path)) {
     cli::cli_abort(
       c(
-        "x" = "{.val {lookup_type}} version {.val {version}} is NOT available",
-        "i" = "Contact phs.geography@phs.scot"
+        x = "{.val {lookup_type}} version {.val {version}} is NOT available",
+        i = "Contact phs.geography@phs.scot"
       ),
       call = NULL,
       rlang_backtrace_on_error = "none"

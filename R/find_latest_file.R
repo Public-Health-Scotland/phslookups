@@ -58,9 +58,8 @@ find_latest_file <- function(
       dplyr::pull(.data$path)
   }
 
-  if (length(latest_file_options) >= 1) {
-    file_path <- latest_file_options |>
-      dplyr::first()
+  if (length(latest_file_options) >= 1L) {
+    file_path <- dplyr::first(latest_file_options)
 
     if (!quiet) {
       cli::cli_alert_info(

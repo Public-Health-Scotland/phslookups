@@ -29,7 +29,7 @@ get_simd_postcode <- function(
   simd_version = "latest",
   col_select = NULL
 ) {
-  dir <- fs::path(get_lookups_dir(), "Deprivation")
+  deprivation_dir <- fs::path(get_lookups_dir(), "Deprivation")
 
   if (postcode_version == "latest" && simd_version == "latest") {
     regexp <- paste0(
@@ -41,7 +41,7 @@ get_simd_postcode <- function(
     )
 
     simd_postcode_path <- find_latest_file(
-      directory = dir,
+      directory = deprivation_dir,
       regexp = regexp,
       selection_method = "file_name"
     )
@@ -57,15 +57,18 @@ get_simd_postcode <- function(
 
     if (!valid_postcode_version || !valid_simd_version) {
       cli::cli_abort(c(
-        "x" = "Invalid version specification, Postcode:
+        x = "Invalid version specification, Postcode:
         {.val {postcode_version}}, SIMD: {.val {simd_version}}",
-        "i" = "Postcode should be follow the pattern YYYY_1 or YYYY_2",
-        "i" = "SIMD should follow the pattern YYYY or YYYYv2"
+        i = paste0(
+          "Postcode should be follow the pattern YYYY_1 or YYYY_2",
+        "SIMD should follow the pattern YYYY or YYYYv2",
+        collapse = "\n"
+        )
       ))
     }
 
     simd_postcode_path <- find_specific_file(
-      directory = dir,
+      directory = deprivation_dir,
       lookup_type = "SIMD Postcode",
       version = list(
         postcode_version = postcode_version,
@@ -75,7 +78,7 @@ get_simd_postcode <- function(
   } else {
     # Case when one of the versions is 'latest' but the other isn't
     cli::cli_abort(c(
-      "x" = "When using a version other than {.val latest} both
+      x = "When using a version other than {.val latest} both
       {.arg postcode_version} and {.arg simd_version} must be specified."
     ))
   }
