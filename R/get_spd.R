@@ -55,9 +55,22 @@ get_spd <- function(version = "latest", col_select = NULL) {
     )
   }
 
-  metadata <- readr::read_csv(fs::path(metadata_dir, "spd_metadata.csv")) %>%
-    dplyr::select(1:2) %>%
-    stats::setNames(c("variable", "description"))
+  spd <- read_file(
+    spd_path,
+    col_select = {{ col_select }}
+  )
+
+  metadata <- readr::read_csv(
+    file = fs::path(metadata_dir, "spd_metadata.csv"),
+    col_names = c("variable", "description"),
+    skip = 1,
+    col_types = readr::cols_only(
+      variable = readr::col_character(),
+      description = readr::col_character()
+    ),
+    show_col_types = FALSE,
+    lazy = FALSE
+  )
 
   inform_metadata_access()
 
@@ -67,10 +80,7 @@ get_spd <- function(version = "latest", col_select = NULL) {
   cli::cat_print(metadata)
   cli::cat_line("")
 
-  spd <- read_file(
-    spd_path,
-    col_select = {{ col_select }}
-  )
   spd <- set_metadata(spd, metadata)
+
   return(spd)
 }
