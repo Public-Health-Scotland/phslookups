@@ -31,6 +31,8 @@ get_spd <- function(version = "latest", col_select = NULL) {
     "Scottish Postcode Directory"
   )
 
+  metadata_dir <- fs::path(dir, "Metadata")
+
   if (version == "latest") {
     spd_path <- find_latest_file(
       directory = dir,
@@ -53,8 +55,38 @@ get_spd <- function(version = "latest", col_select = NULL) {
     )
   }
 
-  return(read_file(
+  spd <- read_file(
     spd_path,
     col_select = {{ col_select }}
-  ))
+  )
+
+  metadata_path <- fs::path(metadata_dir, "spd_metadata.csv")
+
+  if (fs::file_exists(metadata_path)) {
+    metadata <- read_file(
+      metadata_path,
+      col_select = 1:2,
+      col_names = c("variable", "description"),
+      skip = 1,
+      col_types = readr::cols_only(
+        variable = readr::col_character(),
+        description = readr::col_character()
+      ),
+      lazy = FALSE
+    )
+
+    inform_metadata_access()
+
+    inform_metadata_version(version)
+
+    cli::cat_line("\n--- Metadata ---\n", col = "blue")
+    print(metadata, n = 5)
+    cli::cat_line("")
+
+    spd <- set_metadata(spd, metadata)
+  } else {
+    cli::cli_warn("SPD metadata file is not available and has not been attached")
+  }
+
+  return(spd)
 }
