@@ -77,7 +77,7 @@ get_spd <- function(version = "latest", col_select = NULL) {
   inform_metadata_version(version)
 
   cli::cat_line("\n--- Metadata ---\n", col = "blue")
-  cli::cat_print(metadata)
+  print(metadata, n = 5)
   cli::cat_line("")
 
   spd <- set_metadata(spd, metadata)
