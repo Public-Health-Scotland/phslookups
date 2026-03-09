@@ -60,27 +60,33 @@ get_spd <- function(version = "latest", col_select = NULL) {
     col_select = {{ col_select }}
   )
 
-  metadata <- readr::read_csv(
-    file = fs::path(metadata_dir, "spd_metadata.csv"),
-    col_names = c("variable", "description"),
-    skip = 1,
-    col_types = readr::cols_only(
-      variable = readr::col_character(),
-      description = readr::col_character()
-    ),
-    show_col_types = FALSE,
-    lazy = FALSE
-  )
+  metadata_path <- fs::path(metadata_dir, "spd_metadata.csv")
 
-  inform_metadata_access()
+  if (fs::file_exists(metadata_path)){
+    metadata <- read_file(
+      metadata_path,
+      col_select = 1:2,
+      col_names = c("variable", "description"),
+      skip = 1,
+      col_types = readr::cols_only(
+        variable = readr::col_character(),
+        description = readr::col_character()
+      ),
+      lazy = FALSE
+    )
 
-  inform_metadata_version(version)
+    inform_metadata_access()
 
-  cli::cat_line("\n--- Metadata ---\n", col = "blue")
-  print(metadata, n = 5)
-  cli::cat_line("")
+    inform_metadata_version(version)
 
-  spd <- set_metadata(spd, metadata)
+    cli::cat_line("\n--- Metadata ---\n", col = "blue")
+    print(metadata, n = 5)
+    cli::cat_line("")
+
+    spd <- set_metadata(spd, metadata)
+  } else {
+   cli::cli_warn("SPD metadata file is not available and has not been attached")
+  }
 
   return(spd)
 }
