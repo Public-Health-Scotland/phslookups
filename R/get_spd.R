@@ -62,7 +62,7 @@ get_spd <- function(version = "latest", col_select = NULL) {
 
   metadata_path <- fs::path(metadata_dir, "spd_metadata.csv")
 
-  if (fs::file_exists(metadata_path)){
+  if (fs::file_exists(metadata_path)) {
     metadata <- read_file(
       metadata_path,
       col_select = 1:2,
@@ -85,7 +85,7 @@ get_spd <- function(version = "latest", col_select = NULL) {
 
     spd <- set_metadata(spd, metadata)
   } else {
-   cli::cli_warn("SPD metadata file is not available and has not been attached")
+    cli::cli_warn("SPD metadata file is not available and has not been attached")
   }
 
   return(spd)
