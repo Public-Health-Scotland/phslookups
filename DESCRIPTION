@@ -2,7 +2,7 @@ Package: phslookups
 Title: PHS Lookups
 Version: 0.1.0
 Authors@R: c(
-    person("James", "McMahon", , "james.mcmahon@phs.scot", role = c("aut", "cre"),
+    person("James", "Hayes", , "james.hayes2@phs.scot", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-5380-2029")),
     person("Nicolaos", "Christofidis", , "nicolaos.christofidis@phs.scot", role = "aut"),
     person("Beata", "Nowok", , "beata.nowok@phs.scot", role = "aut"),
@@ -14,7 +14,7 @@ URL: https://github.com/Public-Health-Scotland/phslookups,
     https://Public-Health-Scotland.github.io/phslookups/
 BugReports: https://github.com/Public-Health-Scotland/phslookups/issues
 Depends: 
-    R (>= 4.0)
+    R (>= 4.1)
 Imports: 
     arrow,
     cli,
