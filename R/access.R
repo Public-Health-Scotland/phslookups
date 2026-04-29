@@ -1,12 +1,12 @@
 have_access <- function() {
-  file.access(get_lookups_dir(), 4) >= 0L
+  file.access(get_lookups_dir(), 4L) >= 0L
 }
 check_lookups_access <- function(fail_on_no_access = TRUE) {
   if (!have_access()) {
     no_access_msg <- c(
-      "x" = "You don't have the appropriate file permissions to
+      x = "You don't have the appropriate file permissions to
              {get_lookups_dir()}",
-      "i" = "Please raise a ServiceNow request for access to
+      i = "Please raise a ServiceNow request for access to
              the UNIX acute dataset"
     )
     if (fail_on_no_access) {
