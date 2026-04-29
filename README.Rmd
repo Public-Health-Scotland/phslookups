@@ -83,8 +83,7 @@ locality_lookup <- get_hscp_locality(col_select = c("datazone2011", "hscp_locali
 simd_dz_2016 <- get_simd_datazone(simd_version = "2016")
 
 get_simd_datazone(
-  simd_version = "2016", 
+  simd_version = "2016",
   col_select = c("DataZone2011", contains("quintile"))
-  )
-
+)
 ```
