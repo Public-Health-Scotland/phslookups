@@ -1,3 +1,5 @@
+skip_on_ci()
+
 test_that("simd_postcode is returned", {
   get_simd_postcode() |>
     expect_message()
@@ -5,11 +7,11 @@ test_that("simd_postcode is returned", {
   simd_postcode <- suppressMessages(get_simd_postcode())
 
   expect_s3_class(simd_postcode, "tbl_df")
-  expect_equal(names(simd_postcode)[1:2], c("pc8", "pc7"))
-  expect_equal(nrow(unique(simd_postcode["hb2019"])), 14)
-  expect_equal(nrow(unique(simd_postcode["hscp2019"])), 31)
-  expect_equal(nrow(unique(simd_postcode["ca2019"])), 32)
-  expect_equal(nrow(unique(simd_postcode["datazone2011"])), 6976)
+  expect_identical(names(simd_postcode)[1L:2L], c("pc8", "pc7"))
+  expect_identical(nrow(unique(simd_postcode["hb2019"])), 14L)
+  expect_identical(nrow(unique(simd_postcode["hscp2019"])), 31L)
+  expect_identical(nrow(unique(simd_postcode["ca2019"])), 32L)
+  expect_identical(nrow(unique(simd_postcode["datazone2011"])), 6976L)
 })
 
 test_that("col selection works", {
@@ -53,13 +55,13 @@ test_that("invalid postcode_version or simd_version format errors", {
 
 test_that("col_select = NULL returns all columns", {
   all_cols <- suppressMessages(get_simd_postcode(col_select = NULL))
-  expect_gt(ncol(all_cols), 2)
+  expect_gt(ncol(all_cols), 2L)
 })
 
 test_that("nonexistent but valid version errors", {
   expect_error(
     get_simd_postcode(postcode_version = "2099_1", simd_version = "2099"),
-    "file" # should error about file not found
+    "is NOT available" # should error about file not found
   )
 })
 

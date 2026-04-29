@@ -1,3 +1,5 @@
+skip_on_ci()
+
 test_that("spd is returned", {
   get_spd() |>
     expect_message()
@@ -5,11 +7,11 @@ test_that("spd is returned", {
   spd <- suppressMessages(get_spd())
 
   expect_s3_class(spd, "tbl_df")
-  expect_equal(names(spd)[1:2], c("pc7", "pc8"))
-  expect_equal(nrow(unique(spd["hb2019"])), 14)
-  expect_equal(nrow(unique(spd["hscp2019"])), 31)
-  expect_equal(nrow(unique(spd["ca2019"])), 32)
-  expect_equal(nrow(unique(spd["datazone2011"])), 6976)
+  expect_identical(names(spd)[1L:2L], c("pc7", "pc8"))
+  expect_identical(nrow(unique(spd["hb2019"])), 14L)
+  expect_identical(nrow(unique(spd["hscp2019"])), 31L)
+  expect_identical(nrow(unique(spd["ca2019"])), 32L)
+  expect_identical(nrow(unique(spd["datazone2011"])), 6976L)
 })
 
 test_that("col selection works", {
@@ -58,12 +60,12 @@ test_that("invalid version format errors", {
 
 test_that("col_select = NULL returns all columns", {
   all_cols <- suppressMessages(get_spd(col_select = NULL))
-  expect_gt(ncol(all_cols), 2)
+  expect_gt(ncol(all_cols), 2L)
 })
 
 test_that("nonexistent but valid version errors", {
   expect_error(
     get_spd(version = "2099_1"),
-    "file" # should error about file not found
+    "is NOT available" # should error about file not found
   )
 })

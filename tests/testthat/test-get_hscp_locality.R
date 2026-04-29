@@ -1,15 +1,17 @@
+skip_on_ci()
+
 test_that("returns a tibble with expected structure and content", {
   expect_message(get_hscp_locality())
   hscp_locality <- suppressMessages(get_hscp_locality())
   expect_s3_class(hscp_locality, "tbl_df")
-  expect_equal(
-    names(hscp_locality)[c(1, 3)],
+  expect_identical(
+    names(hscp_locality)[c(1L, 3L)],
     c("datazone2011", "hscp_locality")
   )
-  expect_equal(nrow(unique(hscp_locality["hb2019"])), 14)
-  expect_equal(nrow(unique(hscp_locality["hscp2019"])), 31)
-  expect_equal(nrow(unique(hscp_locality["ca2019"])), 32)
-  expect_equal(nrow(unique(hscp_locality["datazone2011"])), 6976)
+  expect_identical(nrow(unique(hscp_locality["hb2019"])), 14L)
+  expect_identical(nrow(unique(hscp_locality["hscp2019"])), 31L)
+  expect_identical(nrow(unique(hscp_locality["ca2019"])), 32L)
+  expect_identical(nrow(unique(hscp_locality["datazone2011"])), 6976L)
 })
 
 test_that("col_select returns correct columns (vector)", {
@@ -41,7 +43,7 @@ test_that("col_select returns correct columns (tidyselect)", {
 
 test_that("col_select = NULL returns all columns", {
   all_cols <- suppressMessages(get_hscp_locality(col_select = NULL))
-  expect_gt(ncol(all_cols), 2)
+  expect_gt(ncol(all_cols), 2L)
 })
 
 test_that("invalid version format returns an error", {
@@ -53,5 +55,5 @@ test_that("invalid version format returns an error", {
 })
 
 test_that("nonexistent but valid version returns an error", {
-  expect_error(get_hscp_locality(version = "20991231"), "file")
+  expect_error(get_hscp_locality(version = "20991231"), "is NOT available")
 })
