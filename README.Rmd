@@ -25,20 +25,66 @@ The goal of phslookups is to provide helper functions to easily access and use l
 
 ## Installation
 
-You can install the latest version of phslookups from [GitHub](https://github.com) with:
+If you are internal to PHS, you can install the latest version of phslookups from the internal Posit Package Manager.
+
+``` r
+# On the Posit Workbench
+install.packages("phslookups")
+
+# On RStudio Desktop it might be nessecary to specify the repository
+install.packages("phslookups", repos = "https://ppm-prod.publichealthscotland.org/phs-github/latest")
+```
+
+To install the development version directly from GitHub.
 
 ``` r
 remotes::install_github("Public-Health-Scotland/phslookups")
 ```
 
-It is not yet available from the PHS Posit Package Manager, it will never be available on CRAN as it is intended to be an internal only package.
+Note that phslookups will never be available on CRAN as it is intended to be an internal-only package, and relies on lookup files on internal-only drives.
+
+## Available lookups
+
+-   The Scottish Postcode Directory - `get_spd()`
+-   HSCP Localities - `get_hscp_locality()`
+-   SIMD lookups - `get_simd_datazone()` and `get_simd_postcode()`
 
 ## Example
 
-Load the Scottish Postcode Directory
+Load the latest available version of the full Scottish Postcode Directory.
 
-```{r example}
+```{r spd_latest_full}
 library(phslookups)
 
 spd <- get_spd()
+head(spd)
+```
+
+Get a specific version of a file, great if you want to 'lock' your code to a specific version too.
+
+```{r version_examples}
+library(phslookups)
+
+spd_23 <- get_spd(version = "2023_2")
+localities_mar_24 <- get_hscp_locality(version = "20240308")
+simd_dz_2016 <- get_simd_datazone(simd_version = "2016")
+simd_pc_2016_2012 <- get_simd_postcode(postcode_version = "2016_1", simd_version = "2012")
+```
+
+Select only the necessary columns to reduce memory use and improve speed.
+
+```{r col_select_examples}
+library(phslookups)
+library(dplyr)
+
+postcode_coords <- get_spd(col_select = c("pc7", "latitude", "longitude"))
+locality_lookup <- get_hscp_locality(col_select = c("datazone2011", "hscp_locality"))
+
+simd_dz_2016 <- get_simd_datazone(simd_version = "2016")
+
+get_simd_datazone(
+  simd_version = "2016", 
+  col_select = c("DataZone2011", contains("quintile"))
+  )
+
 ```
