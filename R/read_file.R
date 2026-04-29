@@ -36,17 +36,21 @@ read_file <- function(path, col_select = NULL, ...) {
              is NOT available",
         i = "Contact {.email phs.geography@phs.scot}"
       ),
-      call = NULL, rlang_backtrace_on_error = "none"
+      call = NULL,
+      rlang_backtrace_on_error = "none"
     )
   }
 
-  lookup <- switch(ext,
-    "rds" = tibble::as_tibble(readr::read_rds(file = path)),
-    "csv" = readr::read_csv(
-      file = path, guess_max = 50000L, ...,
+  lookup <- switch(
+    ext,
+    rds = tibble::as_tibble(readr::read_rds(file = path)),
+    csv = readr::read_csv(
+      file = path,
+      guess_max = 50000L,
+      ...,
       show_col_types = FALSE
     ),
-    "parquet" = tibble::as_tibble(arrow::read_parquet(
+    parquet = tibble::as_tibble(arrow::read_parquet(
       file = path,
       col_select = {{ col_select }},
       ...
