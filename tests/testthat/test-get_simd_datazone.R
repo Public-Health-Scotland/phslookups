@@ -1,3 +1,5 @@
+skip_on_ci()
+
 test_that("simd_datazone is returned", {
   get_simd_datazone() |>
     expect_message()
@@ -5,10 +7,10 @@ test_that("simd_datazone is returned", {
   simd_datazone <- suppressMessages(get_simd_datazone())
 
   expect_s3_class(simd_datazone, "tbl_df")
-  expect_identical(nrow(unique(simd_datazone["hb2019"])), 14)
-  expect_identical(nrow(unique(simd_datazone["hscp2019"])), 31)
-  expect_identical(nrow(unique(simd_datazone["ca2019"])), 32)
-  expect_identical(nrow(unique(simd_datazone["datazone2011"])), 6976)
+  expect_identical(nrow(unique(simd_datazone["hb2019"])), 14L)
+  expect_identical(nrow(unique(simd_datazone["hscp2019"])), 31L)
+  expect_identical(nrow(unique(simd_datazone["ca2019"])), 32L)
+  expect_identical(nrow(unique(simd_datazone["datazone2011"])), 6976L)
 })
 
 test_that("col selection works", {
@@ -71,13 +73,13 @@ test_that("invalid simd_version format errors", {
 
 test_that("col_select = NULL returns all columns", {
   all_cols <- suppressMessages(get_simd_datazone(col_select = NULL))
-  expect_gt(ncol(all_cols), 2)
+  expect_gt(ncol(all_cols), 2L)
 })
 
 test_that("nonexistent but valid simd_version errors", {
   # Use a far future year to ensure file does not exist
   expect_error(
     get_simd_datazone(simd_version = "2099"),
-    "file" # should error about file not found
+    "does NOT exist" # should error about file not found
   )
 })

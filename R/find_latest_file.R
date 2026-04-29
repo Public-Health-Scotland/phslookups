@@ -56,6 +56,11 @@ find_latest_file <- function(
         dplyr::desc(.data$modification_time)
       ) |>
       dplyr::pull(.data$path)
+  } else {
+    cli::cli_abort(
+      "{.arg selection_method} must be {.val modification_date} or
+      {.val file_name}, not {.val {selection_method}}."
+    )
   }
 
   if (length(latest_file_options) >= 1L) {
@@ -71,10 +76,10 @@ find_latest_file <- function(
     }
 
     return(file_path)
-  } else {
-    cli::cli_abort(
-      "There was no file in {.path {directory}} that matched the
-       regular expression {.val {regexp}}"
-    )
   }
+
+  cli::cli_abort(
+    "There was no file in {.path {directory}} that matched the
+       regular expression {.val {regexp}}"
+  )
 }

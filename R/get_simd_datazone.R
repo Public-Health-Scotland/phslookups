@@ -43,7 +43,7 @@ get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
       "2016", "2020v2"
     ))) {
       cli::cli_abort(c(
-        x = "SIMD version {.val {simd_version}} does NOT exit.",
+        x = "SIMD version {.val {simd_version}} does NOT exist.",
         i = "Note that \"2009\" and \"2020\" versions have been corrected and
                replaced with versions \"2009v2\" and \"2020v2\" respectively."
       ))
