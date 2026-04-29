@@ -41,8 +41,7 @@ read_file <- function(path, col_select = NULL, ...) {
     )
   }
 
-  lookup <- switch(
-    ext,
+  lookup <- switch(ext,
     rds = tibble::as_tibble(readr::read_rds(file = path)),
     csv = readr::read_csv(
       file = path,
