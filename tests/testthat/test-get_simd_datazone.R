@@ -33,18 +33,22 @@ test_that("col selection works with tidyselect", {
     expect_message()
 
   expect_named(
-    get_simd_datazone(col_select = c(
-      dplyr::starts_with("simd"),
-      "datazone2011"
-    ))
+    get_simd_datazone(
+      col_select = c(
+        dplyr::starts_with("simd"),
+        "datazone2011"
+      )
+    )
   ) |>
     expect_message()
 
   expect_named(
-    get_simd_datazone(col_select = c(
-      dplyr::starts_with("simd"),
-      dplyr::starts_with("datazone")
-    ))
+    get_simd_datazone(
+      col_select = c(
+        dplyr::starts_with("simd"),
+        dplyr::starts_with("datazone")
+      )
+    )
   ) |>
     expect_message()
 
@@ -52,4 +56,28 @@ test_that("col selection works with tidyselect", {
     get_simd_datazone(col_select = dplyr::matches("^simd\\d{4}.+?decile$"))
   ) |>
     expect_message()
+})
+
+test_that("invalid simd_version format errors", {
+  expect_error(
+    get_simd_datazone(simd_version = "abcd"),
+    "Invalid version specification"
+  )
+  expect_error(
+    get_simd_datazone(simd_version = "2024-01-01"),
+    "Invalid version specification"
+  )
+})
+
+test_that("col_select = NULL returns all columns", {
+  all_cols <- suppressMessages(get_simd_datazone(col_select = NULL))
+  expect_gt(ncol(all_cols), 2)
+})
+
+test_that("nonexistent but valid simd_version errors", {
+  # Use a far future year to ensure file does not exist
+  expect_error(
+    get_simd_datazone(simd_version = "2099"),
+    "file" # should error about file not found
+  )
 })
