@@ -41,13 +41,16 @@ read_file <- function(path, col_select = NULL, ...) {
     )
   }
 
-  lookup <- switch(ext,
-    rds = tibble::as_tibble(readr::read_rds(file = path)),
-    csv = readr::read_csv(
+  lookup <- switch(
+    ext,
+    "rds" = tibble::as_tibble(readr::read_rds(file = path)),
+    "csv" = readr::read_csv(
       file = path,
-      guess_max = 50000L,
-      ...,
-      show_col_types = FALSE
+      guess_max = 50000,
+      progress = FALSE,
+      show_col_types = FALSE,
+      lazy = .Platform$OS.type == "unix",
+      ...
     ),
     parquet = tibble::as_tibble(arrow::read_parquet(
       file = path,

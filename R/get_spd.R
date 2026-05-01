@@ -72,8 +72,7 @@ get_spd <- function(version = "latest", col_select = NULL) {
       col_types = readr::cols_only(
         variable = readr::col_character(),
         description = readr::col_character()
-      ),
-      lazy = FALSE
+      )
     )
 
     inform_metadata_access(metadata)
