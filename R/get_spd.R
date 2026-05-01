@@ -27,11 +27,12 @@
 #' get_spd(version = "2023_2", col_select = c("pc7", "latitude", "longitude"))
 get_spd <- function(version = "latest", col_select = NULL) {
   spd_dir <- fs::path(
-    get_lookups_dir(), "Geography",
+    get_lookups_dir(),
+    "Geography",
     "Scottish Postcode Directory"
   )
 
-  metadata_dir <- fs::path(dir, "Metadata")
+  metadata_dir <- fs::path(spd_dir, "Metadata")
 
   if (version == "latest") {
     spd_path <- find_latest_file(
@@ -75,17 +76,15 @@ get_spd <- function(version = "latest", col_select = NULL) {
       lazy = FALSE
     )
 
-    inform_metadata_access()
+    inform_metadata_access(metadata)
 
     inform_metadata_version(version)
 
-    cli::cat_line("\n--- Metadata ---\n", col = "blue")
-    print(metadata, n = 5)
-    cli::cat_line("")
-
     spd <- set_metadata(spd, metadata)
   } else {
-    cli::cli_warn("SPD metadata file is not available and has not been attached")
+    cli::cli_warn(
+      "SPD metadata file is not available and has not been attached"
+    )
   }
 
   return(spd)
