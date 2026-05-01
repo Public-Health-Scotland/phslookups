@@ -22,13 +22,48 @@ metadata <- function(data) {
     )
   }
 
-  out <- attr(data, "metadata")
-
-  if (is.null(out)) {
-    cli::cli_abort("Metadata could not be found, please check")
+  # If already loaded, return immediately
+  metadata <- attr(data, "metadata", exact = TRUE)
+  if (!is.null(metadata)) {
+    return(metadata)
   }
 
-  out
+  ref <- attr(data, "metadata_ref", exact = TRUE)
+
+  if (rlang::is_false(ref$exists)) {
+    cli::cli_abort(c(
+      "x" = "{ref$type} metadata not available.",
+      "i" = "Expected at {.path {ref$path}}"
+    ))
+  }
+
+  metadata <- read_file(
+    ref$path,
+    col_select = 1:2,
+    col_names = c("variable", "description"),
+    skip = 1,
+    col_types = readr::cols_only(
+      variable = readr::col_character(),
+      description = readr::col_character()
+    )
+  )
+
+  inform_metadata_version(ref$version)
+
+  # Attach metadata to the object
+  set_metadata(data, metadata)
+
+  metadata
+}
+
+set_metadata_ref <- function(data, path, type, version, exists) {
+  attr(data, "metadata_ref") <- list(
+    path = path,
+    type = type,
+    version = version,
+    exists = exists
+  )
+  data
 }
 
 set_metadata <- function(data, metadata) {
@@ -37,15 +72,8 @@ set_metadata <- function(data, metadata) {
 }
 
 inform_metadata_access <- function(metadata) {
-  meta_print <- utils::capture.output(
-    print(metadata, n = 5)
-  )
-
   cli::cli_inform(c(
-    i = "Metadata has been attached and can be accessed using {.fun metadata}.",
-    cli::col_blue("------ Metadata -----"),
-    meta_print,
-    cli::col_blue("------")
+    i = "Metadata is available and can be accessed using {.fun metadata}."
   ))
 }
 

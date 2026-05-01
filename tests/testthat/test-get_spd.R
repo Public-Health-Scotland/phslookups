@@ -3,7 +3,7 @@ skip_on_ci()
 test_that("spd is returned", {
   get_spd() |>
     expect_message("Using the latest available version") |>
-    expect_message("Metadata has been attached ")
+    expect_message("Metadata is available ")
 
   spd <- suppressMessages(get_spd())
 
@@ -21,13 +21,13 @@ test_that("col selection works", {
     "pc7"
   ) |>
     expect_message("Using the latest available version") |>
-    expect_message("Metadata has been attached ")
+    expect_message("Metadata is available ")
   expect_named(
     get_spd(col_select = c("pc7", "pc8")),
     c("pc7", "pc8")
   ) |>
     expect_message("Using the latest available version") |>
-    expect_message("Metadata has been attached ")
+    expect_message("Metadata is available ")
 })
 
 test_that("col selection works with tidyselect", {
@@ -35,22 +35,21 @@ test_that("col selection works with tidyselect", {
     get_spd(col_select = c("pc7", dplyr::starts_with("hb")))
   ) |>
     expect_message("Using the latest available version") |>
-    expect_message("Metadata has been attached ")
+    expect_message("Metadata is available ")
 
   expect_named(
     get_spd(col_select = dplyr::matches("pc[78]")),
     c("pc7", "pc8")
   ) |>
     expect_message("Using the latest available version") |>
-    expect_message("Metadata has been attached ")
+    expect_message("Metadata is available ")
 })
 
 
 test_that("reading from archive works", {
   get_spd(version = "2024_1") |>
     expect_s3_class("tbl_df") |>
-    expect_warning("Metadata is correct for the latest version ") |>
-    expect_message("Metadata has been attached ")
+    expect_message("Metadata is available ")
   expect_error(get_spd(version = "2010_1", "SPD version .+? is NOT available"))
   expect_error(get_spd(version = "20243"), "Invalid version name:")
 })
