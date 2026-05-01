@@ -16,6 +16,12 @@
 #'
 #' @export
 metadata <- function(data) {
+  if (!inherits(data, "tbl_df")) {
+    cli::cli_abort(
+      "{.arg data} must must be a tibble loaded using {.pkg phslookups}."
+    )
+  }
+
   out <- attr(data, "metadata")
 
   if (is.null(out)) {
