@@ -1,35 +1,88 @@
 #' Get population estimates
 #'
-#' These functions retrieve population estimates for different geographic
-#' levels. They read population data from specified files and filter it
-#' based on the input parameters. The functions also allow for grouping by
-#' age and pivoting the data for wider format.
+#' @description
+#' Retrieve population estimates for different geographic levels.
+#'
+#' These functions read population estimate files and filter the data based on
+#' the input parameters. The functions also allow for grouping by age and
+#' pivoting the data into a wider format.
 #'
 #' @param version The geography version of the population estimates to use
-#'  (default: "latest"). For example for HB2019 use `"2019"`.
-#' @param min_year,max_year (optional) The minimum and maximum years to
-#'  include in the results.
+#'   (default: `"latest"`). For example, for HB2019 use `"2019"`.
+#' @param min_year,max_year Optional minimum and maximum years to include in the
+#'   results.
 #' @param age_groups Logical, indicating whether to aggregate population
-#'  estimates by age groups.
-#' If `TRUE`, the `phsmethods::create_age_groups` function is used.
+#'   estimates by age groups. If `TRUE`,
+#'   [phsmethods::create_age_groups()] is used.
 #' @param pivot_wider Optionally reshape the data into a wider format,
-#'  summarising population counts by the specified columns.
-#'   Allowed values:
-#'   * `FALSE` (default): Do not pivot.
-#'   * `TRUE` or `"all"`: Pivot by both sex and age/age group.
-#'   * `"age"`: Pivot by age/age group only.
-#'   * `"age-only"`: Pivot by age/age group and aggregate to remove sex.
-#'   * `"sex"`: Pivot by sex only.
-#'   * `"sex-only"`: Pivot by sex group and aggregate to remove age/age group
-#' @param ... Additional arguments passed to [phsmethods::create_age_groups()].
+#'   summarising population counts by the specified columns. See the
+#'   "Pivoting population data" section for allowed values.
+#' @param ... Additional arguments passed to
+#'   [phsmethods::create_age_groups()].
 #'
-#' @return A tibble containing the filtered and possibly transformed
-#'  population data.
+#' @section Geography versions:
+#' `version` controls which geography version of the population estimates is
+#' used. The default, `"latest"`, uses the most recent available version.
+#'
+#' To request a specific geography version, supply a 4-digit year as a character
+#' string. For example, use `"2019"` for HB2019.
+#'
+#' @section Filtering years:
+#' `min_year` and `max_year` can be used to restrict the population estimates to
+#' a particular year or range of years.
+#'
+#' If both are supplied, `min_year` must not be greater than `max_year`.
+#'
+#' @section Age groups:
+#' If `age_groups = FALSE`, population estimates are returned by single year of
+#' age.
+#'
+#' If `age_groups = TRUE`, ages are aggregated using
+#' [phsmethods::create_age_groups()]. Additional arguments passed through `...`
+#' are passed to [phsmethods::create_age_groups()].
+#'
+#' @section Pivoting population data:
+#'
+#' `pivot_wider` controls whether the data is returned in long format or
+#' reshaped into a wider format.
+#'
+#' Allowed values are:
+#'
+#' - `FALSE` default: do not pivot.
+#' - `TRUE` or `"all"`: pivot by both sex and age or age group.
+#' - `"age"`: pivot by age or age group only.
+#' - `"age-only"`: pivot by age or age group and aggregate to remove sex.
+#' - `"sex"`: pivot by sex only.
+#' - `"sex-only"`: pivot by sex and aggregate to remove age or age group.
+#'
+#' @return
+#' A [tibble][tibble::tibble-package] containing the filtered and possibly
+#' transformed population data.
+#'
+#' The columns returned depend on the geography level requested, whether
+#' `age_groups` is used, and the value of `pivot_wider`.
 #'
 #' @name get_population_estimates
+#'
+#' @examples
+#' # Health Board population estimates
+#' hb_pop <- get_hb_pop_est()
+#'
+#' # Council Area population estimates for a year range
+#' ca_pop <- get_ca_pop_est(min_year = 2018, max_year = 2020)
+#'
+#' # HSCP population estimates grouped into age groups
+#' hscp_pop <- get_hscp_pop_est(age_groups = TRUE)
+#'
+#' # Intermediate Zone population estimates with age groups and wider sex columns
+#' iz_pop <- get_iz_pop_est(age_groups = TRUE, pivot_wider = "sex")
+#'
+#' # Data Zone population estimates in wider format by age
+#' dz_pop <- get_dz_pop_est(pivot_wider = "age")
 NULL
 
-#' @rdname get_population_estimates
+
+#' @describeIn get_population_estimates Retrieve Health Board level population estimates.
 #' @export
 get_hb_pop_est <- function(
   version = "latest",
@@ -52,7 +105,7 @@ get_hb_pop_est <- function(
   )
 }
 
-#' @rdname get_population_estimates
+#' @describeIn get_population_estimates Retrieve Council Area level population estimates.
 #' @export
 get_ca_pop_est <- function(
   version = "latest",
@@ -75,7 +128,7 @@ get_ca_pop_est <- function(
   )
 }
 
-#' @rdname get_population_estimates
+#' @describeIn get_population_estimates Retrieve HSCP (Health and Social Care Partnership) level population estimates.
 #' @export
 get_hscp_pop_est <- function(
   version = "latest",
@@ -98,30 +151,7 @@ get_hscp_pop_est <- function(
   )
 }
 
-#' @rdname get_population_estimates
-#' @export
-get_dz_pop_est <- function(
-  version = "latest",
-  min_year = NULL,
-  max_year = NULL,
-  age_groups = FALSE,
-  pivot_wider = FALSE,
-  ...
-) {
-  call <- rlang::call_match()
-  get_pop_est(
-    level = "DataZone",
-    version = version,
-    min_year = min_year,
-    max_year = max_year,
-    age_groups = age_groups,
-    pivot_wider = pivot_wider,
-    call = call,
-    ...
-  )
-}
-
-#' @rdname get_population_estimates
+#' @describeIn get_population_estimates Retrieve Intermediate Zone level population estimates.
 #' @export
 get_iz_pop_est <- function(
   version = "latest",
@@ -134,6 +164,29 @@ get_iz_pop_est <- function(
   call <- rlang::call_match()
   get_pop_est(
     level = "IntZone",
+    version = version,
+    min_year = min_year,
+    max_year = max_year,
+    age_groups = age_groups,
+    pivot_wider = pivot_wider,
+    call = call,
+    ...
+  )
+}
+
+#' @describeIn get_population_estimates Retrieve Data Zone level population estimates.
+#' @export
+get_dz_pop_est <- function(
+  version = "latest",
+  min_year = NULL,
+  max_year = NULL,
+  age_groups = FALSE,
+  pivot_wider = FALSE,
+  ...
+) {
+  call <- rlang::call_match()
+  get_pop_est(
+    level = "DataZone",
     version = version,
     min_year = min_year,
     max_year = max_year,

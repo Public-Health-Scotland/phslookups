@@ -5,8 +5,8 @@
 \alias{get_hb_pop_est}
 \alias{get_ca_pop_est}
 \alias{get_hscp_pop_est}
-\alias{get_dz_pop_est}
 \alias{get_iz_pop_est}
+\alias{get_dz_pop_est}
 \title{Get population estimates}
 \usage{
 get_hb_pop_est(
@@ -36,7 +36,7 @@ get_hscp_pop_est(
   ...
 )
 
-get_dz_pop_est(
+get_iz_pop_est(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
@@ -45,7 +45,7 @@ get_dz_pop_est(
   ...
 )
 
-get_iz_pop_est(
+get_dz_pop_est(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
@@ -56,36 +56,106 @@ get_iz_pop_est(
 }
 \arguments{
 \item{version}{The geography version of the population estimates to use
-(default: "latest"). For example for HB2019 use \code{"2019"}.}
+(default: \code{"latest"}). For example, for HB2019 use \code{"2019"}.}
 
-\item{min_year, max_year}{(optional) The minimum and maximum years to
-include in the results.}
+\item{min_year, max_year}{Optional minimum and maximum years to include in the
+results.}
 
 \item{age_groups}{Logical, indicating whether to aggregate population
-estimates by age groups.
-If \code{TRUE}, the \code{phsmethods::create_age_groups} function is used.}
+estimates by age groups. If \code{TRUE},
+\code{\link[phsmethods:create_age_groups]{phsmethods::create_age_groups()}} is used.}
 
 \item{pivot_wider}{Optionally reshape the data into a wider format,
-summarising population counts by the specified columns.
-Allowed values:
-\itemize{
-\item \code{FALSE} (default): Do not pivot.
-\item \code{TRUE} or \code{"all"}: Pivot by both sex and age/age group.
-\item \code{"age"}: Pivot by age/age group only.
-\item \code{"age-only"}: Pivot by age/age group and aggregate to remove sex.
-\item \code{"sex"}: Pivot by sex only.
-\item \code{"sex-only"}: Pivot by sex group and aggregate to remove age/age group
-}}
+summarising population counts by the specified columns. See the
+"Pivoting population data" section for allowed values.}
 
-\item{...}{Additional arguments passed to \code{\link[phsmethods:create_age_groups]{phsmethods::create_age_groups()}}.}
+\item{...}{Additional arguments passed to
+\code{\link[phsmethods:create_age_groups]{phsmethods::create_age_groups()}}.}
 }
 \value{
-A tibble containing the filtered and possibly transformed
-population data.
+A \link[tibble:tibble-package]{tibble} containing the filtered and possibly
+transformed population data.
+
+The columns returned depend on the geography level requested, whether
+\code{age_groups} is used, and the value of \code{pivot_wider}.
 }
 \description{
-These functions retrieve population estimates for different geographic
-levels. They read population data from specified files and filter it
-based on the input parameters. The functions also allow for grouping by
-age and pivoting the data for wider format.
+Retrieve population estimates for different geographic levels.
+
+These functions read population estimate files and filter the data based on
+the input parameters. The functions also allow for grouping by age and
+pivoting the data into a wider format.
+}
+\section{Functions}{
+\itemize{
+\item \code{get_hb_pop_est()}: Retrieve Health Board level population estimates.
+
+\item \code{get_ca_pop_est()}: Retrieve Council Area level population estimates.
+
+\item \code{get_hscp_pop_est()}: Retrieve HSCP (Health and Social Care Partnership) level population estimates.
+
+\item \code{get_iz_pop_est()}: Retrieve Intermediate Zone level population estimates.
+
+\item \code{get_dz_pop_est()}: Retrieve Data Zone level population estimates.
+
+}}
+\section{Geography versions}{
+
+\code{version} controls which geography version of the population estimates is
+used. The default, \code{"latest"}, uses the most recent available version.
+
+To request a specific geography version, supply a 4-digit year as a character
+string. For example, use \code{"2019"} for HB2019.
+}
+
+\section{Filtering years}{
+
+\code{min_year} and \code{max_year} can be used to restrict the population estimates to
+a particular year or range of years.
+
+If both are supplied, \code{min_year} must not be greater than \code{max_year}.
+}
+
+\section{Age groups}{
+
+If \code{age_groups = FALSE}, population estimates are returned by single year of
+age.
+
+If \code{age_groups = TRUE}, ages are aggregated using
+\code{\link[phsmethods:create_age_groups]{phsmethods::create_age_groups()}}. Additional arguments passed through \code{...}
+are passed to \code{\link[phsmethods:create_age_groups]{phsmethods::create_age_groups()}}.
+}
+
+\section{Pivoting population data}{
+
+
+\code{pivot_wider} controls whether the data is returned in long format or
+reshaped into a wider format.
+
+Allowed values are:
+\itemize{
+\item \code{FALSE} default: do not pivot.
+\item \code{TRUE} or \code{"all"}: pivot by both sex and age or age group.
+\item \code{"age"}: pivot by age or age group only.
+\item \code{"age-only"}: pivot by age or age group and aggregate to remove sex.
+\item \code{"sex"}: pivot by sex only.
+\item \code{"sex-only"}: pivot by sex and aggregate to remove age or age group.
+}
+}
+
+\examples{
+# Health Board population estimates
+hb_pop <- get_hb_pop_est()
+
+# Council Area population estimates for a year range
+ca_pop <- get_ca_pop_est(min_year = 2018, max_year = 2020)
+
+# HSCP population estimates grouped into age groups
+hscp_pop <- get_hscp_pop_est(age_groups = TRUE)
+
+# Intermediate Zone population estimates with age groups and wider sex columns
+iz_pop <- get_iz_pop_est(age_groups = TRUE, pivot_wider = "sex")
+
+# Data Zone population estimates in wider format by age
+dz_pop <- get_dz_pop_est(pivot_wider = "age")
 }
