@@ -1,6 +1,7 @@
 get_lookups_dir <- function() {
-  switch(version$os,
-    "linux-gnu" = fs::path(
+  switch(
+    .Platform$OS.type,
+    "unix" = fs::path(
       "/",
       "conf",
       "linkage",
@@ -8,7 +9,7 @@ get_lookups_dir <- function() {
       "lookups",
       "Unicode"
     ),
-    "mingw32" = fs::path(
+    "windows" = fs::path(
       "//",
       "cl-out",
       "lookups",
