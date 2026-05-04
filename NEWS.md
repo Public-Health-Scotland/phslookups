@@ -2,6 +2,7 @@
 
 -   Fixed a typo in the lookup path that meant the package wouldn't work on Windows (RStudio Desktop).
 -   Make the minimum required R version 4.1
+-   Overhaul the README; fixed out of date information, and added more detail and examples.
 
 # phslookups 0.1.0
 
