@@ -9,7 +9,7 @@ get_lookups_dir <- function() {
       "Unicode"
     ),
     "windows" = fs::path(
-      "//",
+      "//stats",
       "cl-out",
       "lookups",
       "Unicode"
