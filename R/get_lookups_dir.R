@@ -1,6 +1,5 @@
 get_lookups_dir <- function() {
-  switch(
-    .Platform$OS.type,
+  switch(.Platform$OS.type,
     "unix" = fs::path(
       "/",
       "conf",
