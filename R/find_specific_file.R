@@ -52,18 +52,10 @@ find_specific_file <- function(directory, lookup_type, version) {
     cli::cli_abort("Unsupported lookup_type: {.val {lookup_type}}")
   }
 
-  # Generate possible file names and paths
-  name_ver_list <- paste0(
-    file_prefix,
-    c(".parquet", ".rds", ".csv")
+  file_path <- find_preferred_version(
+    directory = c(directory, fs::path(directory, "Archive")),
+    file_stem = file_prefix
   )
-  path_ver_list <- c(
-    fs::path(directory, name_ver_list),
-    fs::path(directory, "Archive", name_ver_list)
-  )
-
-  # Find the first valid file that exists
-  file_path <- path_ver_list[fs::file_exists(path_ver_list)][1]
 
   # Handle case where no matching file is found
   if (is.na(file_path)) {
