@@ -101,16 +101,17 @@ test_that("get_national_ref_file errors when file is not found", {
 test_that(
   "get_national_ref_file suggests close matches when stringdist is installed",
   {
-  skip_on_ci()
-  skip_if_not_installed("stringdist")
+    skip_on_ci()
+    skip_if_not_installed("stringdist")
 
-  expect_error(
-    get_national_ref_file("ggprac"),
-    "Did you mean"
-  )
+    expect_error(
+      get_national_ref_file("ggprac"),
+      "Did you mean"
+    )
 
-  expect_error(
-    get_national_ref_file("ggprac"),
-    "gpprac.csv"
-  )
-})
+    expect_error(
+      get_national_ref_file("ggprac"),
+      "gpprac.csv"
+    )
+  }
+)
