@@ -98,7 +98,9 @@ test_that("get_national_ref_file errors when file is not found", {
   )
 })
 
-test_that("get_national_ref_file suggests close matches when stringdist is installed", {
+test_that(
+  "get_national_ref_file suggests close matches when stringdist is installed",
+  {
   skip_on_ci()
   skip_if_not_installed("stringdist")
 
