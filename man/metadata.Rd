@@ -7,7 +7,8 @@
 metadata(data)
 }
 \arguments{
-\item{data}{Dataset imported via e.g. \code{get_spd()}.}
+\item{data}{Dataset imported using one of the \link{phslookups} functions,
+e.g. \code{get_spd()}.}
 }
 \value{
 Metadata \code{tibble} associated with dataset.
@@ -17,10 +18,8 @@ Function to access metadata
 }
 \examples{
 library(phslookups)
-
 \dontrun{
 spd <- get_spd()
-
 metadata(spd)
 }
 
