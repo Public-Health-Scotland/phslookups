@@ -84,8 +84,8 @@ inform_metadata_access <- function(metadata) {
 inform_metadata_version <- function(version) {
   if (version != "latest") {
     cli::cli_warn(
-      "Metadata is correct for the latest version of the data,
-      and may not be relevant to the version you have loaded."
+      "Metadata corresponds to the latest version of the data 
+      and may not exactly match the data currently loaded."
     )
   }
 }
