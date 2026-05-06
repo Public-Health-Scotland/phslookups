@@ -30,6 +30,10 @@ metadata <- function(data) {
 
   ref <- attr(data, "metadata_ref", exact = TRUE)
 
+  if (is.null(ref)) {
+    cli::cli_abort("Metadata is not available for this data.")
+  }
+
   if (rlang::is_false(ref$exists)) {
     cli::cli_abort(c(
       "x" = "{ref$type} metadata not available.",
