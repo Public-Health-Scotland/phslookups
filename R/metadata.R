@@ -1,16 +1,15 @@
 #' Function to access metadata
 #'
-#' @param data Dataset imported via e.g. `get_spd()`.
+#' @param data Dataset imported using one of the [phslookups] functions,
+#' e.g. `get_spd()`.
 #'
 #' @returns
 #' Metadata `tibble` associated with dataset.
 #'
 #' @examples
 #' library(phslookups)
-#'
 #' \dontrun{
 #' spd <- get_spd()
-#'
 #' metadata(spd)
 #' }
 #'
