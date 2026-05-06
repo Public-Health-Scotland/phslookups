@@ -12,7 +12,6 @@
 #' spd <- get_spd()
 #' metadata(spd)
 #' }
-#'
 #' @export
 metadata <- function(data) {
   if (!inherits(data, "tbl_df")) {
