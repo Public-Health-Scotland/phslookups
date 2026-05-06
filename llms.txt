@@ -39,4 +39,6 @@ spd <- get_spd()
   : Get Postcode-SIMD lookup
 - [`get_spd()`](https://moohan.github.io/phslookups/reference/get_spd.md)
   : Get Scottish Postcode Directory lookup
+- [`metadata()`](https://moohan.github.io/phslookups/reference/metadata.md)
+  : Function to access metadata
 
