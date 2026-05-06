@@ -69,6 +69,11 @@ find_latest_file <- function(
   if (length(latest_file_options) >= 1L) {
     file_path <- dplyr::first(latest_file_options)
 
+    file_path <- find_preferred_version(
+      directory,
+      fs::path_ext_remove(fs::path_file(file_path))
+    )
+
     if (!quiet) {
       cli::cli_alert_info(
         "Using the latest available version:

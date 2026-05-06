@@ -244,8 +244,7 @@ get_pop_est <- function(
     if (version == "latest") "[0-9]{4}" else version
   )
   shared_file_re <- "_pop_est_[0-9]{4}_[0-9]{4}\\."
-  ext_re <- if (version == "latest") "parquet" else "(csv|rds|parquet)"
-  file_name_re <- paste0(geog_level_re, shared_file_re, ext_re, "$")
+  file_name_re <- paste0(geog_level_re, shared_file_re)
 
   pop_path <- find_latest_file(
     directory = pop_dir,
