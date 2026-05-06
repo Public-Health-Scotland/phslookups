@@ -22,5 +22,4 @@ library(phslookups)
 spd <- get_spd()
 metadata(spd)
 }
-
 }
