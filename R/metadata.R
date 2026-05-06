@@ -10,8 +10,7 @@
 #' library(phslookups)
 #' \dontrun{
 #' spd <- get_spd()
-#' metadata(spd)
-#' }
+#' metadata(spd)}
 #'
 #' @export
 metadata <- function(data) {
