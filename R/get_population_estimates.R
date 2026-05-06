@@ -249,13 +249,26 @@ get_pop_est <- function(
   pop_path <- find_latest_file(
     directory = pop_dir,
     regexp = file_name_re,
-    quiet = version != "latest"
+    quiet = TRUE
   )
 
   pop_est <- if (fs::path_ext(pop_path) == "parquet") {
     read_file(pop_path, as_data_frame = FALSE)
   } else {
     read_file(pop_path)
+  }
+
+  if (identical(version, "latest")) {
+    version_info <- stringr::str_extract(
+      fs::path_file(pop_path),
+      "^([A-z]+)([0-9]{4})",
+      group = c(1L, 2L)
+    )
+
+    cli::cli_inform(c(
+      v = "Using the latest available geography: {.val {version_info[1]}{version_info[2]}}.",
+      i = "If you require older boundaries or for reproducibility purposes specify {.arg version} explicity: {.code version = \"{version_info[2]}\"}."
+    ))
   }
 
   pop_est <- standardise_col_names(pop_est)
