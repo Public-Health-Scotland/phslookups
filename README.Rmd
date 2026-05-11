@@ -78,11 +78,8 @@ library(phslookups)
 library(dplyr)
 
 postcode_coords <- get_spd(col_select = c("pc7", "latitude", "longitude"))
-locality_lookup <- get_hscp_locality(col_select = c("datazone2011", "hscp_locality"))
-
-simd_dz_2016 <- get_simd_datazone(simd_version = "2016")
-
-get_simd_datazone(
+dz_locality_lookup <- get_hscp_locality(col_select = c("datazone2011", "hscp_locality"))
+dz_simd2016_quintiles <- get_simd_datazone(
   simd_version = "2016",
   col_select = c("DataZone2011", contains("quintile"))
 )
