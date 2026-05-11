@@ -14,7 +14,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/Public-Health-Scotland/phslookups/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/Public-Health-Scotland/phslookups/blob/v0.2.0/DESCRIPTION)
 
 Hayes J, Christofidis N, Nowok B (2026). *phslookups: PHS Lookups*. R
 package version 0.2.0,
