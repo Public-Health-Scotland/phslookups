@@ -18,7 +18,7 @@ usage is less common, \code{col_select} also accepts a numeric column index. See
 selection language.}
 }
 \value{
-a [tibble][tibble::tibble-package] of the HSCP localities lookup
+a \link[tibble:tibble-package]{tibble} of the HSCP localities lookup
 }
 \description{
 Read a Health and Social Care Partnership (HSCP) Locality lookup file from
