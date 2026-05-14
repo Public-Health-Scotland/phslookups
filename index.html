@@ -56,20 +56,94 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the latest version of phslookups from <a href="https://github.com" class="external-link">GitHub</a> with:</p>
+<p>If you are internal to PHS, you can install the latest version of phslookups from the internal Posit Package Manager.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># On the Posit Workbench</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"phslookups"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># On RStudio Desktop it might be nessecary to specify the repository</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"phslookups"</span>, repos <span class="op">=</span> <span class="st">"https://ppm-prod.publichealthscotland.org/phs-github/latest"</span><span class="op">)</span></span></code></pre></div>
+<p>To install the development version directly from GitHub.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"Public-Health-Scotland/phslookups"</span><span class="op">)</span></span></code></pre></div>
-<p>It is not yet available from the PHS Posit Package Manager, it will never be available on CRAN as it is intended to be an internal only package.</p>
+<p>Note that phslookups will never be available on CRAN as it is intended to be an internal-only package, and relies on lookup files on internal-only drives.</p>
+</div>
+<div class="section level2">
+<h2 id="available-lookups">Available lookups<a class="anchor" aria-label="anchor" href="#available-lookups"></a>
+</h2>
+<ul>
+<li>The Scottish Postcode Directory - <code><a href="reference/get_spd.html">get_spd()</a></code>
+</li>
+<li>HSCP Localities - <code><a href="reference/get_hscp_locality.html">get_hscp_locality()</a></code>
+</li>
+<li>SIMD lookups - <code><a href="reference/get_simd_datazone.html">get_simd_datazone()</a></code> and <code><a href="reference/get_simd_postcode.html">get_simd_postcode()</a></code>
+</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>Load the Scottish Postcode Directory</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>Load the latest available version of the full Scottish Postcode Directory.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Public-Health-Scotland/phslookups" class="external-link">phslookups</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">spd</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_spd.html">get_spd</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ℹ Using "Scottish_Postcode_Directory_2024_1.parquet".</span></span></code></pre></div>
+<span><span class="co">#&gt; ℹ Using the latest available version:</span></span>
+<span><span class="co">#&gt; "Scottish_Postcode_Directory_2026_1".</span></span>
+<span><span class="co">#&gt; If you require an older version or for reproducibility purposes</span></span>
+<span><span class="co">#&gt; please specify the version argument accordingly.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spd</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 95</span></span>
+<span><span class="co">#&gt;   pc7     pc8     split_char pc_district pc_sector date_of_introduction</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;     &lt;date&gt;              </span></span>
+<span><span class="co">#&gt; 1 AB1 0AA AB1 0AA &lt;NA&gt;       AB1         AB1 0     1980-01-01          </span></span>
+<span><span class="co">#&gt; 2 AB1 0AB AB1 0AB &lt;NA&gt;       AB1         AB1 0     1973-08-01          </span></span>
+<span><span class="co">#&gt; 3 AB1 0AD AB1 0AD &lt;NA&gt;       AB1         AB1 0     1973-08-01          </span></span>
+<span><span class="co">#&gt; 4 AB1 0AE AB1 0AE &lt;NA&gt;       AB1         AB1 0     1994-02-01          </span></span>
+<span><span class="co">#&gt; 5 AB1 0AF AB1 0AF &lt;NA&gt;       AB1         AB1 0     1990-12-01          </span></span>
+<span><span class="co">#&gt; 6 AB1 0AG AB1 0AG &lt;NA&gt;       AB1         AB1 0     1990-12-01          </span></span>
+<span><span class="co">#&gt; # ℹ 89 more variables: date_of_deletion &lt;date&gt;, postcode_type &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   pc_su_link &lt;chr&gt;, split_su_link &lt;chr&gt;, imputed &lt;chr&gt;, dpc &lt;int&gt;,</span></span>
+<span><span class="co">#&gt; #   dpc_nr &lt;int&gt;, hhc &lt;int&gt;, grid_reference_easting &lt;int&gt;,</span></span>
+<span><span class="co">#&gt; #   grid_reference_northing &lt;int&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   split_indicator &lt;chr&gt;, ca2019 &lt;chr&gt;, ca2019name &lt;chr&gt;, ca2018 &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   ca2011 &lt;chr&gt;, upc2024 &lt;chr&gt;, spr2021 &lt;chr&gt;, spc2021 &lt;chr&gt;, ew2022 &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   hb2019 &lt;chr&gt;, hb2019name &lt;chr&gt;, hb2018 &lt;chr&gt;, hb2014 &lt;chr&gt;, hb2006 &lt;chr&gt;, …</span></span></code></pre></div>
+<p>Get a specific version of a file, great if you want to ‘lock’ your code to a specific version too.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Public-Health-Scotland/phslookups" class="external-link">phslookups</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">spd_23</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_spd.html">get_spd</a></span><span class="op">(</span>version <span class="op">=</span> <span class="st">"2023_2"</span><span class="op">)</span></span>
+<span><span class="va">localities_mar_24</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_hscp_locality.html">get_hscp_locality</a></span><span class="op">(</span>version <span class="op">=</span> <span class="st">"20240308"</span><span class="op">)</span></span>
+<span><span class="va">simd_dz_2016</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_simd_datazone.html">get_simd_datazone</a></span><span class="op">(</span>simd_version <span class="op">=</span> <span class="st">"2016"</span><span class="op">)</span></span>
+<span><span class="va">simd_pc_2016_2012</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_simd_postcode.html">get_simd_postcode</a></span><span class="op">(</span>postcode_version <span class="op">=</span> <span class="st">"2016_1"</span>, simd_version <span class="op">=</span> <span class="st">"2012"</span><span class="op">)</span></span></code></pre></div>
+<p>Select only the necessary columns to reduce memory use and improve speed.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Public-Health-Scotland/phslookups" class="external-link">phslookups</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span></span>
+<span><span class="va">postcode_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_spd.html">get_spd</a></span><span class="op">(</span>col_select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc7"</span>, <span class="st">"latitude"</span>, <span class="st">"longitude"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ℹ Using the latest available version:</span></span>
+<span><span class="co">#&gt; "Scottish_Postcode_Directory_2026_1".</span></span>
+<span><span class="co">#&gt; If you require an older version or for reproducibility purposes</span></span>
+<span><span class="co">#&gt; please specify the version argument accordingly.</span></span>
+<span><span class="va">dz_locality_lookup</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_hscp_locality.html">get_hscp_locality</a></span><span class="op">(</span>col_select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"datazone2011"</span>, <span class="st">"hscp_locality"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ℹ Using the latest available version:</span></span>
+<span><span class="co">#&gt; "HSCP Localities_DZ11_Lookup_20240513".</span></span>
+<span><span class="co">#&gt; If you require an older version or for reproducibility purposes</span></span>
+<span><span class="co">#&gt; please specify the version argument accordingly.</span></span>
+<span><span class="va">dz_simd2016_quintiles</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_simd_datazone.html">get_simd_datazone</a></span><span class="op">(</span></span>
+<span>  simd_version <span class="op">=</span> <span class="st">"2016"</span>,</span>
+<span>  col_select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DataZone2011"</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">"quintile"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

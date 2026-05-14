@@ -5,6 +5,8 @@
 - Fixed a typo in the lookup path that meant the package wouldn’t work
   on Windows (RStudio Desktop).
 - Make the minimum required R version 4.1
+- Overhaul the README; fixed out of date information, and added more
+  detail and examples.
 - Metadata is now available! Currently, this is only for the Scottish
   Postcode Directory
   ([`get_spd()`](https://moohan.github.io/phslookups/reference/get_spd.md)),
