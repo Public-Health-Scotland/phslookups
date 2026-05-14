@@ -373,16 +373,13 @@ process_low_level_pop <- function(
   call = rlang::caller_call(),
   ...
 ) {
-  id_col <- if (level == "DataZone") "datazone2011" else "intzone2011"
-  name_col <- if (level == "DataZone") "datazone2011name" else "intzone2011name"
-  geo_cols <- c(id_col, name_col)
-
   # Select only relevant columns, drop total_pop
   data <- data |>
     dplyr::select(
-      "year",
-      dplyr::all_of(geo_cols),
-      sex_name = "sex",
+      year = dplyr::any_of(c("Year", "year")),
+      dplyr::starts_with("DataZone"),
+      dplyr::starts_with("IntZone"),
+      sex_name = dplyr::any_of(c("sex", "SEX")),
       dplyr::starts_with("age")
     ) |>
     dplyr::select(-dplyr::any_of("total_pop"))
@@ -405,6 +402,7 @@ process_low_level_pop <- function(
   }
 
   # Identify current age/group columns
+  geo_cols <- names(data)[grepl("^(DataZone|IntZone)", names(data))]
   meta_cols <- c("year", geo_cols, "sex_name")
   age_cols <- setdiff(names(data), meta_cols)
 
@@ -427,7 +425,7 @@ process_low_level_pop <- function(
           cols = dplyr::all_of(age_cols),
           names_to = "age",
           values_to = "pop",
-          names_prefix = "age"
+          names_prefix = "(age|AGE)"
         ) |>
         dplyr::mutate(age = parse_age(.data$age))
     )
@@ -641,13 +639,13 @@ apply_age_groups_wide <- function(data, ...) {
 #' Clean raw age column names to numeric form
 #' @noRd
 clean_age_col_names <- function(x) {
-  as.integer(gsub("90plus", "90", gsub("^age", "", x), fixed = TRUE))
+  as.integer(gsub("90plus", "90", gsub("^age", "", x), ignore.case = TRUE))
 }
 
 #' Parse ages into an integer, dealing with 90plus
 #' @noRd
 parse_age <- function(age) {
-  age <- dplyr::if_else(age == "90plus", "90", age)
+  age <- dplyr::if_else(grepl("90plus", age, ignore.case = TRUE), "90", age)
   as.integer(age)
 }
 
