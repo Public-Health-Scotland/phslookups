@@ -27,9 +27,12 @@
 #' get_spd(version = "2023_2", col_select = c("pc7", "latitude", "longitude"))
 get_spd <- function(version = "latest", col_select = NULL) {
   spd_dir <- fs::path(
-    get_lookups_dir(), "Geography",
+    get_lookups_dir(),
+    "Geography",
     "Scottish Postcode Directory"
   )
+
+  metadata_dir <- fs::path(spd_dir, "Metadata")
 
   if (version == "latest") {
     spd_path <- find_latest_file(
@@ -53,8 +56,25 @@ get_spd <- function(version = "latest", col_select = NULL) {
     )
   }
 
-  return(read_file(
+  spd <- read_file(
     spd_path,
     col_select = {{ col_select }}
-  ))
+  )
+
+  metadata_path <- fs::path(metadata_dir, "spd_metadata.csv")
+  metadata_exists <- fs::file_exists(metadata_path)
+
+  spd <- set_metadata_ref(
+    spd,
+    type = "SPD",
+    path = metadata_path,
+    version = version,
+    exists = metadata_exists
+  )
+
+  if (metadata_exists) {
+    inform_metadata_access(spd)
+  }
+
+  return(spd)
 }
