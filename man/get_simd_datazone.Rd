@@ -19,7 +19,7 @@ usage is less common, \code{col_select} also accepts a numeric column index. See
 selection language.}
 }
 \value{
-a \link[tibble:tibble-package]{tibble} of the SIMD DataZone lookup
+a [tibble][tibble::tibble-package] of the SIMD DataZone lookup
 }
 \description{
 Read a Data Zone-Scottish Index of Multiple Deprivation (SIMD) lookup file

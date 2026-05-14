@@ -21,8 +21,8 @@ usage is less common, \code{col_select} also accepts a numeric column index. See
 selection language.}
 }
 \value{
-A \link[tibble:tibble-package]{tibble} of the Scottish Postcode
-Directory lookup file or its selected columns.
+A [tibble][tibble::tibble-package] of the Scottish Postcode
+ Directory lookup file or its selected columns.
 }
 \description{
 Read a Scottish Postcode Directory (SPD) lookup file from cl-out into
@@ -30,8 +30,8 @@ a tibble.
 }
 \details{
 SPD lookup files are sourced from the following folder
-\verb{\\\\stats\\cl-out\\lookups\\Unicode\\Geography\\Scottish Postcode Directory}
-and its \code{Archive} subfolder.
+`\\stats\cl-out\lookups\Unicode\Geography\Scottish Postcode Directory`
+and its `Archive` subfolder.
 They are updated twice a year, which is denoted by the suffix of their
 name: Scottish_Postcode_Directory_YYYY_X", where YYYY denotes a year and
 X denotes release number for this year (X = 1 or X = 2). Please note that

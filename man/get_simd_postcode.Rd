@@ -28,7 +28,7 @@ usage is less common, \code{col_select} also accepts a numeric column index. See
 selection language.}
 }
 \value{
-a \link[tibble:tibble-package]{tibble} of the SIMD Postcode lookup
+a [tibble][tibble::tibble-package] of the SIMD Postcode lookup
 }
 \description{
 Read a Postcode-Scottish Index of Multiple Deprivation (SIMD) lookup file

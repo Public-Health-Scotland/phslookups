@@ -106,32 +106,13 @@ postcode_coords <- get_spd(col_select = c("pc7", "latitude", "longitude"))
 #> "Scottish_Postcode_Directory_2026_1".
 #> If you require an older version or for reproducibility purposes
 #> please specify the version argument accordingly.
-locality_lookup <- get_hscp_locality(col_select = c("datazone2011", "hscp_locality"))
+dz_locality_lookup <- get_hscp_locality(col_select = c("datazone2011", "hscp_locality"))
 #> ℹ Using the latest available version:
 #> "HSCP Localities_DZ11_Lookup_20240513".
 #> If you require an older version or for reproducibility purposes
 #> please specify the version argument accordingly.
-
-simd_dz_2016 <- get_simd_datazone(simd_version = "2016")
-
-get_simd_datazone(
-  simd_version = "2016", 
+dz_simd2016_quintiles <- get_simd_datazone(
+  simd_version = "2016",
   col_select = c("DataZone2011", contains("quintile"))
-  )
-#> # A tibble: 6,976 × 5
-#>    DataZone2011 simd2016_sc_quintile simd2016_HB2014_quintile
-#>    <chr>                       <int>                    <int>
-#>  1 S01006506                       4                        3
-#>  2 S01006507                       4                        3
-#>  3 S01006508                       5                        5
-#>  4 S01006509                       4                        4
-#>  5 S01006510                       3                        2
-#>  6 S01006511                       5                        5
-#>  7 S01006512                       5                        4
-#>  8 S01006513                       5                        4
-#>  9 S01006514                       5                        5
-#> 10 S01006515                       5                        5
-#> # ℹ 6,966 more rows
-#> # ℹ 2 more variables: simd2016_HSCP2016_quintile <int>,
-#> #   simd2016_CA2011_quintile <int>
+)
 ```
