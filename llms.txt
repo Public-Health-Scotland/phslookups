@@ -9,6 +9,7 @@ If you are internal to PHS, you can install the latest version of
 phslookups from the internal Posit Package Manager.
 
 ``` r
+
 # On the Posit Workbench
 install.packages("phslookups")
 
@@ -19,6 +20,7 @@ install.packages("phslookups", repos = "https://ppm-prod.publichealthscotland.or
 To install the development version directly from GitHub.
 
 ``` r
+
 remotes::install_github("Public-Health-Scotland/phslookups")
 ```
 
@@ -43,6 +45,7 @@ Load the latest available version of the full Scottish Postcode
 Directory.
 
 ``` r
+
 library(phslookups)
 
 spd <- get_spd()
@@ -73,6 +76,7 @@ Get a specific version of a file, great if you want to ‘lock’ your code
 to a specific version too.
 
 ``` r
+
 library(phslookups)
 
 spd_23 <- get_spd(version = "2023_2")
@@ -85,6 +89,7 @@ Select only the necessary columns to reduce memory use and improve
 speed.
 
 ``` r
+
 library(phslookups)
 library(dplyr)
 #> 

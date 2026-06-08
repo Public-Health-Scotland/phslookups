@@ -16,6 +16,7 @@
   on the lookup object, for example:
 
 ``` r
+
 spd <- get_spd()
 metadata(spd)
 ```
