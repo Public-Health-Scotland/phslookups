@@ -357,9 +357,7 @@ process_low_level_pop <- function(
     return(
       dplyr::rename_with(
         data,
-        \(col) {
-          janitor::make_clean_names(paste0("pop_", clean_age_col_names(col)))
-        },
+        \(col) paste0("pop_", clean_age_col_names(col)),
         dplyr::all_of(age_cols)
       )
     )
@@ -387,11 +385,9 @@ process_low_level_pop <- function(
     )
 
     age_only_data <- dplyr::rename_with(
-      .data = age_only_data,
-      .fn = \(col) {
-        janitor::make_clean_names(paste0("pop_", clean_age_col_names(col)))
-      },
-      .cols = dplyr::all_of(age_cols)
+      age_only_data,
+      \(col) paste0("pop_", clean_age_col_names(col)),
+      dplyr::all_of(age_cols)
     )
 
     return(age_only_data)
