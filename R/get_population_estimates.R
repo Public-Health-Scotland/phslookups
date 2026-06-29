@@ -341,14 +341,14 @@ process_low_level_pop <- function(
   # pivot_wider = FALSE: convert to long format
   if (isFALSE(pivot_wider)) {
     return(
-      data |>
-        tidyr::pivot_longer(
-          cols = dplyr::all_of(age_cols),
-          names_to = "age",
-          values_to = "pop",
-          names_prefix = "age"
-        ) |>
-        dplyr::mutate(age = parse_age(.data$age))
+      tidyr::pivot_longer(
+        data = data,
+        cols = dplyr::all_of(age_cols),
+        names_to = "age",
+        values_to = "pop",
+        names_prefix = "age",
+        names_transform = list(age = parse_age)
+      )
     )
   }
 
