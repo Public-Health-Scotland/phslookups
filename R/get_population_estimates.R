@@ -514,10 +514,10 @@ validate_years <- function(
   dplyr::filter(data, .data$year >= lower, .data$year <= upper)
 }
 
-#' Clean raw age column names to numeric form
+#' Clean raw age column names
 #' @noRd
 clean_age_col_names <- function(x) {
-  as.integer(gsub("90plus", "90", gsub("^age", "", x), fixed = TRUE))
+  gsub("90plus", "90", gsub("^age", "", x), fixed = TRUE)
 }
 
 #' Parse ages into an integer, dealing with 90plus
