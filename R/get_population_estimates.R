@@ -594,7 +594,7 @@ validate_years <- function(
 
   if (!is.null(min_year) && min_year < min_year_available) {
     cli::cli_abort(
-      "{.arg min_year} must be at least {min_av} when using the
+      "{.arg min_year} must be at least {min_year_available} when using the
        {.file {fs::path_file(pop_path)}} file.",
       call = call
     )
@@ -602,7 +602,7 @@ validate_years <- function(
 
   if (!is.null(max_year) && max_year > max_year_available) {
     cli::cli_abort(
-      "{.arg max_year} must be at most {max_av} when using the
+      "{.arg max_year} must be at most {max_year_available} when using the
        {.file {fs::path_file(pop_path)}} file.",
       call = call
     )
