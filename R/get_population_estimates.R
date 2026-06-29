@@ -228,7 +228,7 @@ get_pop_est <- function(
     ))
   }
 
-  pop_est <- standardise_col_names(pop_est)
+  pop_est <- janitor::clean_names(pop_est)
 
   if (level %in% c("DataZone", "IntZone")) {
     process_low_level_pop(
@@ -430,22 +430,6 @@ process_low_level_pop <- function(
       dplyr::select(-dplyr::all_of(age_cols)) |>
       pivot_pop_data(dplyr::everything(), "sex_name")
   }
-}
-
-#' Fix column names, old files use upper case Year
-#' @noRd
-standardise_col_names <- function(data, call = rlang::caller_call()) {
-  col_names <- colnames(data)
-
-  # Find a year-ish column ignoring case
-  year_col_pos <- which(tolower(col_names) == "Year")
-
-  # If it's not already exactly "year", rename it
-  if (!identical(year_col_pos, integer())) {
-    data <- dplyr::rename(data, year = .data$Year)
-  }
-
-  data
 }
 
 #' Validate and filter years, works faster with parquet
