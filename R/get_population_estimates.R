@@ -511,8 +511,8 @@ validate_years <- function(
   }
 
   # Apply filter (stays lazy for Arrow; in-memory for data.frame)
-  lower <- if (is.null(min_year)) min_year_available else min_year
-  upper <- if (is.null(max_year)) max_year_available else max_year
+  lower <- min_year %||% min_year_available
+  upper <- max_year %||% max_year_available
 
   dplyr::filter(data, .data$year >= lower, .data$year <= upper)
 }
