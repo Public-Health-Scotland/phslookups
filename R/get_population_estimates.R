@@ -366,21 +366,34 @@ process_low_level_pop <- function(
 
   # pivot_wider = "age-only": aggregate sexes, then rename
   if (identical(pivot_wider, "age-only")) {
-    # Vectorised addition of the two sex rows per geo/year
-    sex_m_data <- data[data$sex_name == "M", ]
-    sex_f_data <- data[data$sex_name == "F", ]
-    sex_m_data[age_cols] <- sex_m_data[age_cols] + sex_f_data[age_cols]
+    age_only_data <- data[data$sex_name == "M", , drop = FALSE]
+    female_data <- data[data$sex_name == "F", , drop = FALSE]
 
-    return(
-      sex_m_data |>
-        dplyr::select(-"sex_name") |>
-        dplyr::rename_with(
-          \(col) {
-            janitor::make_clean_names(paste0("pop_", clean_age_col_names(col)))
-          },
-          dplyr::all_of(age_cols)
-        )
+    row_id_cols <- c("year", geo_cols)
+
+    if (!identical(age_only_data[row_id_cols], female_data[row_id_cols])) {
+      cli::cli_abort(
+        "Cannot aggregate population by age because male and female rows are not aligned.",
+        call = call
+      )
+    }
+
+    age_only_data[age_cols] <- age_only_data[age_cols] + female_data[age_cols]
+
+    age_only_data <- dplyr::select(
+      .data = age_only_data,
+      -dplyr::all_of("sex_name")
     )
+
+    age_only_data <- dplyr::rename_with(
+      .data = age_only_data,
+      .fn = \(col) {
+        janitor::make_clean_names(paste0("pop_", clean_age_col_names(col)))
+      },
+      .cols = dplyr::all_of(age_cols)
+    )
+
+    return(age_only_data)
   }
 
   # pivot_wider = TRUE/"all": spread sex across age columns
