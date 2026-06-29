@@ -171,7 +171,6 @@ get_pop_est <- function(
     level,
     values = c("HB", "CA", "HSCP", "DataZone", "IntZone")
   )
-  is_low_level <- level %in% c("DataZone", "IntZone")
 
   if (!inherits(pivot_wider, "logical")) {
     pivot_wider <- rlang::arg_match(
