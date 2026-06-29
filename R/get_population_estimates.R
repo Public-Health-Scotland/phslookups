@@ -74,14 +74,13 @@ get_hb_pop_est <- function(
   max_year = NULL,
   pivot_wider = FALSE
 ) {
-  call <- rlang::call_match()
   get_pop_est(
     level = "HB",
     version = version,
     min_year = min_year,
     max_year = max_year,
     pivot_wider = pivot_wider,
-    call = call
+    call = rlang::call_match()
   )
 }
 
@@ -93,14 +92,13 @@ get_ca_pop_est <- function(
   max_year = NULL,
   pivot_wider = FALSE
 ) {
-  call <- rlang::call_match()
   get_pop_est(
     level = "CA",
     version = version,
     min_year = min_year,
     max_year = max_year,
     pivot_wider = pivot_wider,
-    call = call
+    call = rlang::call_match()
   )
 }
 
@@ -112,14 +110,13 @@ get_hscp_pop_est <- function(
   max_year = NULL,
   pivot_wider = FALSE
 ) {
-  call <- rlang::call_match()
   get_pop_est(
     level = "HSCP",
     version = version,
     min_year = min_year,
     max_year = max_year,
     pivot_wider = pivot_wider,
-    call = call
+    call = rlang::call_match()
   )
 }
 
@@ -131,14 +128,13 @@ get_iz_pop_est <- function(
   max_year = NULL,
   pivot_wider = FALSE
 ) {
-  call <- rlang::call_match()
   get_pop_est(
     level = "IntZone",
     version = version,
     min_year = min_year,
     max_year = max_year,
     pivot_wider = pivot_wider,
-    call = call
+    call = rlang::call_match()
   )
 }
 
@@ -150,14 +146,13 @@ get_dz_pop_est <- function(
   max_year = NULL,
   pivot_wider = FALSE
 ) {
-  call <- rlang::call_match()
   get_pop_est(
     level = "DataZone",
     version = version,
     min_year = min_year,
     max_year = max_year,
     pivot_wider = pivot_wider,
-    call = call
+    call = rlang::call_match()
   )
 }
 
@@ -211,6 +206,7 @@ get_pop_est <- function(
   pop_path <- find_latest_file(
     directory = pop_dir,
     regexp = file_name_re,
+    selection_method = "file_name",
     quiet = TRUE
   )
 
@@ -315,15 +311,12 @@ process_low_level_pop <- function(
   pivot_wider,
   call = rlang::caller_call()
 ) {
-  id_col <- if (level == "DataZone") "datazone2011" else "intzone2011"
-  name_col <- if (level == "DataZone") "datazone2011name" else "intzone2011name"
-  geo_cols <- c(id_col, name_col)
-
   # Select only relevant columns, drop total_pop
   data <- data |>
     dplyr::select(
       "year",
-      dplyr::all_of(geo_cols),
+      dplyr::starts_with("datazone"),
+      dplyr::starts_with("intzone"),
       sex_name = "sex",
       dplyr::starts_with("age")
     ) |>
