@@ -1,6 +1,6 @@
 #' Function to access metadata
 #'
-#' @param data Dataset imported using one of the [phslookups] functions,
+#' @param data Dataset imported using one of the phslookups functions,
 #' e.g. `get_spd()`.
 #'
 #' @returns
