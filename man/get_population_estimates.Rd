@@ -13,45 +13,35 @@ get_hb_pop_est(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  age_groups = FALSE,
-  pivot_wider = FALSE,
-  ...
+  pivot_wider = FALSE
 )
 
 get_ca_pop_est(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  age_groups = FALSE,
-  pivot_wider = FALSE,
-  ...
+  pivot_wider = FALSE
 )
 
 get_hscp_pop_est(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  age_groups = FALSE,
-  pivot_wider = FALSE,
-  ...
+  pivot_wider = FALSE
 )
 
 get_iz_pop_est(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  age_groups = FALSE,
-  pivot_wider = FALSE,
-  ...
+  pivot_wider = FALSE
 )
 
 get_dz_pop_est(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  age_groups = FALSE,
-  pivot_wider = FALSE,
-  ...
+  pivot_wider = FALSE
 )
 }
 \arguments{
@@ -61,30 +51,23 @@ get_dz_pop_est(
 \item{min_year, max_year}{Optional minimum and maximum years to include in the
 results.}
 
-\item{age_groups}{Logical, indicating whether to aggregate population
-estimates by age groups. If \code{TRUE},
-\code{\link[phsmethods:create_age_groups]{phsmethods::create_age_groups()}} is used.}
-
 \item{pivot_wider}{Optionally reshape the data into a wider format,
 summarising population counts by the specified columns. See the
 "Pivoting population data" section for allowed values.}
-
-\item{...}{Additional arguments passed to
-\code{\link[phsmethods:create_age_groups]{phsmethods::create_age_groups()}}.}
 }
 \value{
 A \link[tibble:tibble-package]{tibble} containing the filtered and possibly
 transformed population data.
 
-The columns returned depend on the geography level requested, whether
-\code{age_groups} is used, and the value of \code{pivot_wider}.
+The columns returned depend on the geography level requested, and the value
+of \code{pivot_wider}.
 }
 \description{
 Retrieve population estimates for different geographic levels.
 
 These functions read population estimate files and filter the data based on
-the input parameters. The functions also allow for grouping by age and
-pivoting the data into a wider format.
+the input parameters. The functions also allow for pivoting the data into a
+wider format.
 }
 \section{Functions}{
 \itemize{
@@ -116,16 +99,6 @@ a particular year or range of years.
 If both are supplied, \code{min_year} must not be greater than \code{max_year}.
 }
 
-\section{Age groups}{
-
-If \code{age_groups = FALSE}, population estimates are returned by single year of
-age.
-
-If \code{age_groups = TRUE}, ages are aggregated using
-\code{\link[phsmethods:create_age_groups]{phsmethods::create_age_groups()}}. Additional arguments passed through \code{...}
-are passed to \code{\link[phsmethods:create_age_groups]{phsmethods::create_age_groups()}}.
-}
-
 \section{Pivoting population data}{
 
 
@@ -135,11 +108,11 @@ reshaped into a wider format.
 Allowed values are:
 \itemize{
 \item \code{FALSE} default: do not pivot.
-\item \code{TRUE} or \code{"all"}: pivot by both sex and age or age group.
-\item \code{"age"}: pivot by age or age group only.
-\item \code{"age-only"}: pivot by age or age group and aggregate to remove sex.
+\item \code{TRUE} or \code{"all"}: pivot by both sex and age.
+\item \code{"age"}: pivot by age only.
+\item \code{"age-only"}: pivot by age and aggregate to remove sex.
 \item \code{"sex"}: pivot by sex only.
-\item \code{"sex-only"}: pivot by sex and aggregate to remove age or age group.
+\item \code{"sex-only"}: pivot by sex and aggregate to remove age.
 }
 }
 
@@ -150,11 +123,8 @@ hb_pop <- get_hb_pop_est()
 # Council Area population estimates for a year range
 ca_pop <- get_ca_pop_est(min_year = 2018, max_year = 2020)
 
-# HSCP population estimates grouped into age groups
-hscp_pop <- get_hscp_pop_est(age_groups = TRUE)
-
-# Intermediate Zone population estimates with age groups and wider sex columns
-iz_pop <- get_iz_pop_est(age_groups = TRUE, pivot_wider = "sex")
+# Intermediate Zone population estimates with sex breakdowns as columns
+iz_pop <- get_iz_pop_est(pivot_wider = "sex")
 
 # Data Zone population estimates in wider format by age
 dz_pop <- get_dz_pop_est(pivot_wider = "age")

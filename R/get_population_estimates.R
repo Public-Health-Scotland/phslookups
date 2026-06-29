@@ -4,21 +4,16 @@
 #' Retrieve population estimates for different geographic levels.
 #'
 #' These functions read population estimate files and filter the data based on
-#' the input parameters. The functions also allow for grouping by age and
-#' pivoting the data into a wider format.
+#' the input parameters. The functions also allow for pivoting the data into a
+#' wider format.
 #'
 #' @param version The geography version of the population estimates to use
 #'   (default: `"latest"`). For example, for HB2019 use `"2019"`.
 #' @param min_year,max_year Optional minimum and maximum years to include in the
 #'   results.
-#' @param age_groups Logical, indicating whether to aggregate population
-#'   estimates by age groups. If `TRUE`,
-#'   [phsmethods::create_age_groups()] is used.
 #' @param pivot_wider Optionally reshape the data into a wider format,
 #'   summarising population counts by the specified columns. See the
 #'   "Pivoting population data" section for allowed values.
-#' @param ... Additional arguments passed to
-#'   [phsmethods::create_age_groups()].
 #'
 #' @section Geography versions:
 #' `version` controls which geography version of the population estimates is
@@ -33,14 +28,6 @@
 #'
 #' If both are supplied, `min_year` must not be greater than `max_year`.
 #'
-#' @section Age groups:
-#' If `age_groups = FALSE`, population estimates are returned by single year of
-#' age.
-#'
-#' If `age_groups = TRUE`, ages are aggregated using
-#' [phsmethods::create_age_groups()]. Additional arguments passed through `...`
-#' are passed to [phsmethods::create_age_groups()].
-#'
 #' @section Pivoting population data:
 #'
 #' `pivot_wider` controls whether the data is returned in long format or
@@ -49,18 +36,18 @@
 #' Allowed values are:
 #'
 #' - `FALSE` default: do not pivot.
-#' - `TRUE` or `"all"`: pivot by both sex and age or age group.
-#' - `"age"`: pivot by age or age group only.
-#' - `"age-only"`: pivot by age or age group and aggregate to remove sex.
+#' - `TRUE` or `"all"`: pivot by both sex and age.
+#' - `"age"`: pivot by age only.
+#' - `"age-only"`: pivot by age and aggregate to remove sex.
 #' - `"sex"`: pivot by sex only.
-#' - `"sex-only"`: pivot by sex and aggregate to remove age or age group.
+#' - `"sex-only"`: pivot by sex and aggregate to remove age.
 #'
 #' @return
 #' A [tibble][tibble::tibble-package] containing the filtered and possibly
 #' transformed population data.
 #'
-#' The columns returned depend on the geography level requested, whether
-#' `age_groups` is used, and the value of `pivot_wider`.
+#' The columns returned depend on the geography level requested, and the value
+#' of `pivot_wider`.
 #'
 #' @name get_population_estimates
 #'
@@ -71,11 +58,8 @@
 #' # Council Area population estimates for a year range
 #' ca_pop <- get_ca_pop_est(min_year = 2018, max_year = 2020)
 #'
-#' # HSCP population estimates grouped into age groups
-#' hscp_pop <- get_hscp_pop_est(age_groups = TRUE)
-#'
-#' # Intermediate Zone population estimates with age groups and wider sex columns
-#' iz_pop <- get_iz_pop_est(age_groups = TRUE, pivot_wider = "sex")
+#' # Intermediate Zone population estimates with sex breakdowns as columns
+#' iz_pop <- get_iz_pop_est(pivot_wider = "sex")
 #'
 #' # Data Zone population estimates in wider format by age
 #' dz_pop <- get_dz_pop_est(pivot_wider = "age")
@@ -88,9 +72,7 @@ get_hb_pop_est <- function(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  age_groups = FALSE,
-  pivot_wider = FALSE,
-  ...
+  pivot_wider = FALSE
 ) {
   call <- rlang::call_match()
   get_pop_est(
@@ -98,10 +80,8 @@ get_hb_pop_est <- function(
     version = version,
     min_year = min_year,
     max_year = max_year,
-    age_groups = age_groups,
     pivot_wider = pivot_wider,
-    call = call,
-    ...
+    call = call
   )
 }
 
@@ -111,9 +91,7 @@ get_ca_pop_est <- function(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  age_groups = FALSE,
-  pivot_wider = FALSE,
-  ...
+  pivot_wider = FALSE
 ) {
   call <- rlang::call_match()
   get_pop_est(
@@ -121,10 +99,8 @@ get_ca_pop_est <- function(
     version = version,
     min_year = min_year,
     max_year = max_year,
-    age_groups = age_groups,
     pivot_wider = pivot_wider,
-    call = call,
-    ...
+    call = call
   )
 }
 
@@ -134,9 +110,7 @@ get_hscp_pop_est <- function(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  age_groups = FALSE,
-  pivot_wider = FALSE,
-  ...
+  pivot_wider = FALSE
 ) {
   call <- rlang::call_match()
   get_pop_est(
@@ -144,10 +118,8 @@ get_hscp_pop_est <- function(
     version = version,
     min_year = min_year,
     max_year = max_year,
-    age_groups = age_groups,
     pivot_wider = pivot_wider,
-    call = call,
-    ...
+    call = call
   )
 }
 
@@ -157,9 +129,7 @@ get_iz_pop_est <- function(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  age_groups = FALSE,
-  pivot_wider = FALSE,
-  ...
+  pivot_wider = FALSE
 ) {
   call <- rlang::call_match()
   get_pop_est(
@@ -167,10 +137,8 @@ get_iz_pop_est <- function(
     version = version,
     min_year = min_year,
     max_year = max_year,
-    age_groups = age_groups,
     pivot_wider = pivot_wider,
-    call = call,
-    ...
+    call = call
   )
 }
 
@@ -180,9 +148,7 @@ get_dz_pop_est <- function(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  age_groups = FALSE,
-  pivot_wider = FALSE,
-  ...
+  pivot_wider = FALSE
 ) {
   call <- rlang::call_match()
   get_pop_est(
@@ -190,10 +156,8 @@ get_dz_pop_est <- function(
     version = version,
     min_year = min_year,
     max_year = max_year,
-    age_groups = age_groups,
     pivot_wider = pivot_wider,
-    call = call,
-    ...
+    call = call
   )
 }
 
@@ -205,10 +169,8 @@ get_pop_est <- function(
   version,
   min_year,
   max_year,
-  age_groups,
   pivot_wider,
-  call = rlang::caller_call(),
-  ...
+  call = rlang::caller_call()
 ) {
   level <- rlang::arg_match0(
     level,
@@ -280,10 +242,8 @@ get_pop_est <- function(
       pop_path = pop_path,
       min_year = min_year,
       max_year = max_year,
-      age_groups = age_groups,
       pivot_wider = pivot_wider,
-      call = call,
-      ...
+      call = call
     )
   } else {
     process_high_level_pop(
@@ -291,10 +251,8 @@ get_pop_est <- function(
       pop_path = pop_path,
       min_year = min_year,
       max_year = max_year,
-      age_groups = age_groups,
       pivot_wider = pivot_wider,
-      call = call,
-      ...
+      call = call
     )
   }
 }
@@ -308,10 +266,8 @@ process_high_level_pop <- function(
   pop_path,
   min_year,
   max_year,
-  age_groups,
   pivot_wider,
-  call = rlang::caller_call(),
-  ...
+  call = rlang::caller_call()
 ) {
   data <- validate_years(
     data = data,
@@ -325,32 +281,20 @@ process_high_level_pop <- function(
     data <- dplyr::collect(data)
   }
 
-  if (age_groups) {
-    data <- data |>
-      dplyr::mutate(
-        age_group = phsmethods::create_age_groups(x = .data$age, ...),
-        .keep = "unused"
-      ) |>
-      dplyr::group_by(dplyr::across(!.data$pop)) |>
-      dplyr::summarise(pop = sum(.data$pop), .groups = "drop")
-  }
-
   if (isFALSE(pivot_wider)) {
     return(data)
   }
 
-  age_col <- if (age_groups) "age_group" else "age"
-
   if (isTRUE(pivot_wider) || identical(pivot_wider, "all")) {
-    pivot_pop_data(data, -"sex", c("sex_name", age_col))
+    pivot_pop_data(data, -"sex", c("sex_name", "age"))
   } else if (identical(pivot_wider, "age")) {
-    pivot_pop_data(data, c(-"sex", "sex_name"), age_col)
+    pivot_pop_data(data, c(-"sex", "sex_name"), "age")
   } else if (identical(pivot_wider, "age-only")) {
-    pivot_pop_data(data, c(-"sex", -"sex_name"), age_col)
+    pivot_pop_data(data, c(-"sex", -"sex_name"), "age")
   } else if (identical(pivot_wider, "sex")) {
-    pivot_pop_data(data, c(-"sex", age_col), "sex_name")
+    pivot_pop_data(data, c(-"sex", "age"), "sex_name")
   } else if (identical(pivot_wider, "sex-only")) {
-    pivot_pop_data(data, c(-"sex", -age_col), "sex_name")
+    pivot_pop_data(data, c(-"sex", -"age"), "sex_name")
   }
 }
 
@@ -368,10 +312,8 @@ process_low_level_pop <- function(
   pop_path,
   min_year,
   max_year,
-  age_groups,
   pivot_wider,
-  call = rlang::caller_call(),
-  ...
+  call = rlang::caller_call()
 ) {
   id_col <- if (level == "DataZone") "datazone2011" else "intzone2011"
   name_col <- if (level == "DataZone") "datazone2011name" else "intzone2011name"
@@ -399,28 +341,12 @@ process_low_level_pop <- function(
     data <- dplyr::collect(data)
   }
 
-  # Apply age grouping on wide columns before any pivoting
-  if (age_groups) {
-    data <- apply_age_groups_wide(data, ...)
-  }
-
-  # Identify current age/group columns
+  # Identify current age columns
   meta_cols <- c("year", geo_cols, "sex_name")
   age_cols <- setdiff(names(data), meta_cols)
 
   # pivot_wider = FALSE: convert to long format
   if (isFALSE(pivot_wider)) {
-    if (age_groups) {
-      return(
-        tidyr::pivot_longer(
-          data,
-          cols = dplyr::all_of(age_cols),
-          names_to = "age_group",
-          values_to = "pop"
-        )
-      )
-    }
-
     return(
       data |>
         tidyr::pivot_longer(
@@ -435,29 +361,19 @@ process_low_level_pop <- function(
 
   # pivot_wider = "age": already wide by age, just rename
   if (identical(pivot_wider, "age")) {
-    rename_fn <- if (age_groups) {
-      function(x) janitor::make_clean_names(paste0("pop_", x))
-    } else {
-      function(x) {
-        janitor::make_clean_names(paste0("pop_", clean_age_col_names(x)))
-      }
-    }
     return(
-      data |>
-        dplyr::rename_with(rename_fn, dplyr::all_of(age_cols))
+      dplyr::rename_with(
+        data,
+        \(col) {
+          janitor::make_clean_names(paste0("pop_", clean_age_col_names(col)))
+        },
+        dplyr::all_of(age_cols)
+      )
     )
   }
 
   # pivot_wider = "age-only": aggregate sexes, then rename
   if (identical(pivot_wider, "age-only")) {
-    rename_fn <- if (age_groups) {
-      function(x) janitor::make_clean_names(paste0("pop_", x))
-    } else {
-      function(x) {
-        janitor::make_clean_names(paste0("pop_", clean_age_col_names(x)))
-      }
-    }
-
     # Vectorised addition of the two sex rows per geo/year
     sex_m_data <- data[data$sex_name == "M", ]
     sex_f_data <- data[data$sex_name == "F", ]
@@ -466,21 +382,25 @@ process_low_level_pop <- function(
     return(
       sex_m_data |>
         dplyr::select(-"sex_name") |>
-        dplyr::rename_with(rename_fn, dplyr::all_of(age_cols))
+        dplyr::rename_with(
+          \(col) {
+            janitor::make_clean_names(paste0("pop_", clean_age_col_names(col)))
+          },
+          dplyr::all_of(age_cols)
+        )
     )
   }
 
   # pivot_wider = TRUE/"all": spread sex across age columns
   if (isTRUE(pivot_wider) || identical(pivot_wider, "all")) {
     # Rename age cols to clean numeric form before pivot
-    rename_fn <- if (age_groups) {
-      function(x) x
-    } else {
-      function(x) clean_age_col_names(x)
-    }
-    data <- dplyr::rename_with(data, rename_fn, dplyr::all_of(age_cols))
+    data <- dplyr::rename_with(
+      data,
+      \(col) clean_age_col_names(col),
+      dplyr::all_of(age_cols)
+    )
 
-    new_age_cols <- rename_fn(age_cols)
+    new_age_cols <- clean_age_col_names(age_cols)
 
     return(
       tidyr::pivot_wider(
@@ -497,25 +417,14 @@ process_low_level_pop <- function(
   # pivot_wider = "sex": age as rows, sex as columns
   # Unavoidable pivot_longer first, then pivot_wider on sex
   if (identical(pivot_wider, "sex")) {
-    age_col_name <- if (age_groups) "age_group" else "age"
-
-    long_data <- if (age_groups) {
+    long_data <- data |>
       tidyr::pivot_longer(
-        data,
         cols = dplyr::all_of(age_cols),
-        names_to = "age_group",
-        values_to = "pop"
-      )
-    } else {
-      data |>
-        tidyr::pivot_longer(
-          cols = dplyr::all_of(age_cols),
-          names_to = "age",
-          values_to = "pop",
-          names_prefix = "age"
-        ) |>
-        dplyr::mutate(age = parse_age(.data$age))
-    }
+        names_to = "age",
+        values_to = "pop",
+        names_prefix = "age"
+      ) |>
+      dplyr::mutate(age = parse_age(.data$age))
 
     return(
       pivot_pop_data(long_data, dplyr::everything(), "sex_name")
@@ -613,29 +522,6 @@ validate_years <- function(
   upper <- if (is.null(max_year)) max_year_available else max_year
 
   dplyr::filter(data, .data$year >= lower, .data$year <= upper)
-}
-
-#' Aggregate wide age columns into age group columns
-#' @noRd
-apply_age_groups_wide <- function(data, ...) {
-  age_cols <- grep("^age", names(data), value = TRUE)
-  ages_num <- clean_age_col_names(age_cols)
-
-  groups <- phsmethods::create_age_groups(ages_num, ...)
-  group_map <- split(age_cols, groups)
-
-  exprs <- lapply(group_map, function(cols) {
-    rlang::expr(rowSums(dplyr::pick(dplyr::all_of(!!cols))))
-  })
-
-  non_age_cols <- setdiff(names(data), age_cols)
-
-  data |>
-    dplyr::mutate(!!!exprs) |>
-    dplyr::select(
-      dplyr::all_of(non_age_cols),
-      dplyr::all_of(names(group_map))
-    )
 }
 
 #' Clean raw age column names to numeric form
