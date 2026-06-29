@@ -329,17 +329,17 @@ process_low_level_pop <- function(
     call = call
   )
 
-  if (inherits(data, c("ArrowTabular", "arrow_dplyr_query"))) {
-    data <- dplyr::collect(data)
-  }
+  all_cols <- names(data)
 
-  # Identify current columns names
-  geo_cols <- names(data)[grepl("^(datazone|intzone)", names(data))]
+  geo_cols <- all_cols[grepl("^(datazone|intzone)", all_cols)]
   meta_cols <- c("year", geo_cols, "sex_name")
-  age_cols <- setdiff(names(data), meta_cols)
+  age_cols <- setdiff(all_cols, meta_cols)
 
   # pivot_wider = FALSE: convert to long format
   if (isFALSE(pivot_wider)) {
+    if (inherits(data, c("ArrowTabular", "arrow_dplyr_query"))) {
+      data <- dplyr::collect(data)
+    }
     return(
       tidyr::pivot_longer(
         data = data,
@@ -354,6 +354,9 @@ process_low_level_pop <- function(
 
   # pivot_wider = "age": already wide by age, just rename
   if (identical(pivot_wider, "age")) {
+    if (inherits(data, c("ArrowTabular", "arrow_dplyr_query"))) {
+      data <- dplyr::collect(data)
+    }
     return(
       dplyr::rename_with(
         data,
@@ -365,24 +368,13 @@ process_low_level_pop <- function(
 
   # pivot_wider = "age-only": aggregate sexes, then rename
   if (identical(pivot_wider, "age-only")) {
-    age_only_data <- data[data$sex_name == "M", , drop = FALSE]
-    female_data <- data[data$sex_name == "F", , drop = FALSE]
-
-    row_id_cols <- c("year", geo_cols)
-
-    if (!identical(age_only_data[row_id_cols], female_data[row_id_cols])) {
-      cli::cli_abort(
-        "Cannot aggregate population by age because male and female rows are not aligned.",
-        call = call
-      )
-    }
-
-    age_only_data[age_cols] <- age_only_data[age_cols] + female_data[age_cols]
-
-    age_only_data <- dplyr::select(
-      .data = age_only_data,
-      -dplyr::all_of("sex_name")
-    )
+    age_only_data <- data |>
+      dplyr::group_by(dplyr::across(dplyr::all_of(c("year", geo_cols)))) |>
+      dplyr::summarise(
+        dplyr::across(dplyr::all_of(age_cols), sum),
+        .groups = "drop"
+      ) |>
+      dplyr::collect()
 
     age_only_data <- dplyr::rename_with(
       age_only_data,
@@ -395,6 +387,10 @@ process_low_level_pop <- function(
 
   # pivot_wider = TRUE/"all": spread sex across age columns
   if (isTRUE(pivot_wider) || identical(pivot_wider, "all")) {
+    if (inherits(data, c("ArrowTabular", "arrow_dplyr_query"))) {
+      data <- dplyr::collect(data)
+    }
+
     # Rename age cols to clean numeric form before pivot
     data <- dplyr::rename_with(
       data,
@@ -417,8 +413,11 @@ process_low_level_pop <- function(
   }
 
   # pivot_wider = "sex": age as rows, sex as columns
-  # Unavoidable pivot_longer first, then pivot_wider on sex
   if (identical(pivot_wider, "sex")) {
+    if (inherits(data, c("ArrowTabular", "arrow_dplyr_query"))) {
+      data := dplyr::collect(data)
+    }
+
     long_data <- data |>
       tidyr::pivot_longer(
         cols = dplyr::all_of(age_cols),
@@ -435,8 +434,12 @@ process_low_level_pop <- function(
 
   # pivot_wider = "sex-only": sum ages per sex, then spread
   if (identical(pivot_wider, "sex-only")) {
+    if (inherits(data, c("ArrowTabular", "arrow_dplyr_query"))) {
+      data <- dplyr::collect(data)
+    }
+
     data |>
-      dplyr::mutate(pop = rowSums(dplyr::across(dplyr::all_of(age_cols)))) |>
+      dplyr::mutate(pop = rowSums(dplyr::pick(dplyr::all_of(age_cols)))) |>
       dplyr::select(-dplyr::all_of(age_cols)) |>
       pivot_pop_data(dplyr::everything(), "sex_name")
   }
