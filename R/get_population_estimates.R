@@ -333,7 +333,8 @@ process_low_level_pop <- function(
     data <- dplyr::collect(data)
   }
 
-  # Identify current age columns
+  # Identify current columns names
+  geo_cols <- names(data)[grepl("^(datazone|intzone)", names(data))]
   meta_cols <- c("year", geo_cols, "sex_name")
   age_cols <- setdiff(names(data), meta_cols)
 
