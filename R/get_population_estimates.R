@@ -517,7 +517,7 @@ pivot_pop_data <- function(data, id_cols, names_from) {
   tidyr::pivot_wider(
     data,
     id_cols = {{ id_cols }},
-    names_from = !!names_from,
+    names_from = dplyr::all_of(names_from),
     values_from = "pop",
     values_fn = sum,
     names_prefix = "pop_",
