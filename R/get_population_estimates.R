@@ -296,25 +296,22 @@ process_low_level_pop <- function(
   pivot_wider,
   call = rlang::caller_call()
 ) {
+  all_cols <- names(data)
+  if (any(startsWith(all_cols, "datazone"))) {
+    geo_cols <- all_cols[(startsWith(all_cols, "datazone"))]
+  } else {
+    geo_cols <- all_cols[(startsWith(all_cols, "intzone"))]
+  }
+  age_cols <- all_cols[(startsWith(all_cols, "age"))]
+
   # Select only relevant columns, drop total_pop
   data <- data |>
     dplyr::select(
       "year",
-      dplyr::starts_with("datazone"),
-      dplyr::starts_with("intzone"),
-      dplyr::starts_with("hscp"),
-      dplyr::starts_with("ca"),
-      dplyr::starts_with("hb"),
+      dplyr::all_of(geo_cols),
       sex_name = "sex",
-      dplyr::starts_with("age")
-    ) |>
-    dplyr::select(-dplyr::any_of("total_pop"))
-
-  all_cols <- names(data)
-
-  geo_cols <- all_cols[grepl("^(datazone|intzone|hscp|ca|hb)", all_cols)]
-  meta_cols <- c("year", geo_cols, "sex_name")
-  age_cols <- setdiff(all_cols, meta_cols)
+      dplyr::all_of(age_cols)
+    )
 
   # pivot_wider = FALSE: convert to long format
   if (isFALSE(pivot_wider)) {
