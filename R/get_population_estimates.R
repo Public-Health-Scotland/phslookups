@@ -258,8 +258,7 @@ get_pop_est <- function(
   }
 }
 
-# High-Level Processing (HB, CA, HSCP)            ─
-
+# High-Level Processing (HB, CA, HSCP)
 #' Process long-format population data
 #' @noRd
 process_high_level_pop <- function(
@@ -286,9 +285,7 @@ process_high_level_pop <- function(
   }
 }
 
-
 # Low-Level Processing (DZ, IZ)
-
 #' Process wide-format population data
 #'
 #' Avoids expensive double-pivoting by staying in the native wide format
@@ -329,44 +326,34 @@ process_low_level_pop <- function(
       names_prefix = "age",
       names_transform = list(age = parse_age)
     )
-  }
-
-  # pivot_wider = "age": already wide by age, just rename
-  if (identical(pivot_wider, "age")) {
+  } else if (identical(pivot_wider, "age")) {
     if (is_arrow_data(data)) {
       data <- dplyr::collect(data)
     }
+    # pivot_wider = "age": already wide by age, just rename
     dplyr::rename_with(
       data,
       \(col) paste0("pop_", clean_age_col_names(col)),
       dplyr::all_of(age_cols)
     )
-  }
-
-  # pivot_wider = "age-only": aggregate sexes, then rename
-  if (identical(pivot_wider, "age-only")) {
-    age_only_data <- data |>
+  } else if (identical(pivot_wider, "age-only")) {
+    # pivot_wider = "age-only": aggregate sexes, then rename
+    data |>
       dplyr::group_by(dplyr::across(dplyr::all_of(c("year", geo_cols)))) |>
       dplyr::summarise(
         dplyr::across(dplyr::all_of(age_cols), sum),
         .groups = "drop"
       ) |>
+      dplyr::rename_with(
+        \(col) paste0("pop_", clean_age_col_names(col)),
+        dplyr::all_of(age_cols)
+      ) |>
       dplyr::collect()
-
-    age_only_data <- dplyr::rename_with(
-      age_only_data,
-      \(col) paste0("pop_", clean_age_col_names(col)),
-      dplyr::all_of(age_cols)
-    )
-
-    age_only_data
-  }
-
-  # pivot_wider = TRUE: spread sex across age columns
-  if (isTRUE(pivot_wider)) {
+  } else if (isTRUE(pivot_wider)) {
     if (is_arrow_data(data)) {
       data <- dplyr::collect(data)
     }
+    # pivot_wider = TRUE: spread sex across age columns
 
     # Rename age cols to clean numeric form before pivot
     data <- dplyr::rename_with(
@@ -385,14 +372,12 @@ process_low_level_pop <- function(
       names_glue = "pop_{sex_name}_{.value}",
       names_repair = janitor::make_clean_names
     )
-  }
-
-  # pivot_wider = "sex": age as rows, sex as columns
-  if (identical(pivot_wider, "sex")) {
+  } else if (identical(pivot_wider, "sex")) {
     if (is_arrow_data(data)) {
       data <- dplyr::collect(data)
     }
 
+    # pivot_wider = "sex": age as rows, sex as columns
     long_data <- data |>
       tidyr::pivot_longer(
         cols = dplyr::all_of(age_cols),
@@ -403,14 +388,12 @@ process_low_level_pop <- function(
       dplyr::mutate(age = parse_age(.data$age))
 
     pivot_pop_data(long_data, dplyr::everything(), "sex_name")
-  }
-
-  # pivot_wider = "sex-only": sum ages per sex, then spread
-  if (identical(pivot_wider, "sex-only")) {
+  } else if (identical(pivot_wider, "sex-only")) {
     if (is_arrow_data(data)) {
       data <- dplyr::collect(data)
     }
 
+    # pivot_wider = "sex-only": sum ages per sex, then spread
     data |>
       dplyr::mutate(pop = rowSums(dplyr::pick(dplyr::all_of(age_cols)))) |>
       dplyr::select(-dplyr::all_of(age_cols)) |>
