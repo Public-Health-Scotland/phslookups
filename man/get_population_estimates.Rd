@@ -71,15 +71,20 @@ wider format.
 }
 \section{Functions}{
 \itemize{
-\item \code{get_hb_pop_est()}: Retrieve Health Board level population estimates.
+\item \code{get_hb_pop_est()}: Retrieve Health Board level population
+estimates.
 
-\item \code{get_ca_pop_est()}: Retrieve Council Area level population estimates.
+\item \code{get_ca_pop_est()}: Retrieve Council Area level population
+estimates.
 
-\item \code{get_hscp_pop_est()}: Retrieve HSCP (Health and Social Care Partnership) level population estimates.
+\item \code{get_hscp_pop_est()}: Retrieve HSCP (Health and Social Care
+Partnership) level population estimates.
 
-\item \code{get_iz_pop_est()}: Retrieve Intermediate Zone level population estimates.
+\item \code{get_iz_pop_est()}: Retrieve Intermediate Zone level
+population estimates.
 
-\item \code{get_dz_pop_est()}: Retrieve Data Zone level population estimates.
+\item \code{get_dz_pop_est()}: Retrieve Data Zone level population
+estimates.
 
 }}
 \section{Geography versions}{

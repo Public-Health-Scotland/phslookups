@@ -66,7 +66,8 @@
 NULL
 
 
-#' @describeIn get_population_estimates Retrieve Health Board level population estimates.
+#' @describeIn get_population_estimates Retrieve Health Board level population
+#' estimates.
 #' @export
 get_hb_pop_est <- function(
   version = "latest",
@@ -84,7 +85,8 @@ get_hb_pop_est <- function(
   )
 }
 
-#' @describeIn get_population_estimates Retrieve Council Area level population estimates.
+#' @describeIn get_population_estimates Retrieve Council Area level population
+#' estimates.
 #' @export
 get_ca_pop_est <- function(
   version = "latest",
@@ -102,7 +104,8 @@ get_ca_pop_est <- function(
   )
 }
 
-#' @describeIn get_population_estimates Retrieve HSCP (Health and Social Care Partnership) level population estimates.
+#' @describeIn get_population_estimates Retrieve HSCP (Health and Social Care
+#' Partnership) level population estimates.
 #' @export
 get_hscp_pop_est <- function(
   version = "latest",
@@ -120,7 +123,8 @@ get_hscp_pop_est <- function(
   )
 }
 
-#' @describeIn get_population_estimates Retrieve Intermediate Zone level population estimates.
+#' @describeIn get_population_estimates Retrieve Intermediate Zone level
+#' population estimates.
 #' @export
 get_iz_pop_est <- function(
   version = "latest",
@@ -138,7 +142,8 @@ get_iz_pop_est <- function(
   )
 }
 
-#' @describeIn get_population_estimates Retrieve Data Zone level population estimates.
+#' @describeIn get_population_estimates Retrieve Data Zone level population
+#' estimates.
 #' @export
 get_dz_pop_est <- function(
   version = "latest",
