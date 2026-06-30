@@ -246,17 +246,12 @@ get_pop_est <- function(
   if (level %in% c("DataZone", "IntZone")) {
     process_low_level_pop(
       data = pop_est,
-      level = level,
-      min_year = min_year,
-      max_year = max_year,
       pivot_wider = pivot_wider,
       call = call
     )
   } else {
     process_high_level_pop(
       data = pop_est,
-      min_year = min_year,
-      max_year = max_year,
       pivot_wider = pivot_wider,
       call = call
     )
@@ -269,8 +264,6 @@ get_pop_est <- function(
 #' @noRd
 process_high_level_pop <- function(
   data,
-  min_year,
-  max_year,
   pivot_wider,
   call = rlang::caller_call()
 ) {
@@ -305,9 +298,6 @@ process_high_level_pop <- function(
 #' @noRd
 process_low_level_pop <- function(
   data,
-  level,
-  min_year,
-  max_year,
   pivot_wider,
   call = rlang::caller_call()
 ) {
