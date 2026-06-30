@@ -234,7 +234,6 @@ get_pop_est <- function(
     process_low_level_pop(
       data = pop_est,
       level = level,
-      pop_path = pop_path,
       min_year = min_year,
       max_year = max_year,
       pivot_wider = pivot_wider,
@@ -243,7 +242,6 @@ get_pop_est <- function(
   } else {
     process_high_level_pop(
       data = pop_est,
-      pop_path = pop_path,
       min_year = min_year,
       max_year = max_year,
       pivot_wider = pivot_wider,
@@ -258,7 +256,6 @@ get_pop_est <- function(
 #' @noRd
 process_high_level_pop <- function(
   data,
-  pop_path,
   min_year,
   max_year,
   pivot_wider,
@@ -266,7 +263,6 @@ process_high_level_pop <- function(
 ) {
   data <- validate_years(
     data = data,
-    pop_path = pop_path,
     min_year = min_year,
     max_year = max_year,
     call = call
@@ -304,7 +300,6 @@ process_high_level_pop <- function(
 process_low_level_pop <- function(
   data,
   level,
-  pop_path,
   min_year,
   max_year,
   pivot_wider,
@@ -323,7 +318,6 @@ process_low_level_pop <- function(
 
   data <- validate_years(
     data = data,
-    pop_path = pop_path,
     min_year = min_year,
     max_year = max_year,
     call = call
@@ -449,7 +443,6 @@ process_low_level_pop <- function(
 #' @noRd
 validate_years <- function(
   data,
-  pop_path,
   min_year,
   max_year,
   call = rlang::caller_call()
@@ -492,16 +485,14 @@ validate_years <- function(
 
   if (!is.null(min_year) && min_year < min_year_available) {
     cli::cli_abort(
-      "{.arg min_year} must be at least {min_year_available} when using the
-       {.file {fs::path_file(pop_path)}} file.",
+      "{.arg min_year} must be at least {min_year_available}.",
       call = call
     )
   }
 
   if (!is.null(max_year) && max_year > max_year_available) {
     cli::cli_abort(
-      "{.arg max_year} must be at most {max_year_available} when using the
-       {.file {fs::path_file(pop_path)}} file.",
+      "{.arg max_year} must be at most {max_year_available}.",
       call = call
     )
   }
