@@ -275,16 +275,17 @@ process_high_level_pop <- function(
     return(data)
   }
 
-  if (isTRUE(pivot_wider)) {
-    pivot_pop_data(data, -"sex", c("sex_name", "age"))
+    data
+  } else if (isTRUE(pivot_wider)) {
+    pivot_pop_data(data, !"sex", c("sex_name", "age"))
   } else if (identical(pivot_wider, "age")) {
-    pivot_pop_data(data, c(-"sex", "sex_name"), "age")
+    pivot_pop_data(data, c(!"sex", "sex_name"), "age")
   } else if (identical(pivot_wider, "age-only")) {
-    pivot_pop_data(data, c(-"sex", -"sex_name"), "age")
+    pivot_pop_data(data, c(!"sex", !"sex_name"), "age")
   } else if (identical(pivot_wider, "sex")) {
-    pivot_pop_data(data, c(-"sex", "age"), "sex_name")
+    pivot_pop_data(data, c(!"sex", "age"), "sex_name")
   } else if (identical(pivot_wider, "sex-only")) {
-    pivot_pop_data(data, c(-"sex", -"age"), "sex_name")
+    pivot_pop_data(data, c(!"sex", !"age"), "sex_name")
   }
 }
 
