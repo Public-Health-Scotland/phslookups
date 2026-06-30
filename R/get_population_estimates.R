@@ -302,6 +302,9 @@ process_low_level_pop <- function(
       "year",
       dplyr::starts_with("datazone"),
       dplyr::starts_with("intzone"),
+      dplyr::starts_with("hscp"),
+      dplyr::starts_with("ca"),
+      dplyr::starts_with("hb"),
       sex_name = "sex",
       dplyr::starts_with("age")
     ) |>
@@ -309,7 +312,7 @@ process_low_level_pop <- function(
 
   all_cols <- names(data)
 
-  geo_cols <- all_cols[grepl("^(datazone|intzone)", all_cols)]
+  geo_cols <- all_cols[grepl("^(datazone|intzone|hscp|ca|hb)", all_cols)]
   meta_cols <- c("year", geo_cols, "sex_name")
   age_cols <- setdiff(all_cols, meta_cols)
 
