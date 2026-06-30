@@ -532,3 +532,14 @@ test_that("invalid year filters error", {
     "`max_year` must be at most 2024"
   )
 })
+
+test_that("contradictory year filters error", {
+  expect_error(
+    get_hb_pop_est(
+      version = "2019",
+      min_year = 2024L,
+      max_year = 2023L
+    ),
+    "must not be greater than"
+  )
+})
