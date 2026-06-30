@@ -452,11 +452,14 @@ validate_years <- function(
   max_year,
   call = rlang::caller_call()
 ) {
-  if (is.null(min_year) && is.null(max_year)) {
+  min_year_provided <- !is.null(min_year)
+  max_year_provided <- !is.null(max_year)
+
+  if (!min_year_provided && !max_year_provided) {
     return(data)
   }
 
-  if (!is.null(min_year) && !is.null(max_year) && min_year > max_year) {
+  if (min_year_provided && max_year_provided && min_year > max_year) {
     cli::cli_abort(
       "Invalid years: {.arg min_year} must not be greater than {.arg max_year}",
       call = call
@@ -471,22 +474,22 @@ validate_years <- function(
       ) |>
       dplyr::collect()
 
-    min_year_available <- year_range$min_year[[1]]
-    max_year_available <- year_range$max_year[[1]]
+    min_year_available <- year_range$min_year[[1L]]
+    max_year_available <- year_range$max_year[[1L]]
   } else {
     years <- data$year
     min_year_available <- min(years)
     max_year_available <- max(years)
   }
 
-  if (!is.null(min_year) && min_year < min_year_available) {
+  if (min_year_provided && min_year < min_year_available) {
     cli::cli_abort(
       "{.arg min_year} must be at least {min_year_available}.",
       call = call
     )
   }
 
-  if (!is.null(max_year) && max_year > max_year_available) {
+  if (max_year_provided && max_year > max_year_available) {
     cli::cli_abort(
       "{.arg max_year} must be at most {max_year_available}.",
       call = call
