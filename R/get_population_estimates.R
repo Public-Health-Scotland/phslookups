@@ -272,9 +272,6 @@ process_high_level_pop <- function(
   }
 
   if (isFALSE(pivot_wider)) {
-    return(data)
-  }
-
     data
   } else if (isTRUE(pivot_wider)) {
     pivot_pop_data(data, !"sex", c("sex_name", "age"))
@@ -324,15 +321,13 @@ process_low_level_pop <- function(
     if (is_arrow_data(data)) {
       data <- dplyr::collect(data)
     }
-    return(
-      tidyr::pivot_longer(
-        data = data,
-        cols = dplyr::all_of(age_cols),
-        names_to = "age",
-        values_to = "pop",
-        names_prefix = "age",
-        names_transform = list(age = parse_age)
-      )
+    tidyr::pivot_longer(
+      data = data,
+      cols = dplyr::all_of(age_cols),
+      names_to = "age",
+      values_to = "pop",
+      names_prefix = "age",
+      names_transform = list(age = parse_age)
     )
   }
 
@@ -341,12 +336,10 @@ process_low_level_pop <- function(
     if (is_arrow_data(data)) {
       data <- dplyr::collect(data)
     }
-    return(
-      dplyr::rename_with(
-        data,
-        \(col) paste0("pop_", clean_age_col_names(col)),
-        dplyr::all_of(age_cols)
-      )
+    dplyr::rename_with(
+      data,
+      \(col) paste0("pop_", clean_age_col_names(col)),
+      dplyr::all_of(age_cols)
     )
   }
 
@@ -366,7 +359,7 @@ process_low_level_pop <- function(
       dplyr::all_of(age_cols)
     )
 
-    return(age_only_data)
+    age_only_data
   }
 
   # pivot_wider = TRUE: spread sex across age columns
@@ -384,15 +377,13 @@ process_low_level_pop <- function(
 
     new_age_cols <- clean_age_col_names(age_cols)
 
-    return(
-      tidyr::pivot_wider(
-        data,
-        id_cols = c("year", dplyr::all_of(geo_cols)),
-        names_from = "sex_name",
-        values_from = dplyr::all_of(new_age_cols),
-        names_glue = "pop_{sex_name}_{.value}",
-        names_repair = janitor::make_clean_names
-      )
+    tidyr::pivot_wider(
+      data,
+      id_cols = c("year", dplyr::all_of(geo_cols)),
+      names_from = "sex_name",
+      values_from = dplyr::all_of(new_age_cols),
+      names_glue = "pop_{sex_name}_{.value}",
+      names_repair = janitor::make_clean_names
     )
   }
 
@@ -411,9 +402,7 @@ process_low_level_pop <- function(
       ) |>
       dplyr::mutate(age = parse_age(.data$age))
 
-    return(
-      pivot_pop_data(long_data, dplyr::everything(), "sex_name")
-    )
+    pivot_pop_data(long_data, dplyr::everything(), "sex_name")
   }
 
   # pivot_wider = "sex-only": sum ages per sex, then spread
@@ -441,7 +430,7 @@ validate_years <- function(
   max_year_provided <- !is.null(max_year)
 
   if (!min_year_provided && !max_year_provided) {
-    return(data)
+    data
   }
 
   if (min_year_provided && max_year_provided && min_year > max_year) {
