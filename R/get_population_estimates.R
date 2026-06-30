@@ -499,8 +499,9 @@ validate_years <- function(
 
 #' Clean raw age column names
 #' @noRd
-clean_age_col_names <- function(x) {
-  gsub("90plus", "90", gsub("^age", "", x), fixed = TRUE)
+clean_age_col_names <- function(col_name) {
+  col_name_num_part <- gsub("^age", "", col_name)
+  gsub("90plus", "90", col_name_num_part, fixed = TRUE)
 }
 
 #' Parse ages into an integer, dealing with 90plus
