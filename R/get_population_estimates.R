@@ -229,7 +229,7 @@ get_pop_est <- function(
 
     cli::cli_inform(c(
       v = "Using the latest available geography: {.val {version_info[1]}{version_info[2]}}.",
-      i = "If you require older boundaries or for reproducibility purposes specify {.arg version} explicity: {.code version = \"{version_info[2]}\"}."
+      i = "If you require older boundaries or for reproducibility purposes specify {.arg version} explicitly: {.code version = \"{version_info[2]}\"}."
     ))
   }
 
