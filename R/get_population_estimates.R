@@ -177,7 +177,7 @@ get_pop_est <- function(
     values = c("HB", "CA", "HSCP", "DataZone", "IntZone")
   )
 
-  if (!inherits(pivot_wider, "logical")) {
+  if (!is.logical(pivot_wider)) {
     pivot_wider <- rlang::arg_match(
       pivot_wider,
       values = c("age", "age-only", "sex", "sex-only"),
@@ -233,7 +233,15 @@ get_pop_est <- function(
     ))
   }
 
-  pop_est <- janitor::clean_names(pop_est)
+  # Use rename_with as it can work on Arrow data without forcing collection
+  pop_est <- pop_est |>
+    dplyr::rename_with(janitor::make_clean_names) |>
+    # Validate year inputs and filter
+    validate_years(
+      min_year = min_year,
+      max_year = max_year,
+      call = call
+    )
 
   if (level %in% c("DataZone", "IntZone")) {
     process_low_level_pop(
@@ -266,13 +274,6 @@ process_high_level_pop <- function(
   pivot_wider,
   call = rlang::caller_call()
 ) {
-  data <- validate_years(
-    data = data,
-    min_year = min_year,
-    max_year = max_year,
-    call = call
-  )
-
   if (is_arrow_data(data)) {
     data <- dplyr::collect(data)
   }
@@ -320,13 +321,6 @@ process_low_level_pop <- function(
       dplyr::starts_with("age")
     ) |>
     dplyr::select(-dplyr::any_of("total_pop"))
-
-  data <- validate_years(
-    data = data,
-    min_year = min_year,
-    max_year = max_year,
-    call = call
-  )
 
   all_cols <- names(data)
 
