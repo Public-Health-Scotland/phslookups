@@ -7,7 +7,7 @@
 metadata(data)
 }
 \arguments{
-\item{data}{Dataset imported using one of the \link{phslookups} functions,
+\item{data}{Dataset imported using one of the phslookups functions,
 e.g. \code{get_spd()}.}
 }
 \value{
