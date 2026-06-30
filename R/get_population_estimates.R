@@ -273,7 +273,7 @@ process_high_level_pop <- function(
     call = call
   )
 
-  if (inherits(data, c("ArrowTabular", "arrow_dplyr_query"))) {
+  if (is_arrow_data(data)) {
     data <- dplyr::collect(data)
   }
 
@@ -336,7 +336,7 @@ process_low_level_pop <- function(
 
   # pivot_wider = FALSE: convert to long format
   if (isFALSE(pivot_wider)) {
-    if (inherits(data, c("ArrowTabular", "arrow_dplyr_query"))) {
+    if (is_arrow_data(data)) {
       data <- dplyr::collect(data)
     }
     return(
@@ -353,7 +353,7 @@ process_low_level_pop <- function(
 
   # pivot_wider = "age": already wide by age, just rename
   if (identical(pivot_wider, "age")) {
-    if (inherits(data, c("ArrowTabular", "arrow_dplyr_query"))) {
+    if (is_arrow_data(data)) {
       data <- dplyr::collect(data)
     }
     return(
@@ -386,7 +386,7 @@ process_low_level_pop <- function(
 
   # pivot_wider = TRUE: spread sex across age columns
   if (pivot_wider) {
-    if (inherits(data, c("ArrowTabular", "arrow_dplyr_query"))) {
+    if (is_arrow_data(data)) {
       data <- dplyr::collect(data)
     }
 
@@ -413,8 +413,8 @@ process_low_level_pop <- function(
 
   # pivot_wider = "sex": age as rows, sex as columns
   if (identical(pivot_wider, "sex")) {
-    if (inherits(data, c("ArrowTabular", "arrow_dplyr_query"))) {
-      data := dplyr::collect(data)
+    if (is_arrow_data(data)) {
+      data <- dplyr::collect(data)
     }
 
     long_data <- data |>
@@ -433,7 +433,7 @@ process_low_level_pop <- function(
 
   # pivot_wider = "sex-only": sum ages per sex, then spread
   if (identical(pivot_wider, "sex-only")) {
-    if (inherits(data, c("ArrowTabular", "arrow_dplyr_query"))) {
+    if (is_arrow_data(data)) {
       data <- dplyr::collect(data)
     }
 
@@ -463,16 +463,7 @@ validate_years <- function(
     )
   }
 
-  # helper: are we working with an Arrow object?
-  is_arrow <- inherits(
-    data,
-    c(
-      "ArrowTabular", # Table, Dataset
-      "arrow_dplyr_query" # result of dplyr verbs on Arrow
-    )
-  )
-
-  if (is_arrow) {
+  if (is_arrow_data(data)) {
     year_range <- data |>
       dplyr::summarise(
         min_year = min(.data$year),
@@ -533,5 +524,15 @@ pivot_pop_data <- function(data, id_cols, names_from) {
     values_fn = sum,
     names_prefix = "pop_",
     names_repair = janitor::make_clean_names
+  )
+}
+
+is_arrow_data <- function(data) {
+  inherits(
+    data,
+    c(
+      "ArrowTabular", # Table, Dataset
+      "arrow_dplyr_query" # result of dplyr verbs on Arrow
+    )
   )
 }
