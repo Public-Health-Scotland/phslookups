@@ -13,7 +13,7 @@
 #' @return the data a [tibble][tibble::tibble-package]
 #' @noRd
 #' @keywords internal
-read_file <- function(path, col_select = NULL, ...) {
+read_file <- function(path, col_select = NULL, as_data_frame = TRUE, ...) {
   valid_extensions <- c(
     "rds",
     "csv",
@@ -42,8 +42,8 @@ read_file <- function(path, col_select = NULL, ...) {
   }
 
   lookup <- switch(ext,
-    "rds" = tibble::as_tibble(readr::read_rds(file = path)),
-    "csv" = readr::read_csv(
+    rds = tibble::as_tibble(readr::read_rds(file = path)),
+    csv = readr::read_csv(
       file = path,
       guess_max = 50000,
       progress = FALSE,
@@ -51,11 +51,12 @@ read_file <- function(path, col_select = NULL, ...) {
       lazy = .Platform$OS.type == "unix",
       ...
     ),
-    parquet = tibble::as_tibble(arrow::read_parquet(
+    parquet = arrow::read_parquet(
       file = path,
       col_select = {{ col_select }},
+      as_data_frame = as_data_frame,
       ...
-    ))
+    )
   )
 
   # If col_select was supplied keep only those variables

@@ -13,6 +13,7 @@
 #' @param selection_method Valid arguments are "modification_date"
 #' (the default) or "file_name".
 #' @param quiet (default: FALSE) Used to suppress message output
+#' @param ... Additional arguments passed to [fs::dir_info()].
 #'
 #' @return the [fs::path()] to the file
 #' @examples
@@ -28,14 +29,16 @@ find_latest_file <- function(
   directory,
   regexp,
   selection_method = "modification_date",
-  quiet = FALSE
+  quiet = FALSE,
+  ...
 ) {
   if (selection_method == "modification_date") {
     latest_file_options <- fs::dir_info(
       path = directory,
       type = "file",
       regexp = regexp,
-      recurse = TRUE
+      recurse = TRUE,
+      ...
     ) |>
       dplyr::arrange(
         dplyr::desc(.data$birth_time),
@@ -65,6 +68,11 @@ find_latest_file <- function(
 
   if (length(latest_file_options) >= 1L) {
     file_path <- dplyr::first(latest_file_options)
+
+    file_path <- find_preferred_version(
+      directory,
+      fs::path_ext_remove(fs::path_file(file_path))
+    )
 
     if (!quiet) {
       cli::cli_alert_info(

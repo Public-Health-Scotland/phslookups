@@ -63,7 +63,7 @@ find_specific_file <- function(directory, lookup_type, version) {
   )
 
   # Find the first valid file that exists
-  file_path <- path_ver_list[fs::file_exists(path_ver_list)][1]
+  file_path <- path_ver_list[fs::file_exists(path_ver_list)][1L]
 
   # Handle case where no matching file is found
   if (is.na(file_path)) {
@@ -77,5 +77,5 @@ find_specific_file <- function(directory, lookup_type, version) {
     )
   }
 
-  return(file_path)
+  file_path
 }
