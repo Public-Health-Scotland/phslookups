@@ -35,8 +35,8 @@
 #'
 #' Allowed values are:
 #'
-#' - `FALSE` default: do not pivot.
-#' - `TRUE` or `"all"`: pivot by both sex and age.
+#' - `FALSE`: (default) do not pivot.
+#' - `TRUE`: pivot by both sex and age.
 #' - `"age"`: pivot by age only.
 #' - `"age-only"`: pivot by age and aggregate to remove sex.
 #' - `"sex"`: pivot by sex only.
@@ -175,7 +175,7 @@ get_pop_est <- function(
   if (!inherits(pivot_wider, "logical")) {
     pivot_wider <- rlang::arg_match(
       pivot_wider,
-      values = c("all", "age", "age-only", "sex", "sex-only"),
+      values = c("age", "age-only", "sex", "sex-only"),
       error_call = call
     )
   }
@@ -276,7 +276,7 @@ process_high_level_pop <- function(
     return(data)
   }
 
-  if (isTRUE(pivot_wider) || identical(pivot_wider, "all")) {
+  if (pivot_wider) {
     pivot_pop_data(data, -"sex", c("sex_name", "age"))
   } else if (identical(pivot_wider, "age")) {
     pivot_pop_data(data, c(-"sex", "sex_name"), "age")
@@ -379,8 +379,8 @@ process_low_level_pop <- function(
     return(age_only_data)
   }
 
-  # pivot_wider = TRUE/"all": spread sex across age columns
-  if (isTRUE(pivot_wider) || identical(pivot_wider, "all")) {
+  # pivot_wider = TRUE: spread sex across age columns
+  if (pivot_wider) {
     if (inherits(data, c("ArrowTabular", "arrow_dplyr_query"))) {
       data <- dplyr::collect(data)
     }

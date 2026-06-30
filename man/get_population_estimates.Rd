@@ -107,8 +107,8 @@ reshaped into a wider format.
 
 Allowed values are:
 \itemize{
-\item \code{FALSE} default: do not pivot.
-\item \code{TRUE} or \code{"all"}: pivot by both sex and age.
+\item \code{FALSE}: (default) do not pivot.
+\item \code{TRUE}: pivot by both sex and age.
 \item \code{"age"}: pivot by age only.
 \item \code{"age-only"}: pivot by age and aggregate to remove sex.
 \item \code{"sex"}: pivot by sex only.
