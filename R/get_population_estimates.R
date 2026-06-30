@@ -383,9 +383,9 @@ process_low_level_pop <- function(
         cols = dplyr::all_of(age_cols),
         names_to = "age",
         values_to = "pop",
-        names_prefix = "age"
-      ) |>
-      dplyr::mutate(age = parse_age(.data$age))
+        names_prefix = "age",
+        names_transform = list(age = parse_age)
+      )
 
     pivot_pop_data(long_data, dplyr::everything(), "sex_name")
   } else if (identical(pivot_wider, "sex-only")) {
