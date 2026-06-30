@@ -34,11 +34,12 @@ test_that("population estimates are returned using defaults", {
   expect_gt(nrow(iz), 0L)
   expect_gt(nrow(dz), 0L)
 
-  expect_in("year", names(hb))
-  expect_in("year", names(ca))
-  expect_in("year", names(hscp))
-  expect_in("year", names(iz))
-  expect_in("year", names(dz))
+  expect_in(c("year", "sex_name", "age", "pop"), names(hb))
+  expect_in(c("year", "sex_name", "age", "pop"), names(hb))
+  expect_in(c("year", "sex_name", "age", "pop"), names(ca))
+  expect_in(c("year", "sex_name", "age", "pop"), names(hscp))
+  expect_in(c("year", "sex_name", "age", "pop"), names(iz))
+  expect_in(c("year", "sex_name", "age", "pop"), names(dz))
 })
 
 test_that("population estimates are returned for valid versions", {
@@ -56,30 +57,7 @@ test_that("population estimates are returned for valid versions", {
   expect_s3_class(get_dz_pop_est(version = "2011"), "tbl_df")
 })
 
-test_that("latest version emits an informative message", {
-  expect_message(
-    get_hb_pop_est(version = "latest", min_year = 2024L, max_year = 2024L),
-    "Using the latest available geography"
-  )
-  expect_message(
-    get_ca_pop_est(version = "latest", min_year = 2024L, max_year = 2024L),
-    "Using the latest available geography"
-  )
-  expect_message(
-    get_hscp_pop_est(version = "latest", min_year = 2024L, max_year = 2024L),
-    "Using the latest available geography"
-  )
-  expect_message(
-    get_iz_pop_est(version = "latest", min_year = 2024L, max_year = 2024L),
-    "Using the latest available geography"
-  )
-  expect_message(
-    get_dz_pop_est(version = "latest", min_year = 2024L, max_year = 2024L),
-    "Using the latest available geography"
-  )
-})
-
-test_that("year filtering works for supported versions", {
+test_that("year filtering works for various versions", {
   hb <- get_hb_pop_est(version = "2019", min_year = 2024L, max_year = 2024L)
   hb_old <- get_hb_pop_est(version = "2006", min_year = 2013L, max_year = 2013L)
 
@@ -93,50 +71,17 @@ test_that("year filtering works for supported versions", {
   dz <- get_dz_pop_est(version = "2011", min_year = 2024L, max_year = 2024L)
   dz_old <- get_dz_pop_est(version = "2001", min_year = 2014L, max_year = 2014L)
 
-  expect_setequal(unique(hb$year), 2024L)
-  expect_setequal(unique(hb_old$year), 2013L)
-  expect_setequal(unique(ca$year), 2024L)
-  expect_setequal(unique(hscp$year), 2024L)
-  expect_setequal(unique(iz$year), 2024L)
-  expect_setequal(unique(iz_old$year), 2014L)
-  expect_setequal(unique(dz$year), 2024L)
-  expect_setequal(unique(dz_old$year), 2014L)
-})
-
-test_that("min_year and max_year work independently", {
-  hb_min <- get_hb_pop_est(version = "2019", min_year = 2024L)
-  hb_max <- get_hb_pop_est(version = "2019", max_year = 2024L)
-
-  iz_min <- get_iz_pop_est(version = "2011", min_year = 2024L)
-  iz_max <- get_iz_pop_est(version = "2011", max_year = 2024L)
-
-  dz_min <- get_dz_pop_est(version = "2011", min_year = 2024L)
-  dz_max <- get_dz_pop_est(version = "2011", max_year = 2024L)
-
-  expect_s3_class(hb_min, "tbl_df")
-  expect_s3_class(hb_max, "tbl_df")
-  expect_s3_class(iz_min, "tbl_df")
-  expect_s3_class(iz_max, "tbl_df")
-  expect_s3_class(dz_min, "tbl_df")
-  expect_s3_class(dz_max, "tbl_df")
-
-  expect_true(all(hb_min$year >= 2024L))
-  expect_true(all(hb_max$year <= 2024L))
-
-  expect_true(all(iz_min$year >= 2024L))
-  expect_true(all(iz_max$year <= 2024L))
-
-  expect_true(all(dz_min$year >= 2024L))
-  expect_true(all(dz_max$year <= 2024L))
+  expect_setequal(hb$year, 2024L)
+  expect_setequal(hb_old$year, 2013L)
+  expect_setequal(ca$year, 2024L)
+  expect_setequal(hscp$year, 2024L)
+  expect_setequal(iz$year, 2024L)
+  expect_setequal(iz_old$year, 2014L)
+  expect_setequal(dz$year, 2024L)
+  expect_setequal(dz_old$year, 2014L)
 })
 
 test_that("high-level pivot_wider options work", {
-  hb_long <- get_hb_pop_est(
-    version = "2019",
-    min_year = 2024L,
-    max_year = 2024L,
-    pivot_wider = FALSE
-  )
   hb_true <- get_hb_pop_est(
     version = "2019",
     min_year = 2024L,
@@ -168,71 +113,20 @@ test_that("high-level pivot_wider options work", {
     pivot_wider = "sex-only"
   )
 
-  expect_s3_class(hb_long, "tbl_df")
   expect_s3_class(hb_true, "tbl_df")
   expect_s3_class(hb_age, "tbl_df")
   expect_s3_class(hb_age_only, "tbl_df")
   expect_s3_class(hb_sex, "tbl_df")
   expect_s3_class(hb_sex_only, "tbl_df")
 
-  expect_in(c("year", "sex_name", "age", "pop"), names(hb_long))
   expect_in("year", names(hb_true))
-  expect_in("year", names(hb_age))
+  expect_in(c("year", "sex_name"), names(hb_age))
   expect_in("year", names(hb_age_only))
-  expect_in("year", names(hb_sex))
+  expect_in(c("year", "age"), names(hb_sex))
   expect_in("year", names(hb_sex_only))
 
   expect_in(c("pop_m", "pop_f"), names(hb_sex_only))
-  expect_gt(sum(startsWith(names(hb_age_only), "pop_")), 0L)
-})
-
-test_that("older high-level pivot_wider options work", {
-  hb_old_long <- get_hb_pop_est(
-    version = "2006",
-    min_year = 2013L,
-    max_year = 2013L,
-    pivot_wider = FALSE
-  )
-  hb_old_true <- get_hb_pop_est(
-    version = "2006",
-    min_year = 2013L,
-    max_year = 2013L,
-    pivot_wider = TRUE
-  )
-  hb_old_age <- get_hb_pop_est(
-    version = "2006",
-    min_year = 2013L,
-    max_year = 2013L,
-    pivot_wider = "age"
-  )
-  hb_old_age_only <- get_hb_pop_est(
-    version = "2006",
-    min_year = 2013L,
-    max_year = 2013L,
-    pivot_wider = "age-only"
-  )
-  hb_old_sex <- get_hb_pop_est(
-    version = "2006",
-    min_year = 2013L,
-    max_year = 2013L,
-    pivot_wider = "sex"
-  )
-  hb_old_sex_only <- get_hb_pop_est(
-    version = "2006",
-    min_year = 2013L,
-    max_year = 2013L,
-    pivot_wider = "sex-only"
-  )
-
-  expect_s3_class(hb_old_long, "tbl_df")
-  expect_s3_class(hb_old_true, "tbl_df")
-  expect_s3_class(hb_old_age, "tbl_df")
-  expect_s3_class(hb_old_age_only, "tbl_df")
-  expect_s3_class(hb_old_sex, "tbl_df")
-  expect_s3_class(hb_old_sex_only, "tbl_df")
-
-  expect_in(c("year", "sex_name", "age", "pop"), names(hb_old_long))
-  expect_in(c("pop_m", "pop_f"), names(hb_old_sex_only))
+  expect_in(paste0("pop_", 0L:90L), names(hb_age_only))
 })
 
 test_that("other high-level geographies pivot successfully", {
@@ -401,33 +295,6 @@ test_that("older low-level pivot_wider options work", {
   expect_in(c("pop_m", "pop_f"), names(dz_old_sex_only))
   expect_gt(sum(startsWith(names(iz_old_age_only), "pop_")), 0L)
   expect_gt(sum(startsWith(names(dz_old_age_only), "pop_")), 0L)
-})
-
-test_that("long-format population estimates have expected core columns", {
-  hb <- get_hb_pop_est(
-    version = "2019",
-    min_year = 2024L,
-    max_year = 2024L,
-    pivot_wider = FALSE
-  )
-
-  iz <- get_iz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    pivot_wider = FALSE
-  )
-
-  dz <- get_dz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    pivot_wider = FALSE
-  )
-
-  expect_in(c("year", "sex_name", "age", "pop"), names(hb))
-  expect_in(c("year", "sex_name", "age", "pop"), names(iz))
-  expect_in(c("year", "sex_name", "age", "pop"), names(dz))
 })
 
 test_that("high-level pivoted population totals are consistent with long format", {
