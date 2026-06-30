@@ -281,7 +281,7 @@ process_high_level_pop <- function(
     return(data)
   }
 
-  if (pivot_wider) {
+  if (isTRUE(pivot_wider)) {
     pivot_pop_data(data, -"sex", c("sex_name", "age"))
   } else if (identical(pivot_wider, "age")) {
     pivot_pop_data(data, c(-"sex", "sex_name"), "age")
@@ -385,7 +385,7 @@ process_low_level_pop <- function(
   }
 
   # pivot_wider = TRUE: spread sex across age columns
-  if (pivot_wider) {
+  if (isTRUE(pivot_wider)) {
     if (is_arrow_data(data)) {
       data <- dplyr::collect(data)
     }
