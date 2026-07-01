@@ -28,7 +28,7 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git
 
       - name: Checkout repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install phslookups + dependancies + lintr + other required packages 
         uses: r-lib/actions/setup-r-dependencies@v2
