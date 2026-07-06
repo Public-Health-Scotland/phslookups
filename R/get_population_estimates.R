@@ -377,17 +377,18 @@ process_low_level_pop <- function(
       data <- dplyr::collect(data)
     }
 
-    # pivot_wider = "sex": age as rows, sex as columns
-    long_data <- data |>
+    data |>
+      tidyr::pivot_wider(
+        names_from = .data$sex_name,
+        values_from = dplyr::starts_with("age"),
+        names_glue = "{.value}_pop_{tolower(sex_name)}"
+      ) |>
       tidyr::pivot_longer(
-        cols = dplyr::all_of(age_cols),
-        names_to = "age",
-        values_to = "pop",
-        names_prefix = "age",
+        cols = dplyr::starts_with("age"),
+        names_to = c("age", ".value"),
+        names_pattern = "^age(.*)_(pop_[mf])$",
         names_transform = list(age = parse_age)
       )
-
-    pivot_pop_data(long_data, dplyr::everything(), "sex_name")
   } else if (identical(pivot_wider, "sex-only")) {
     if (is_arrow_data(data)) {
       data <- dplyr::collect(data)
