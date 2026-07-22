@@ -98,20 +98,44 @@ test_that("get_national_ref_file errors when file is not found", {
   )
 })
 
-test_that(
-  "get_national_ref_file suggests close matches when stringdist is installed",
-  {
+test_that("suggests close National Reference File names", {
     skip_on_ci()
-    skip_if_not_installed("stringdist")
 
-    expect_error(
-      get_national_ref_file("ggprac"),
-      "Did you mean"
-    )
+    test_that("suggests close National Reference File names", {
+      expect_snapshot(
+        get_national_ref_file("ggprac"),
+        error = TRUE
+      )
 
-    expect_error(
-      get_national_ref_file("ggprac"),
-      "gpprac.csv"
-    )
+      expect_snapshot(
+        get_national_ref_file("gprac"),
+        error = TRUE
+      )
+
+      expect_snapshot(
+        get_national_ref_file("loction"),
+        error = TRUE
+      )
+
+      expect_snapshot(
+        get_national_ref_file("locaiton"),
+        error = TRUE
+      )
+
+      expect_snapshot(
+        get_national_ref_file("speciality"),
+        error = TRUE
+      )
+
+      expect_snapshot(
+        get_national_ref_file("specailty"),
+        error = TRUE
+      )
+
+      expect_snapshot(
+        get_national_ref_file("rac"),
+        error = TRUE
+      )
+    })
   }
 )

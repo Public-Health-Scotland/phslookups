@@ -26,7 +26,9 @@ get_national_ref_file <- function(filename, col_select = NULL) {
     "National Reference Files"
   )
 
-  raw_filename <- fs::path_ext_remove(filename)
+  raw_filename <- filename |>
+    fs::path_file() |>
+    fs::path_ext_remove()
 
   available_files <- fs::dir_ls(
     path = national_ref_dir,
@@ -34,7 +36,8 @@ get_national_ref_file <- function(filename, col_select = NULL) {
     recurse = FALSE
   )
 
-  available_file_stems <- fs::path_file(available_files) |>
+  available_file_stems <- available_files |>
+    fs::path_file() |>
     fs::path_ext_remove()
 
   matched_files <- available_files[
@@ -47,31 +50,37 @@ get_national_ref_file <- function(filename, col_select = NULL) {
       i = "Matching is case-insensitive and ignores the file extension."
     )
 
-    if (rlang::is_installed("stringdist")) {
-      distances <- stringdist::stringdist(
-        a = tolower(raw_filename),
-        b = tolower(available_file_stems),
-        method = "osa"
-      )
+    distances <- utils::adist(
+      raw_filename,
+      available_file_stems,
+      ignore.case = TRUE
+    ) |>
+      drop()
 
-      close_matches <- fs::path_file(available_files[distances <= 1L])
+    close_match_indices <- which(distances <= 2L)
 
-      if (length(close_matches) > 0L) {
-        cli::cli_abort(
-          c(
-            not_found_msg,
-            i = "Did you mean: {.val {close_matches}}?"
-          )
+    if (length(close_match_indices) > 0L) {
+      close_match_indices <- close_match_indices[
+        order(distances[close_match_indices])
+      ]
+
+      cli::cli_abort(
+        c(
+          not_found_msg,
+          i = "Did you mean: {.or {.val {available_file_stems[close_match_indices]}}}?"
         )
-      }
+      )
     }
 
     cli::cli_abort(not_found_msg)
   }
 
-  # If there are multiple matches for the name, pick the preferred file type
+  # If there are multiple matches, pick the preferred file type.
   if (length(matched_files) > 1L) {
-    matched_files <- find_preferred_version(national_ref_dir, raw_filename)
+    matched_files <- find_preferred_version(
+      national_ref_dir,
+      raw_filename
+    )
   }
 
   read_file(matched_files, col_select = {{ col_select }})
