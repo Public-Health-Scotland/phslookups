@@ -25,8 +25,7 @@
 #' @noRd
 find_specific_file <- function(directory, lookup_type, version) {
   # Determine the file prefix and version handling based on the lookup_type
-  file_prefix <- switch(
-    lookup_type,
+  file_prefix <- switch(lookup_type,
     SPD = {
       if (!rlang::is_string(version)) {
         cli::cli_abort(
