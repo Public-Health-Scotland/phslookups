@@ -25,8 +25,9 @@
 #' @noRd
 find_specific_file <- function(directory, lookup_type, version) {
   # Determine the file prefix and version handling based on the lookup_type
-  file_prefix <- switch(lookup_type,
-    "SPD" = {
+  file_prefix <- switch(
+    lookup_type,
+    SPD = {
       if (!rlang::is_string(version)) {
         cli::cli_abort(
           "{.arg version} must be a single string for the SPD lookup."
@@ -58,10 +59,9 @@ find_specific_file <- function(directory, lookup_type, version) {
           !all(required_versions %in% names(version))
       ) {
         cli::cli_abort(
-          c(
-            "{.arg version} must contain:",
-            "*" = "{.field postcode_version}",
-            "*" = "{.field simd_version}"
+          paste0(
+            "{.arg version} must contain both {.field postcode_version} ",
+            "and {.field simd_version}."
           )
         )
       }
