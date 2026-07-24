@@ -51,7 +51,7 @@ of the SIMD Postcode lookup
 get_simd_postcode()
 #> Error: [ENOENT] Failed to search directory '/conf/linkage/output/lookups/Unicode/Deprivation': no such file or directory
 get_simd_postcode(postcode_version = "2016_1", simd_version = "2012")
-#> Error: ✖ "SIMD Postcode" version 2016_1 and 2012 is NOT available
+#> Error: ✖ "SIMD Postcode" version "2016_1 / 2012" is NOT available
 #> ℹ Contact phs.geography@phs.scot
 
 library(dplyr)
@@ -68,6 +68,6 @@ get_simd_postcode(
   simd_version = "2012",
   col_select = c("pc7", starts_with("simd"))
 )
-#> Error: ✖ "SIMD Postcode" version 2016_1 and 2012 is NOT available
+#> Error: ✖ "SIMD Postcode" version "2016_1 / 2012" is NOT available
 #> ℹ Contact phs.geography@phs.scot
 ```

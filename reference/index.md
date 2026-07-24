@@ -4,6 +4,8 @@
 
 - [`get_hscp_locality()`](https://moohan.github.io/phslookups/reference/get_hscp_locality.md)
   : Get HSCP Locality lookup
+- [`get_national_ref_file()`](https://moohan.github.io/phslookups/reference/get_national_ref_file.md)
+  : Get National Reference File
 - [`get_simd_datazone()`](https://moohan.github.io/phslookups/reference/get_simd_datazone.md)
   : Get Data Zone-SIMD lookup
 - [`get_simd_postcode()`](https://moohan.github.io/phslookups/reference/get_simd_postcode.md)
