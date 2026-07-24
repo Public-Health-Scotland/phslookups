@@ -25,51 +25,82 @@
 #' @noRd
 find_specific_file <- function(directory, lookup_type, version) {
   # Determine the file prefix and version handling based on the lookup_type
-  if (length(version) == 1L) {
-    # Handle single-version cases
-    file_prefix <- dplyr::case_match(
-      lookup_type,
-      "SPD" ~ paste0("Scottish_Postcode_Directory_", version),
-      "HSCP Locality" ~ paste0("HSCP Localities_DZ11_Lookup_", version),
-      .default = NA_character_
-    )
-  } else {
-    # Handle multi-version cases
-    file_prefix <- dplyr::case_match(
-      lookup_type,
-      "SIMD Postcode" ~
-        paste0(
-          "postcode_",
-          version[["postcode_version"]],
-          "_simd",
-          version[["simd_version"]]
-        ),
-      .default = NA_character_
+  file_prefix <- switch(lookup_type,
+    SPD = {
+      if (!rlang::is_string(version)) {
+        cli::cli_abort(
+          "{.arg version} must be a single string for the SPD lookup."
+        )
+      }
+
+      paste0("Scottish_Postcode_Directory_", version)
+    },
+    "HSCP Locality" = {
+      if (!rlang::is_string(version)) {
+        cli::cli_abort(
+          paste0(
+            "{.arg version} must be a single string for the ",
+            "HSCP Locality lookup."
+          )
+        )
+      }
+
+      paste0("HSCP Localities_DZ11_Lookup_", version)
+    },
+    "SIMD Postcode" = {
+      required_versions <- c(
+        "postcode_version",
+        "simd_version"
+      )
+
+      if (
+        is.null(names(version)) ||
+          !all(required_versions %in% names(version))
+      ) {
+        cli::cli_abort(
+          paste0(
+            "{.arg version} must contain both {.field postcode_version} ",
+            "and {.field simd_version}."
+          )
+        )
+      }
+
+      paste0(
+        "postcode_",
+        version[["postcode_version"]],
+        "_simd",
+        version[["simd_version"]]
+      )
+    },
+    NULL
+  )
+
+  if (is.null(file_prefix)) {
+    cli::cli_abort(
+      "Unsupported {.arg lookup_type}: {.val {lookup_type}}."
     )
   }
 
-  if (is.na(file_prefix)) {
-    cli::cli_abort("Unsupported lookup_type: {.val {lookup_type}}")
-  }
-
-  # Generate possible file names and paths
-  name_ver_list <- paste0(
-    file_prefix,
-    c(".parquet", ".rds", ".csv")
+  file_path <- find_preferred_version(
+    directory = c(directory, fs::path(directory, "Archive")),
+    file_stem = file_prefix
   )
-  path_ver_list <- c(
-    fs::path(directory, name_ver_list),
-    fs::path(directory, "Archive", name_ver_list)
-  )
-
-  # Find the first valid file that exists
-  file_path <- path_ver_list[fs::file_exists(path_ver_list)][1]
 
   # Handle case where no matching file is found
   if (is.na(file_path)) {
+    version_label <- if (lookup_type == "SIMD Postcode") {
+      paste(
+        version[["postcode_version"]],
+        version[["simd_version"]],
+        sep = " / "
+      )
+    } else {
+      version
+    }
+
     cli::cli_abort(
       c(
-        x = "{.val {lookup_type}} version {.val {version}} is NOT available",
+        x = "{.val {lookup_type}} version {.val {version_label}} is NOT available",
         i = "Contact phs.geography@phs.scot"
       ),
       call = NULL,
@@ -77,5 +108,5 @@ find_specific_file <- function(directory, lookup_type, version) {
     )
   }
 
-  return(file_path)
+  file_path
 }
