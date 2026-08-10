@@ -381,7 +381,7 @@ process_low_level_pop <- function(
 
     data |>
       tidyr::pivot_wider(
-        names_from = .data$sex_name,
+        names_from = "sex_name",
         values_from = dplyr::starts_with("age"),
         names_glue = "{.value}_pop_{tolower(sex_name)}"
       ) |>
