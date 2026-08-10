@@ -11,6 +11,8 @@ export(get_simd_datazone)
 export(get_simd_postcode)
 export(get_spd)
 export(metadata)
-importFrom(rlang,"%||%")
-importFrom(rlang,.data)
+importFrom(rlang,
+  "%||%",
+  .data
+)
 importFrom(tibble,tibble)
