@@ -63,7 +63,7 @@ test_that("find_specific_file errors on unsupported lookup_type", {
       directory = mock_dir,
       lookup_type = "UnsupportedType"
     ),
-    "Unsupported lookup_type"
+    "Unsupported `lookup_type`:"
   )
 })
 
