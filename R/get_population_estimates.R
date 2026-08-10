@@ -220,6 +220,30 @@ get_pop_est <- function(
     read_file(pop_path)
   }
 
+  # Use rename_with as it can work on Arrow data without forcing collection
+  pop_est <- pop_est |>
+    dplyr::rename_with(janitor::make_clean_names) |>
+    # Validate year inputs and filter
+    validate_years(
+      min_year = min_year,
+      max_year = max_year,
+      call = call
+    )
+
+  pop_est <- if (level %in% c("DataZone", "IntZone")) {
+    process_low_level_pop(
+      data = pop_est,
+      pivot_wider = pivot_wider,
+      call = call
+    )
+  } else {
+    process_high_level_pop(
+      data = pop_est,
+      pivot_wider = pivot_wider,
+      call = call
+    )
+  }
+
   if (identical(version, "latest")) {
     version_info <- stringr::str_extract(
       fs::path_file(pop_path),
@@ -233,29 +257,7 @@ get_pop_est <- function(
     ))
   }
 
-  # Use rename_with as it can work on Arrow data without forcing collection
-  pop_est <- pop_est |>
-    dplyr::rename_with(janitor::make_clean_names) |>
-    # Validate year inputs and filter
-    validate_years(
-      min_year = min_year,
-      max_year = max_year,
-      call = call
-    )
-
-  if (level %in% c("DataZone", "IntZone")) {
-    process_low_level_pop(
-      data = pop_est,
-      pivot_wider = pivot_wider,
-      call = call
-    )
-  } else {
-    process_high_level_pop(
-      data = pop_est,
-      pivot_wider = pivot_wider,
-      call = call
-    )
-  }
+  pop_est
 }
 
 # High-Level Processing (HB, CA, HSCP)
