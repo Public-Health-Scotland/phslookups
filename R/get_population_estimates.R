@@ -414,12 +414,12 @@ validate_years <- function(
   max_year_provided <- !is.null(max_year)
 
   if (!min_year_provided && !max_year_provided) {
-    data
+    return(data)
   }
 
   if (min_year_provided && max_year_provided && min_year > max_year) {
     cli::cli_abort(
-      "Invalid years: {.arg min_year} must not be greater than {.arg max_year}",
+      "{.arg min_year} must not be greater than {.arg max_year}.",
       call = call
     )
   }
@@ -440,16 +440,30 @@ validate_years <- function(
     max_year_available <- max(years)
   }
 
-  if (min_year_provided && min_year < min_year_available) {
+  available_years_msg <- "Available years are {.val {min_year_available}} to {.val {max_year_available}}."
+
+  if (
+    min_year_provided &&
+      (min_year < min_year_available || min_year > max_year_available)
+  ) {
     cli::cli_abort(
-      "{.arg min_year} must be at least {min_year_available}.",
+      c(
+        "{.arg min_year} must be within the available year range, not {.val {min_year}}.",
+        i = available_years_msg
+      ),
       call = call
     )
   }
 
-  if (max_year_provided && max_year > max_year_available) {
+  if (
+    max_year_provided &&
+      (max_year < min_year_available || max_year > max_year_available)
+  ) {
     cli::cli_abort(
-      "{.arg max_year} must be at most {max_year_available}.",
+      c(
+        "{.arg max_year} must be within the available year range, not {.val {max_year}}.",
+        i = available_years_msg
+      ),
       call = call
     )
   }

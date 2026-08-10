@@ -382,23 +382,46 @@ test_that("invalid pivot_wider option errors", {
   )
 })
 
-test_that("invalid year filters error", {
+test_that("year filters outside the available range error", {
+  pop <- get_hb_pop_est(version = "2019")
+
+  available_years <- range(pop$year)
+  min_year_available <- available_years[[1L]]
+  max_year_available <- available_years[[2L]]
+
   expect_error(
     get_hb_pop_est(
       version = "2019",
-      min_year = 1900L
+      min_year = min_year_available - 1L
     ),
-    "`min_year` must be at least [0-9]{4}"
+    "`min_year` must be within the available year range"
   )
 
   expect_error(
     get_hb_pop_est(
       version = "2019",
-      max_year = 2099L
+      min_year = max_year_available + 1L
     ),
-    "`max_year` must be at most 2[0-9]{3}"
+    "`min_year` must be within the available year range"
+  )
+
+  expect_error(
+    get_hb_pop_est(
+      version = "2019",
+      max_year = min_year_available - 1L
+    ),
+    "`max_year` must be within the available year range"
+  )
+
+  expect_error(
+    get_hb_pop_est(
+      version = "2019",
+      max_year = max_year_available + 1L
+    ),
+    "`max_year` must be within the available year range"
   )
 })
+
 
 test_that("contradictory year filters error", {
   expect_error(
