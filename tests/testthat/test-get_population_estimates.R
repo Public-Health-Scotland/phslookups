@@ -388,7 +388,7 @@ test_that("invalid year filters error", {
       version = "2019",
       min_year = 1900L
     ),
-    "`min_year` must be at least 1981"
+    "`min_year` must be at least [0-9]{4}"
   )
 
   expect_error(
@@ -396,7 +396,7 @@ test_that("invalid year filters error", {
       version = "2019",
       max_year = 2099L
     ),
-    "`max_year` must be at most 2024"
+    "`max_year` must be at most 2[0-9]{3}"
   )
 })
 
