@@ -14,16 +14,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/Public-Health-Scotland/phslookups/blob/v0.3.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/Public-Health-Scotland/phslookups/blob/main/DESCRIPTION)
 
 Hayes J, Christofidis N, Nowok B (2026). *phslookups: PHS Lookups*. R
-package version 0.2.0,
+package version 0.2.0.9000,
 <https://github.com/Public-Health-Scotland/phslookups>.
 
     @Manual{,
       title = {phslookups: PHS Lookups},
       author = {James Hayes and Nicolaos Christofidis and Beata Nowok},
       year = {2026},
-      note = {R package version 0.2.0},
+      note = {R package version 0.2.0.9000},
       url = {https://github.com/Public-Health-Scotland/phslookups},
     }
