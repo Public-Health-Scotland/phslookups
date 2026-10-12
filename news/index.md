@@ -2,6 +2,11 @@
 
 ## phslookups (development version)
 
+- [`get_national_ref_file()`](https://moohan.github.io/phslookups/reference/get_national_ref_file.md)
+  is a new function for reading lookups in the ‘National Reference
+  Files’. Simply provide the name of the file you need
+  e.g. `get_national_ref_file("gpprac")`.
+
 ## phslookups 0.2.0
 
 - Fixed a typo in the lookup path that meant the package wouldn’t work
