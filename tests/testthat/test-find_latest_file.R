@@ -12,7 +12,7 @@ test_that("By default will find the last created file", {
   fs::file_create(fs::path(dir, "b0.csv"))
 
   expect_identical(
-    find_latest_file(dir, "[a-z]\\d.csv"),
+    find_latest_file(dir, "[a-z][0-9].csv"),
     fs::path(dir, "b0.csv")
   ) |>
     expect_message("\"b0\"")
@@ -20,7 +20,7 @@ test_that("By default will find the last created file", {
 
 test_that("Can find latest file by file name", {
   expect_identical(
-    find_latest_file(dir, "[a-z]\\d.csv", "file_name"),
+    find_latest_file(dir, "[a-z][0-9].csv", "file_name"),
     fs::path(dir, "z9.csv")
   ) |>
     expect_message("\"z9\"")

@@ -32,25 +32,25 @@ metadata <- function(data) {
     cli::cli_abort("Metadata is not available for this data.")
   }
 
-  if (rlang::is_false(ref$exists)) {
+  if (rlang::is_false(ref[["exists"]])) {
     cli::cli_abort(c(
-      "x" = "{ref$type} metadata not available.",
-      "i" = "Expected at {.path {ref$path}}"
+      x = "{ref$type} metadata not available.",
+      i = "Expected at {.path {ref$path}}"
     ))
   }
 
   metadata <- read_file(
-    ref$path,
-    col_select = 1:2,
+    ref[["path"]],
+    col_select = 1L:2L,
     col_names = c("variable", "description"),
-    skip = 1,
+    skip = 1L,
     col_types = readr::cols_only(
       variable = readr::col_character(),
       description = readr::col_character()
     )
   )
 
-  inform_metadata_version(ref$version)
+  inform_metadata_version(ref[["version"]])
 
   # Attach metadata to the object
   set_metadata(data, metadata)

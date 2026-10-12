@@ -8,10 +8,10 @@ test_that("returns a tibble with expected structure and content", {
     names(hscp_locality)[c(1L, 3L)],
     c("datazone2011", "hscp_locality")
   )
-  expect_identical(nrow(unique(hscp_locality["hb2019"])), 14L)
-  expect_identical(nrow(unique(hscp_locality["hscp2019"])), 31L)
-  expect_identical(nrow(unique(hscp_locality["ca2019"])), 32L)
-  expect_identical(nrow(unique(hscp_locality["datazone2011"])), 6976L)
+  expect_length(unique(hscp_locality[["hb2019"]]), 14L)
+  expect_length(unique(hscp_locality[["hscp2019"]]), 31L)
+  expect_length(unique(hscp_locality[["ca2019"]]), 32L)
+  expect_length(unique(hscp_locality[["datazone2011"]]), 6976L)
 })
 
 test_that("col_select returns correct columns (vector)", {

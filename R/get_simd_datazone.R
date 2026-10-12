@@ -72,5 +72,5 @@ get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
     quiet = simd_version != "latest"
   )
 
-  return(read_file(simd_datazone_path, col_select = {{ col_select }}))
+  read_file(simd_datazone_path, col_select = {{ col_select }})
 }

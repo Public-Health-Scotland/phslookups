@@ -7,10 +7,10 @@ test_that("simd_datazone is returned", {
   simd_datazone <- suppressMessages(get_simd_datazone())
 
   expect_s3_class(simd_datazone, "tbl_df")
-  expect_identical(nrow(unique(simd_datazone["hb2019"])), 14L)
-  expect_identical(nrow(unique(simd_datazone["hscp2019"])), 31L)
-  expect_identical(nrow(unique(simd_datazone["ca2019"])), 32L)
-  expect_identical(nrow(unique(simd_datazone["datazone2011"])), 6976L)
+  expect_length(unique(simd_datazone[["hb2019"]]), 14L)
+  expect_length(unique(simd_datazone[["hscp2019"]]), 31L)
+  expect_length(unique(simd_datazone[["ca2019"]]), 32L)
+  expect_length(unique(simd_datazone[["datazone2011"]]), 6976L)
 })
 
 test_that("col selection works", {
