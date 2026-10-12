@@ -5,8 +5,8 @@
 
 <!-- badges: start -->
 
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![GitHub release (latest by
+date)](https://img.shields.io/github/v/release/Public-Health-Scotland/phslookups)](https://github.com/Public-Health-Scotland/phslookups/releases/latest)
 
 <!-- badges: end -->
 
@@ -52,9 +52,10 @@ library(phslookups)
 
 spd <- get_spd()
 #> ℹ Using the latest available version:
-#> "Scottish_Postcode_Directory_2026_1".
+#> "Scottish_Postcode_Directory_2026_2".
 #> If you require an older version or for reproducibility purposes
 #> please specify the version argument accordingly.
+#> ℹ Metadata is available and can be accessed using `metadata()`.
 head(spd)
 #> # A tibble: 6 × 95
 #>   pc7     pc8     split_char pc_district pc_sector date_of_introduction
@@ -70,7 +71,7 @@ head(spd)
 #> #   dpc_nr <int>, hhc <int>, grid_reference_easting <int>,
 #> #   grid_reference_northing <int>, latitude <dbl>, longitude <dbl>,
 #> #   split_indicator <chr>, ca2019 <chr>, ca2019name <chr>, ca2018 <chr>,
-#> #   ca2011 <chr>, upc2024 <chr>, spr2021 <chr>, spc2021 <chr>, ew2022 <chr>,
+#> #   ca2011 <chr>, upc2024 <chr>, spr2026 <chr>, spc2026 <chr>, ew2022 <chr>,
 #> #   hb2019 <chr>, hb2019name <chr>, hb2018 <chr>, hb2014 <chr>, hb2006 <chr>, …
 ```
 
@@ -81,6 +82,7 @@ to a specific version too.
 library(phslookups)
 
 spd_23 <- get_spd(version = "2023_2")
+#> ℹ Metadata is available and can be accessed using `metadata()`.
 localities_mar_24 <- get_hscp_locality(version = "20240308")
 simd_dz_2016 <- get_simd_datazone(simd_version = "2016")
 simd_pc_2016_2012 <- get_simd_postcode(postcode_version = "2016_1", simd_version = "2012")
@@ -103,9 +105,10 @@ library(dplyr)
 
 postcode_coords <- get_spd(col_select = c("pc7", "latitude", "longitude"))
 #> ℹ Using the latest available version:
-#> "Scottish_Postcode_Directory_2026_1".
+#> "Scottish_Postcode_Directory_2026_2".
 #> If you require an older version or for reproducibility purposes
 #> please specify the version argument accordingly.
+#> ℹ Metadata is available and can be accessed using `metadata()`.
 dz_locality_lookup <- get_hscp_locality(col_select = c("datazone2011", "hscp_locality"))
 #> ℹ Using the latest available version:
 #> "HSCP Localities_DZ11_Lookup_20240513".
