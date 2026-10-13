@@ -70,7 +70,7 @@ find_latest_file <- function(
     file_path <- dplyr::first(latest_file_options)
 
     file_path <- find_preferred_version(
-      directory,
+      fs::path_dir(file_path),
       fs::path_ext_remove(fs::path_file(file_path))
     )
 

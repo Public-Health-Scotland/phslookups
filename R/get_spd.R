@@ -37,7 +37,7 @@ get_spd <- function(version = "latest", col_select = NULL) {
   if (version == "latest") {
     spd_path <- find_latest_file(
       directory = spd_dir,
-      regexp = "Scottish_Postcode_Directory_\\d{4}_[1-2]\\.parquet",
+      regexp = "Scottish_Postcode_Directory_\\d{4}_[1-2]\\.",
       selection_method = "file_name"
     )
   } else {
