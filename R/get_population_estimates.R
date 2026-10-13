@@ -207,17 +207,51 @@ get_pop_est <- function(
   shared_file_re <- "_pop_est_[0-9]{4}_[0-9]{4}\\."
   file_name_re <- paste0(geog_level_re, shared_file_re)
 
-  pop_path <- find_latest_file(
-    directory = pop_dir,
-    regexp = file_name_re,
-    selection_method = "file_name",
-    quiet = TRUE
-  )
+  if (level %in% c("DataZone", "IntZone")) {
+    # Resolve the latest geography version first, then gather all of its
+    # year-range Parquet files.
+    if (identical(version, "latest")) {
+      pop_path <- find_latest_file(
+        directory = pop_dir,
+        regexp = file_name_re,
+        selection_method = "file_name",
+        quiet = TRUE
+      )
+      version_match <- stringr::str_match(
+        fs::path_file(pop_path),
+        paste0("^", level, "([0-9]{4})")
+      )
+      file_name_re <- paste0(level, version_match[, 2L], shared_file_re)
+    }
 
-  pop_est <- if (fs::path_ext(pop_path) == "parquet") {
-    read_file(pop_path, as_data_frame = FALSE)
+    low_level_paths <- fs::dir_ls(
+      path = pop_dir,
+      type = "file",
+      regexp = paste0(file_name_re, "parquet$"),
+      recurse = FALSE
+    )
+
+    if (length(low_level_paths) == 0L) {
+      cli::cli_abort(
+        "There were no Parquet files for {.val {level}} version {.val {version}}.",
+        call = call
+      )
+    }
+
+    pop_est <- arrow::open_dataset(low_level_paths, format = "parquet")
   } else {
-    read_file(pop_path)
+    pop_path <- find_latest_file(
+      directory = pop_dir,
+      regexp = file_name_re,
+      selection_method = "file_name",
+      quiet = TRUE
+    )
+
+    pop_est <- if (fs::path_ext(pop_path) == "parquet") {
+      read_file(pop_path, as_data_frame = FALSE)
+    } else {
+      read_file(pop_path)
+    }
   }
 
   # Use rename_with as it can work on Arrow data without forcing collection
