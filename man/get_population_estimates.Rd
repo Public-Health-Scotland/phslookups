@@ -13,35 +13,35 @@ get_hb_pop_est(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  pivot_wider = FALSE
+  output = "long"
 )
 
 get_ca_pop_est(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  pivot_wider = FALSE
+  output = "long"
 )
 
 get_hscp_pop_est(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  pivot_wider = FALSE
+  output = "long"
 )
 
 get_iz_pop_est(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  pivot_wider = FALSE
+  output = "long"
 )
 
 get_dz_pop_est(
   version = "latest",
   min_year = NULL,
   max_year = NULL,
-  pivot_wider = FALSE
+  output = "long"
 )
 }
 \arguments{
@@ -51,16 +51,16 @@ get_dz_pop_est(
 \item{min_year, max_year}{Optional minimum and maximum years to include in the
 results.}
 
-\item{pivot_wider}{Optionally reshape the data into a wider format,
-summarising population counts by the specified columns. See the
-"Pivoting population data" section for allowed values.}
+\item{output}{Output format. One of \code{"long"}, \code{"age-and-sex"}, \code{"age"},
+\code{"age-only"}, \code{"sex"}, \code{"sex-only"} or \code{"total"}. See the
+"Output formats" section for details.}
 }
 \value{
 A \link[tibble:tibble-package]{tibble} containing the filtered and possibly
 transformed population data.
 
 The columns returned depend on the geography level requested, and the value
-of \code{pivot_wider}.
+of \code{output}.
 }
 \description{
 Retrieve population estimates for different geographic levels.
@@ -104,20 +104,20 @@ a particular year or range of years.
 If both are supplied, \code{min_year} must not be greater than \code{max_year}.
 }
 
-\section{Pivoting population data}{
+\section{Output formats}{
 
 
-\code{pivot_wider} controls whether the data is returned in long format or
-reshaped into a wider format.
+\code{output} controls the shape of the returned data.
 
 Allowed values are:
 \itemize{
-\item \code{FALSE}: (default) do not pivot.
-\item \code{TRUE}: pivot by both sex and age.
-\item \code{"age"}: pivot by age only.
-\item \code{"age-only"}: pivot by age and aggregate to remove sex.
-\item \code{"sex"}: pivot by sex only.
-\item \code{"sex-only"}: pivot by sex and aggregate to remove age.
+\item \code{"long"} (default): long format with separate age and sex columns.
+\item \code{"age-and-sex"}: wide format with separate columns for sex and age.
+\item \code{"age"}: wide by age, retaining sex.
+\item \code{"age-only"}: wide by age, aggregating across sex.
+\item \code{"sex"}: wide by sex, retaining age.
+\item \code{"sex-only"}: wide by sex, aggregating across age.
+\item \code{"total"}: one population total (\code{pop}) per year and area.
 }
 }
 
@@ -129,8 +129,11 @@ hb_pop <- get_hb_pop_est()
 ca_pop <- get_ca_pop_est(min_year = 2018, max_year = 2020)
 
 # Intermediate Zone population estimates with sex breakdowns as columns
-iz_pop <- get_iz_pop_est(pivot_wider = "sex")
+iz_pop <- get_iz_pop_est(output = "sex")
 
 # Data Zone population estimates in wider format by age
-dz_pop <- get_dz_pop_est(pivot_wider = "age")
+dz_pop <- get_dz_pop_est(output = "age")
+
+# Total population by year and area
+ca_total <- get_ca_pop_est(output = "total")
 }

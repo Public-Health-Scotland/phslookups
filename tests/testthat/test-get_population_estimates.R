@@ -81,36 +81,36 @@ test_that("year filtering works for various versions", {
   expect_setequal(dz_old$year, 2014L)
 })
 
-test_that("high-level pivot_wider options work", {
+test_that("high-level output options work", {
   hb_true <- get_hb_pop_est(
     version = "2019",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = TRUE
+    output = "age-and-sex"
   )
   hb_age <- get_hb_pop_est(
     version = "2019",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "age"
+    output = "age"
   )
   hb_age_only <- get_hb_pop_est(
     version = "2019",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "age-only"
+    output = "age-only"
   )
   hb_sex <- get_hb_pop_est(
     version = "2019",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "sex"
+    output = "sex"
   )
   hb_sex_only <- get_hb_pop_est(
     version = "2019",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "sex-only"
+    output = "sex-only"
   )
 
   expect_s3_class(hb_true, "tbl_df")
@@ -134,26 +134,26 @@ test_that("other high-level geographies pivot successfully", {
     version = "2019",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "age-only"
+    output = "age-only"
   )
   ca_sex_only <- get_ca_pop_est(
     version = "2019",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "sex-only"
+    output = "sex-only"
   )
 
   hscp_age_only <- get_hscp_pop_est(
     version = "2019",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "age-only"
+    output = "age-only"
   )
   hscp_sex_only <- get_hscp_pop_est(
     version = "2019",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "sex-only"
+    output = "sex-only"
   )
 
   expect_s3_class(ca_age_only, "tbl_df")
@@ -167,42 +167,42 @@ test_that("other high-level geographies pivot successfully", {
   expect_gt(sum(startsWith(names(hscp_age_only), "pop_")), 0L)
 })
 
-test_that("low-level pivot_wider options work", {
+test_that("low-level output options work", {
   dz_long <- get_dz_pop_est(
     version = "2011",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = FALSE
+    output = "long"
   )
   dz_true <- get_dz_pop_est(
     version = "2011",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = TRUE
+    output = "age-and-sex"
   )
   dz_age <- get_dz_pop_est(
     version = "2011",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "age"
+    output = "age"
   )
   dz_age_only <- get_dz_pop_est(
     version = "2011",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "age-only"
+    output = "age-only"
   )
   dz_sex <- get_dz_pop_est(
     version = "2011",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "sex"
+    output = "sex"
   )
   dz_sex_only <- get_dz_pop_est(
     version = "2011",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "sex-only"
+    output = "sex-only"
   )
 
   expect_s3_class(dz_long, "tbl_df")
@@ -223,30 +223,30 @@ test_that("low-level pivot_wider options work", {
   expect_gt(sum(startsWith(names(dz_age_only), "pop_")), 0L)
 })
 
-test_that("intermediate zone pivot_wider options work", {
+test_that("intermediate zone output options work", {
   iz_long <- get_iz_pop_est(
     version = "2011",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = FALSE
+    output = "long"
   )
   iz_true <- get_iz_pop_est(
     version = "2011",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = TRUE
+    output = "age-and-sex"
   )
   iz_age_only <- get_iz_pop_est(
     version = "2011",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "age-only"
+    output = "age-only"
   )
   iz_sex_only <- get_iz_pop_est(
     version = "2011",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "sex-only"
+    output = "sex-only"
   )
 
   expect_s3_class(iz_long, "tbl_df")
@@ -259,31 +259,31 @@ test_that("intermediate zone pivot_wider options work", {
   expect_gt(sum(startsWith(names(iz_age_only), "pop_")), 0L)
 })
 
-test_that("older low-level pivot_wider options work", {
+test_that("older low-level output options work", {
   iz_old_age_only <- get_iz_pop_est(
     version = "2001",
     min_year = 2014L,
     max_year = 2014L,
-    pivot_wider = "age-only"
+    output = "age-only"
   )
   iz_old_sex_only <- get_iz_pop_est(
     version = "2001",
     min_year = 2014L,
     max_year = 2014L,
-    pivot_wider = "sex-only"
+    output = "sex-only"
   )
 
   dz_old_age_only <- get_dz_pop_est(
     version = "2001",
     min_year = 2014L,
     max_year = 2014L,
-    pivot_wider = "age-only"
+    output = "age-only"
   )
   dz_old_sex_only <- get_dz_pop_est(
     version = "2001",
     min_year = 2014L,
     max_year = 2014L,
-    pivot_wider = "sex-only"
+    output = "sex-only"
   )
 
   expect_s3_class(iz_old_age_only, "tbl_df")
@@ -302,14 +302,14 @@ test_that("high-level pivoted population totals are consistent with long format"
     version = "2019",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = FALSE
+    output = "long"
   )
 
   sex_only <- get_hb_pop_est(
     version = "2019",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "sex-only"
+    output = "sex-only"
   )
 
   expect_identical(
@@ -329,14 +329,14 @@ test_that("low-level pivoted population totals are consistent with long format",
     version = "2011",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = FALSE
+    output = "long"
   )
 
   age_only <- get_dz_pop_est(
     version = "2011",
     min_year = 2024L,
     max_year = 2024L,
-    pivot_wider = "age-only"
+    output = "age-only"
   )
 
   expect_identical(
@@ -375,10 +375,10 @@ test_that("valid-looking but unavailable version errors", {
   )
 })
 
-test_that("invalid pivot_wider option errors", {
+test_that("invalid output option errors", {
   expect_error(
-    get_hb_pop_est(pivot_wider = "bad"),
-    "`pivot_wider` must be one of"
+    get_hb_pop_est(output = "bad"),
+    "`output` must be one of"
   )
 })
 
