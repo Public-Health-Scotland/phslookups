@@ -1,6 +1,7 @@
 # phslookups (development version)
 
-- `get_national_ref_file()` is a new function for reading lookups in the 'National Reference Files'. Simply provide the name of the file you need e.g. `get_national_ref_file("gpprac")`.
+-   `get_national_ref_file()` is a new function for reading lookups in the 'National Reference Files'. Simply provide the name of the file you need e.g. `get_national_ref_file("gpprac")`.
+-   Add `get_hb_pop_est()`, `get_ca_pop_est()`, `get_hscp_pop_est()`, `get_dz_pop_est()` and `get_iz_pop_est()` for retrieving population estimates. The `output` argument controls the returned breakdown.
 
 # phslookups 0.2.0
 
@@ -8,14 +9,11 @@
 -   Make the minimum required R version 4.1
 -   Overhaul the README; fixed out of date information, and added more detail and examples.
 -   Metadata is now available! Currently, this is only for the Scottish Postcode Directory (`get_spd()`), but we will bring it to the other lookups soon, too. You can see the metadata by using `metadata()` on the lookup object, for example:
-```r
+
+``` r
 spd <- get_spd()
 metadata(spd)
 ```
-
-- Add [`get_pop_est()`](https://public-health-scotland.github.io/phslookups/reference/get_pop_est.html) 
-for retrieving the population lookups. This function has arguments that should
-make it simple to reshape the files as needed.
 
 # phslookups 0.1.0
 
