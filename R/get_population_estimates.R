@@ -208,6 +208,13 @@ get_pop_est <- function(
     }
   }
 
+  if (!is.null(min_year) && !is.null(max_year) && min_year > max_year) {
+    cli::cli_abort(
+      "{.arg min_year} must not be greater than {.arg max_year}.",
+      call = call
+    )
+  }
+
   pop_dir <- fs::path(get_lookups_dir(), "Populations", "Estimates")
 
   geog_level_re <- paste0(
@@ -476,13 +483,6 @@ validate_years <- function(
 
   if (!min_year_provided && !max_year_provided) {
     return(data)
-  }
-
-  if (min_year_provided && max_year_provided && min_year > max_year) {
-    cli::cli_abort(
-      "{.arg min_year} must not be greater than {.arg max_year}.",
-      call = call
-    )
   }
 
   if (is_arrow_data(data)) {
