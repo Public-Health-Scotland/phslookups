@@ -1,354 +1,166 @@
-skip_on_ci()
+setup_mock_pop_dir <- function() {
+  mock_dir <- fs::file_temp("mock_pop_dir")
+  pop_dir <- fs::path(mock_dir, "Populations", "Estimates")
+  fs::dir_create(pop_dir)
 
-test_that("population estimates are returned using defaults", {
-  expect_message(
-    hb <- get_hb_pop_est(),
-    "Using the latest available geography"
+  # Mock high-level file (HB)
+  mock_hb <- tibble::tibble(
+    year = rep(2020L:2021L, each = 4L),
+    hb2019 = "S08000015",
+    hb2019name = "NHS Ayrshire and Arran",
+    sex = rep(c(1L, 2L), times = 4L),
+    sex_name = rep(c("Male", "Female"), times = 4L),
+    age = rep(c(0L, 1L), each = 2L, times = 2L),
+    pop = c(100L, 105L, 110L, 115L, 102L, 107L, 112L, 117L)
   )
-  expect_message(
-    ca <- get_ca_pop_est(),
-    "Using the latest available geography"
-  )
-  expect_message(
-    hscp <- get_hscp_pop_est(),
-    "Using the latest available geography"
-  )
-  expect_message(
-    iz <- get_iz_pop_est(),
-    "Using the latest available geography"
-  )
-  expect_message(
-    dz <- get_dz_pop_est(),
-    "Using the latest available geography"
+  arrow::write_parquet(
+    mock_hb,
+    fs::path(pop_dir, "HB2019_pop_est_1981_2021.parquet")
   )
 
-  expect_s3_class(hb, "tbl_df")
-  expect_s3_class(ca, "tbl_df")
-  expect_s3_class(hscp, "tbl_df")
-  expect_s3_class(iz, "tbl_df")
-  expect_s3_class(dz, "tbl_df")
+  # Mock low-level split files (IntZone) to test arrow::open_dataset
+  mock_iz1 <- tibble::tibble(
+    year = 2020L,
+    intzone2011 = "S02000001",
+    intzone2011name = "IZ1",
+    sex = c("F", "M"),
+    age0 = c(10L, 12L),
+    age1 = c(15L, 18L),
+    age90plus = c(2L, 1L),
+    total_pop = c(27L, 31L)
+  )
+  mock_iz2 <- tibble::tibble(
+    year = 2021L,
+    intzone2011 = "S02000001",
+    intzone2011name = "IZ1",
+    sex = c("F", "M"),
+    age0 = c(11L, 13L),
+    age1 = c(16L, 19L),
+    age90plus = c(3L, 1L),
+    total_pop = c(30L, 33L)
+  )
+  arrow::write_parquet(
+    mock_iz1,
+    fs::path(pop_dir, "IntZone2011_pop_est_2020_2020.parquet")
+  )
+  arrow::write_parquet(
+    mock_iz2,
+    fs::path(pop_dir, "IntZone2011_pop_est_2021_2021.parquet")
+  )
 
-  expect_gt(nrow(hb), 0L)
-  expect_gt(nrow(ca), 0L)
-  expect_gt(nrow(hscp), 0L)
-  expect_gt(nrow(iz), 0L)
-  expect_gt(nrow(dz), 0L)
+  mock_dir
+}
 
-  expect_in(c("year", "sex_name", "age", "pop"), names(hb))
-  expect_in(c("year", "sex_name", "age", "pop"), names(hb))
-  expect_in(c("year", "sex_name", "age", "pop"), names(ca))
-  expect_in(c("year", "sex_name", "age", "pop"), names(hscp))
-  expect_in(c("year", "sex_name", "age", "pop"), names(iz))
-  expect_in(c("year", "sex_name", "age", "pop"), names(dz))
+test_that("all high-level output options work with mock data", {
+  mock_dir <- setup_mock_pop_dir()
+  testthat::local_mocked_bindings(
+    get_lookups_dir = function() mock_dir,
+    .package = "phslookups"
+  )
+
+  outputs <- c(
+    "long",
+    "age-and-sex",
+    "age",
+    "age-only",
+    "sex",
+    "sex-only",
+    "total"
+  )
+
+  for (opt in outputs) {
+    expect_snapshot({
+      cat("Output option:", opt, "\n")
+      res <- get_hb_pop_est(output = opt)
+      print(dim(res))
+      print(names(res))
+    })
+
+    expect_s3_class(res, "tbl_df")
+    expect_gt(nrow(res), 0L)
+  }
 })
 
-test_that("population estimates are returned for valid versions", {
-  expect_s3_class(get_hb_pop_est(version = "2006"), "tbl_df")
-  expect_s3_class(get_hb_pop_est(version = "2019"), "tbl_df")
+test_that("all low-level output options work with split mock parquet files", {
+  mock_dir <- setup_mock_pop_dir()
+  testthat::local_mocked_bindings(
+    get_lookups_dir = function() mock_dir,
+    .package = "phslookups"
+  )
 
-  expect_s3_class(get_ca_pop_est(version = "2019"), "tbl_df")
+  outputs <- c(
+    "long",
+    "age-and-sex",
+    "age",
+    "age-only",
+    "sex",
+    "sex-only",
+    "total"
+  )
 
-  expect_s3_class(get_hscp_pop_est(version = "2019"), "tbl_df")
+  for (opt in outputs) {
+    expect_snapshot({
+      cat("Output option:", opt, "\n")
+      res <- get_iz_pop_est(output = opt)
+      print(dim(res))
+      print(names(res))
+    })
 
-  expect_s3_class(get_iz_pop_est(version = "2001"), "tbl_df")
-  expect_s3_class(get_iz_pop_est(version = "2011"), "tbl_df")
-
-  expect_s3_class(get_dz_pop_est(version = "2001"), "tbl_df")
-  expect_s3_class(get_dz_pop_est(version = "2011"), "tbl_df")
+    expect_s3_class(res, "tbl_df")
+    expect_gt(nrow(res), 0L)
+  }
 })
 
-test_that("year filtering works for various versions", {
-  hb <- get_hb_pop_est(version = "2019", min_year = 2024L, max_year = 2024L)
-  hb_old <- get_hb_pop_est(version = "2006", min_year = 2013L, max_year = 2013L)
-
-  ca <- get_ca_pop_est(version = "2019", min_year = 2024L, max_year = 2024L)
-
-  hscp <- get_hscp_pop_est(version = "2019", min_year = 2024L, max_year = 2024L)
-
-  iz <- get_iz_pop_est(version = "2011", min_year = 2024L, max_year = 2024L)
-  iz_old <- get_iz_pop_est(version = "2001", min_year = 2014L, max_year = 2014L)
-
-  dz <- get_dz_pop_est(version = "2011", min_year = 2024L, max_year = 2024L)
-  dz_old <- get_dz_pop_est(version = "2001", min_year = 2014L, max_year = 2014L)
-
-  expect_setequal(hb$year, 2024L)
-  expect_setequal(hb_old$year, 2013L)
-  expect_setequal(ca$year, 2024L)
-  expect_setequal(hscp$year, 2024L)
-  expect_setequal(iz$year, 2024L)
-  expect_setequal(iz_old$year, 2014L)
-  expect_setequal(dz$year, 2024L)
-  expect_setequal(dz_old$year, 2014L)
-})
-
-test_that("high-level output options work", {
-  hb_true <- get_hb_pop_est(
-    version = "2019",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "age-and-sex"
-  )
-  hb_age <- get_hb_pop_est(
-    version = "2019",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "age"
-  )
-  hb_age_only <- get_hb_pop_est(
-    version = "2019",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "age-only"
-  )
-  hb_sex <- get_hb_pop_est(
-    version = "2019",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "sex"
-  )
-  hb_sex_only <- get_hb_pop_est(
-    version = "2019",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "sex-only"
+test_that("high-level and low-level population totals consistency on mock data", {
+  mock_dir <- setup_mock_pop_dir()
+  testthat::local_mocked_bindings(
+    get_lookups_dir = function() mock_dir,
+    .package = "phslookups"
   )
 
-  expect_s3_class(hb_true, "tbl_df")
-  expect_s3_class(hb_age, "tbl_df")
-  expect_s3_class(hb_age_only, "tbl_df")
-  expect_s3_class(hb_sex, "tbl_df")
-  expect_s3_class(hb_sex_only, "tbl_df")
-
-  expect_in("year", names(hb_true))
-  expect_in(c("year", "sex_name"), names(hb_age))
-  expect_in("year", names(hb_age_only))
-  expect_in(c("year", "age"), names(hb_sex))
-  expect_in("year", names(hb_sex_only))
-
-  expect_in(c("pop_m", "pop_f"), names(hb_sex_only))
-  expect_in(paste0("pop_", 0L:90L), names(hb_age_only))
-})
-
-test_that("other high-level geographies pivot successfully", {
-  ca_age_only <- get_ca_pop_est(
-    version = "2019",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "age-only"
-  )
-  ca_sex_only <- get_ca_pop_est(
-    version = "2019",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "sex-only"
-  )
-
-  hscp_age_only <- get_hscp_pop_est(
-    version = "2019",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "age-only"
-  )
-  hscp_sex_only <- get_hscp_pop_est(
-    version = "2019",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "sex-only"
-  )
-
-  expect_s3_class(ca_age_only, "tbl_df")
-  expect_s3_class(ca_sex_only, "tbl_df")
-  expect_s3_class(hscp_age_only, "tbl_df")
-  expect_s3_class(hscp_sex_only, "tbl_df")
-
-  expect_in(c("pop_m", "pop_f"), names(ca_sex_only))
-  expect_in(c("pop_m", "pop_f"), names(hscp_sex_only))
-  expect_gt(sum(startsWith(names(ca_age_only), "pop_")), 0L)
-  expect_gt(sum(startsWith(names(hscp_age_only), "pop_")), 0L)
-})
-
-test_that("low-level output options work", {
-  dz_long <- get_dz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "long"
-  )
-  dz_true <- get_dz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "age-and-sex"
-  )
-  dz_age <- get_dz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "age"
-  )
-  dz_age_only <- get_dz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "age-only"
-  )
-  dz_sex <- get_dz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "sex"
-  )
-  dz_sex_only <- get_dz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "sex-only"
-  )
-
-  expect_s3_class(dz_long, "tbl_df")
-  expect_s3_class(dz_true, "tbl_df")
-  expect_s3_class(dz_age, "tbl_df")
-  expect_s3_class(dz_age_only, "tbl_df")
-  expect_s3_class(dz_sex, "tbl_df")
-  expect_s3_class(dz_sex_only, "tbl_df")
-
-  expect_in(c("year", "sex_name", "age", "pop"), names(dz_long))
-  expect_in("year", names(dz_true))
-  expect_in("year", names(dz_age))
-  expect_in("year", names(dz_age_only))
-  expect_in("year", names(dz_sex))
-  expect_in("year", names(dz_sex_only))
-
-  expect_in(c("pop_m", "pop_f"), names(dz_sex_only))
-  expect_gt(sum(startsWith(names(dz_age_only), "pop_")), 0L)
-})
-
-test_that("intermediate zone output options work", {
-  iz_long <- get_iz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "long"
-  )
-  iz_true <- get_iz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "age-and-sex"
-  )
-  iz_age_only <- get_iz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "age-only"
-  )
-  iz_sex_only <- get_iz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "sex-only"
-  )
-
-  expect_s3_class(iz_long, "tbl_df")
-  expect_s3_class(iz_true, "tbl_df")
-  expect_s3_class(iz_age_only, "tbl_df")
-  expect_s3_class(iz_sex_only, "tbl_df")
-
-  expect_in(c("year", "sex_name", "age", "pop"), names(iz_long))
-  expect_in(c("pop_m", "pop_f"), names(iz_sex_only))
-  expect_gt(sum(startsWith(names(iz_age_only), "pop_")), 0L)
-})
-
-test_that("older low-level output options work", {
-  iz_old_age_only <- get_iz_pop_est(
-    version = "2001",
-    min_year = 2014L,
-    max_year = 2014L,
-    output = "age-only"
-  )
-  iz_old_sex_only <- get_iz_pop_est(
-    version = "2001",
-    min_year = 2014L,
-    max_year = 2014L,
-    output = "sex-only"
-  )
-
-  dz_old_age_only <- get_dz_pop_est(
-    version = "2001",
-    min_year = 2014L,
-    max_year = 2014L,
-    output = "age-only"
-  )
-  dz_old_sex_only <- get_dz_pop_est(
-    version = "2001",
-    min_year = 2014L,
-    max_year = 2014L,
-    output = "sex-only"
-  )
-
-  expect_s3_class(iz_old_age_only, "tbl_df")
-  expect_s3_class(iz_old_sex_only, "tbl_df")
-  expect_s3_class(dz_old_age_only, "tbl_df")
-  expect_s3_class(dz_old_sex_only, "tbl_df")
-
-  expect_in(c("pop_m", "pop_f"), names(iz_old_sex_only))
-  expect_in(c("pop_m", "pop_f"), names(dz_old_sex_only))
-  expect_gt(sum(startsWith(names(iz_old_age_only), "pop_")), 0L)
-  expect_gt(sum(startsWith(names(dz_old_age_only), "pop_")), 0L)
-})
-
-test_that("high-level pivoted population totals are consistent with long format", {
-  long <- get_hb_pop_est(
-    version = "2019",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "long"
-  )
-
-  sex_only <- get_hb_pop_est(
-    version = "2019",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "sex-only"
-  )
+  # High level consistency
+  expect_snapshot({
+    hb_long <- get_hb_pop_est(output = "long")
+    hb_sex_only <- get_hb_pop_est(output = "sex-only")
+  })
 
   expect_identical(
-    sum(long$pop, na.rm = TRUE),
+    sum(hb_long$pop, na.rm = TRUE),
     sum(
-      unlist(
-        dplyr::select(sex_only, dplyr::starts_with("pop_")),
-        use.names = FALSE
-      ),
+      unlist(dplyr::select(hb_sex_only, dplyr::starts_with("pop_"))),
+      na.rm = TRUE
+    )
+  )
+
+  # Low level consistency
+  expect_snapshot({
+    iz_long <- get_iz_pop_est(output = "long")
+    iz_age_only <- get_iz_pop_est(output = "age-only")
+  })
+
+  expect_identical(
+    sum(iz_long$pop, na.rm = TRUE),
+    sum(
+      unlist(dplyr::select(iz_age_only, dplyr::starts_with("pop_"))),
       na.rm = TRUE
     )
   )
 })
 
-test_that("low-level pivoted population totals are consistent with long format", {
-  long <- get_dz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "long"
+test_that("year filtering works on mock data", {
+  mock_dir <- setup_mock_pop_dir()
+  testthat::local_mocked_bindings(
+    get_lookups_dir = function() mock_dir,
+    .package = "phslookups"
   )
 
-  age_only <- get_dz_pop_est(
-    version = "2011",
-    min_year = 2024L,
-    max_year = 2024L,
-    output = "age-only"
-  )
+  expect_snapshot({
+    hb_2020 <- get_hb_pop_est(min_year = 2020L, max_year = 2020L)
+    iz_2021 <- get_iz_pop_est(min_year = 2021L, max_year = 2021L)
+  })
 
-  expect_identical(
-    sum(long$pop, na.rm = TRUE),
-    sum(
-      unlist(
-        dplyr::select(age_only, dplyr::starts_with("pop_")),
-        use.names = FALSE
-      ),
-      na.rm = TRUE
-    )
-  )
+  expect_setequal(hb_2020$year, 2020L)
+  expect_setequal(iz_2021$year, 2021L)
 })
 
 test_that("invalid version format errors", {
@@ -369,6 +181,12 @@ test_that("invalid version format errors", {
 })
 
 test_that("valid-looking but unavailable version errors", {
+  mock_dir <- setup_mock_pop_dir()
+  testthat::local_mocked_bindings(
+    get_lookups_dir = function() mock_dir,
+    .package = "phslookups"
+  )
+
   expect_error(
     get_hb_pop_est(version = "1900"),
     "There was no file"
@@ -383,16 +201,16 @@ test_that("invalid output option errors", {
 })
 
 test_that("year filters outside the available range error", {
-  pop <- get_hb_pop_est(version = "2019")
-
-  available_years <- range(pop$year)
-  min_year_available <- available_years[[1L]]
-  max_year_available <- available_years[[2L]]
+  mock_dir <- setup_mock_pop_dir()
+  testthat::local_mocked_bindings(
+    get_lookups_dir = function() mock_dir,
+    .package = "phslookups"
+  )
 
   expect_error(
     get_hb_pop_est(
       version = "2019",
-      min_year = min_year_available - 1L
+      min_year = 2019L
     ),
     "`min_year` must be within the available year range"
   )
@@ -400,7 +218,7 @@ test_that("year filters outside the available range error", {
   expect_error(
     get_hb_pop_est(
       version = "2019",
-      min_year = max_year_available + 1L
+      min_year = 2022L
     ),
     "`min_year` must be within the available year range"
   )
@@ -408,7 +226,7 @@ test_that("year filters outside the available range error", {
   expect_error(
     get_hb_pop_est(
       version = "2019",
-      max_year = min_year_available - 1L
+      max_year = 2019L
     ),
     "`max_year` must be within the available year range"
   )
@@ -416,12 +234,11 @@ test_that("year filters outside the available range error", {
   expect_error(
     get_hb_pop_est(
       version = "2019",
-      max_year = max_year_available + 1L
+      max_year = 2022L
     ),
     "`max_year` must be within the available year range"
   )
 })
-
 
 test_that("contradictory year filters error", {
   expect_error(
@@ -431,5 +248,85 @@ test_that("contradictory year filters error", {
       max_year = 2023L
     ),
     "must not be greater than"
+  )
+})
+
+test_that("population estimates are returned using defaults on real files", {
+  skip_if_not(have_access())
+
+  expect_message(
+    hb <- get_hb_pop_est(min_year = 2024L, max_year = 2024L),
+    "Using the latest available geography"
+  )
+  expect_message(
+    ca <- get_ca_pop_est(min_year = 2024L, max_year = 2024L),
+    "Using the latest available geography"
+  )
+  expect_message(
+    hscp <- get_hscp_pop_est(min_year = 2024L, max_year = 2024L),
+    "Using the latest available geography"
+  )
+  expect_message(
+    iz <- get_iz_pop_est(min_year = 2024L, max_year = 2024L),
+    "Using the latest available geography"
+  )
+  expect_message(
+    dz <- get_dz_pop_est(min_year = 2024L, max_year = 2024L),
+    "Using the latest available geography"
+  )
+
+  expect_s3_class(hb, "tbl_df")
+  expect_s3_class(ca, "tbl_df")
+  expect_s3_class(hscp, "tbl_df")
+  expect_s3_class(iz, "tbl_df")
+  expect_s3_class(dz, "tbl_df")
+
+  expect_gt(nrow(hb), 0L)
+  expect_gt(nrow(ca), 0L)
+  expect_gt(nrow(hscp), 0L)
+  expect_gt(nrow(iz), 0L)
+  expect_gt(nrow(dz), 0L)
+
+  expect_in(c("year", "sex_name", "age", "pop"), names(hb))
+  expect_in(c("year", "sex_name", "age", "pop"), names(ca))
+  expect_in(c("year", "sex_name", "age", "pop"), names(hscp))
+  expect_in(c("year", "sex_name", "age", "pop"), names(iz))
+  expect_in(c("year", "sex_name", "age", "pop"), names(dz))
+})
+
+test_that("population estimates are returned for valid versions on real files", {
+  skip_if_not(have_access())
+
+  expect_s3_class(
+    get_hb_pop_est(version = "2006", min_year = 2013L, max_year = 2013L),
+    "tbl_df"
+  )
+  expect_s3_class(
+    get_hb_pop_est(version = "2019", min_year = 2024L, max_year = 2024L),
+    "tbl_df"
+  )
+  expect_s3_class(
+    get_ca_pop_est(version = "2019", min_year = 2024L, max_year = 2024L),
+    "tbl_df"
+  )
+  expect_s3_class(
+    get_hscp_pop_est(version = "2019", min_year = 2024L, max_year = 2024L),
+    "tbl_df"
+  )
+  expect_s3_class(
+    get_iz_pop_est(version = "2001", min_year = 2014L, max_year = 2014L),
+    "tbl_df"
+  )
+  expect_s3_class(
+    get_iz_pop_est(version = "2011", min_year = 2024L, max_year = 2024L),
+    "tbl_df"
+  )
+  expect_s3_class(
+    get_dz_pop_est(version = "2001", min_year = 2014L, max_year = 2014L),
+    "tbl_df"
+  )
+  expect_s3_class(
+    get_dz_pop_est(version = "2011", min_year = 2024L, max_year = 2024L),
+    "tbl_df"
   )
 })
