@@ -16,20 +16,17 @@
 get_hscp_locality <- function(version = "latest", col_select = NULL) {
   hscp_locality_dir <- fs::path(get_lookups_dir(), "Geography", "HSCP Locality")
 
-  # If col_select is specified use CSV otherwise use RDS
-  ext <- ifelse(rlang::quo_is_null(rlang::enquo(col_select)), "rds", "csv")
-
   if (version == "latest") {
     hscp_locality_path <- find_latest_file(
       directory = hscp_locality_dir,
-      regexp = paste0("HSCP Localities_DZ11_Lookup_[0-9]{8}[.]", ext),
+      regexp = "HSCP Localities_DZ11_Lookup_[0-9]{8}[.]",
       selection_method = "file_name"
     )
   } else {
     if (
       !stringr::str_detect(
         version,
-        "^20\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])$"
+        "^20[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$"
       )
     ) {
       cli::cli_abort(c(
