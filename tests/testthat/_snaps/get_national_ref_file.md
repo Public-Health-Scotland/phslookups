@@ -1,4 +1,4 @@
-# suggests close National Reference File names / suggests close National Reference File names
+# suggests close National Reference File names
 
     Code
       get_national_ref_file("ggprac")
