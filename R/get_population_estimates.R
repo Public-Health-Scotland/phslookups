@@ -219,7 +219,11 @@ get_pop_est <- function(
 
   geog_level_re <- paste0(
     level,
-    if (version == "latest") "[0-9]{4}" else version
+    if (version == "latest") {
+      "[0-9]{4}"
+    } else {
+      version
+    }
   )
   shared_file_re <- "_pop_est_[0-9]{4}_[0-9]{4}\\."
   file_name_re <- paste0(geog_level_re, shared_file_re)
@@ -238,7 +242,13 @@ get_pop_est <- function(
         fs::path_file(pop_path),
         paste0("^", level, "([0-9]{4})")
       )
-      file_name_re <- paste0(level, version_match[, 2L], shared_file_re)
+      file_name_re <- paste0(
+        level,
+        version_match[,
+          2L
+        ],
+        shared_file_re
+      )
     }
 
     low_level_paths <- fs::dir_ls(
@@ -250,7 +260,8 @@ get_pop_est <- function(
 
     if (length(low_level_paths) == 0L) {
       cli::cli_abort(
-        "There were no Parquet files for {.val {level}} version {.val {version}}.",
+        "There were no Parquet files for {.val {level}}
+        version {.val {version}}.",
         call = call
       )
     }
@@ -271,31 +282,21 @@ get_pop_est <- function(
     }
   }
 
-  # Use rename_with as it can work on Arrow data without forcing collection
+  # Use rename_with as it can work on Arrow data
+  # without forcing collection
   pop_est <- pop_est |>
     dplyr::rename_with(janitor::make_clean_names) |>
     # Validate year inputs and filter
-    validate_years(
-      min_year = min_year,
-      max_year = max_year,
-      call = call
-    )
+    validate_years(min_year = min_year, max_year = max_year, call = call)
 
   pop_est <- if (level %in% c("DataZone", "IntZone")) {
-    process_low_level_pop(
-      data = pop_est,
-      output = output,
-      call = call
-    )
+    process_low_level_pop(data = pop_est, output = output, call = call)
   } else {
-    process_high_level_pop(
-      data = pop_est,
-      output = output,
-      call = call
-    )
+    process_high_level_pop(data = pop_est, output = output, call = call)
   }
 
   if (identical(version, "latest")) {
+    # nolint start object_usage_linter
     version_info <- stringr::str_extract(
       fs::path_file(pop_path),
       "^([A-z]+)([0-9]{4})",
@@ -303,9 +304,13 @@ get_pop_est <- function(
     )
 
     cli::cli_inform(c(
-      v = "Using the latest available geography: {.val {version_info[1]}{version_info[2]}}.",
-      i = "If you require older boundaries or for reproducibility purposes specify {.arg version} explicitly: {.code version = \"{version_info[2]}\"}."
+      v = "Using the latest available geography:
+      {.val {version_info[1]}{version_info[2]}}.",
+      i = "If you require older boundaries or for reproducibility purposes
+      specify {.arg version} explicitly:
+      {.code version = \"{version_info[2]}\"}."
     ))
+    # nolint end
   }
 
   pop_est
@@ -314,11 +319,7 @@ get_pop_est <- function(
 # High-Level Processing (HB, CA, HSCP)
 #' Process long-format population data
 #' @noRd
-process_high_level_pop <- function(
-  data,
-  output,
-  call = rlang::caller_call()
-) {
+process_high_level_pop <- function(data, output, call = rlang::caller_call()) {
   if (is_arrow_data(data)) {
     data <- dplyr::collect(data)
   }
@@ -349,11 +350,7 @@ process_high_level_pop <- function(
 #' Avoids expensive double-pivoting by staying in the native wide format
 #' whenever possible. Only pivots to long for output = "long".
 #' @noRd
-process_low_level_pop <- function(
-  data,
-  output,
-  call = rlang::caller_call()
-) {
+process_low_level_pop <- function(data, output, call = rlang::caller_call()) {
   all_cols <- names(data)
   if (any(startsWith(all_cols, "datazone"))) {
     geo_cols <- all_cols[(startsWith(all_cols, "datazone"))]
@@ -416,7 +413,9 @@ process_low_level_pop <- function(
     # Rename age cols to clean numeric form before pivot
     data <- dplyr::rename_with(
       data,
-      \(col) clean_age_col_names(col),
+      \(col) {
+        clean_age_col_names(col)
+      },
       dplyr::all_of(age_cols)
     )
 
@@ -501,28 +500,30 @@ validate_years <- function(
     max_year_available <- max(years)
   }
 
-  available_years_msg <- "Available years are {.val {min_year_available}} to {.val {max_year_available}}."
+  available_years_msg <- paste(
+    "Available years are {.val {min_year_available}}",
+    "to {.val {max_year_available}}."
+  )
 
-  if (
-    min_year_provided &&
-      (min_year < min_year_available || min_year > max_year_available)
-  ) {
+  lower <- min_year %||% min_year_available
+  upper <- max_year %||% max_year_available
+
+  if (lower < min_year_available || lower > max_year_available) {
     cli::cli_abort(
       c(
-        "{.arg min_year} must be within the available year range, not {.val {min_year}}.",
+        "{.arg min_year} must be within the available year range,
+      not {.val {min_year}}.",
         i = available_years_msg
       ),
       call = call
     )
   }
 
-  if (
-    max_year_provided &&
-      (max_year < min_year_available || max_year > max_year_available)
-  ) {
+  if (upper < min_year_available || upper > max_year_available) {
     cli::cli_abort(
       c(
-        "{.arg max_year} must be within the available year range, not {.val {max_year}}.",
+        "{.arg max_year} must be within the available year range,
+      not {.val {max_year}}.",
         i = available_years_msg
       ),
       call = call
@@ -530,9 +531,6 @@ validate_years <- function(
   }
 
   # Apply filter (stays lazy for Arrow; in-memory for data.frame)
-  lower <- min_year %||% min_year_available
-  upper <- max_year %||% max_year_available
-
   dplyr::filter(data, .data$year >= lower, .data$year <= upper)
 }
 
@@ -565,11 +563,5 @@ pivot_pop_data <- function(data, id_cols, names_from) {
 }
 
 is_arrow_data <- function(data) {
-  inherits(
-    data,
-    c(
-      "ArrowTabular", # Table, Dataset
-      "arrow_dplyr_query" # result of dplyr verbs on Arrow
-    )
-  )
+  inherits(data, c("ArrowTabular", "arrow_dplyr_query"))
 }

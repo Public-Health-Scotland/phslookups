@@ -11,7 +11,7 @@ test_that("find_preferred_version prefers parquet over rds and csv", {
   expect_identical(res, fs::path(tmp_dir, "file1.parquet"))
 })
 
-test_that("find_preferred_version falls back to rds or csv when parquet is absent", {
+test_that("find_preferred_version falls back correctly", {
   tmp_dir <- fs::file_temp("pref_ver_test2")
   fs::dir_create(tmp_dir)
 

@@ -111,7 +111,7 @@ test_that("all low-level output options work with split mock parquet files", {
   }
 })
 
-test_that("high-level and low-level population totals consistency on mock data", {
+test_that("high-level and low-level consistency on mock data", {
   mock_dir <- setup_mock_pop_dir()
   testthat::local_mocked_bindings(
     get_lookups_dir = function() mock_dir,
@@ -255,23 +255,33 @@ test_that("population estimates are returned using defaults on real files", {
   skip_if_not(have_access())
 
   expect_message(
-    hb <- get_hb_pop_est(min_year = 2024L, max_year = 2024L),
+    {
+      hb <- get_hb_pop_est(min_year = 2024L, max_year = 2024L)
+    },
     "Using the latest available geography"
   )
   expect_message(
-    ca <- get_ca_pop_est(min_year = 2024L, max_year = 2024L),
+    {
+      ca <- get_ca_pop_est(min_year = 2024L, max_year = 2024L)
+    },
     "Using the latest available geography"
   )
   expect_message(
-    hscp <- get_hscp_pop_est(min_year = 2024L, max_year = 2024L),
+    {
+      hscp <- get_hscp_pop_est(min_year = 2024L, max_year = 2024L)
+    },
     "Using the latest available geography"
   )
   expect_message(
-    iz <- get_iz_pop_est(min_year = 2024L, max_year = 2024L),
+    {
+      iz <- get_iz_pop_est(min_year = 2024L, max_year = 2024L)
+    },
     "Using the latest available geography"
   )
   expect_message(
-    dz <- get_dz_pop_est(min_year = 2024L, max_year = 2024L),
+    {
+      dz <- get_dz_pop_est(min_year = 2024L, max_year = 2024L)
+    },
     "Using the latest available geography"
   )
 
@@ -294,7 +304,7 @@ test_that("population estimates are returned using defaults on real files", {
   expect_in(c("year", "sex_name", "age", "pop"), names(dz))
 })
 
-test_that("population estimates are returned for valid versions on real files", {
+test_that("population estimates are returned properly for real files", {
   skip_if_not(have_access())
 
   expect_s3_class(
