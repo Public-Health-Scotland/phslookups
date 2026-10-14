@@ -6,7 +6,7 @@
 # * https://r-pkgs.org/testing-design.html#sec-tests-files-overview
 # * https://testthat.r-lib.org/articles/special-files.html
 
-library(testthat)
-library(phslookups)
+library(testthat) # nolint: undesirable_function_linter.
+library(phslookups) # nolint: undesirable_function_linter, unused_import_linter.
 
 test_check("phslookups")
