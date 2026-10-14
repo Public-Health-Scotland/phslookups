@@ -1,4 +1,4 @@
-# Lookup dir is as exepected
+# Lookup dir is as expected
 
     Code
       get_lookups_dir()
