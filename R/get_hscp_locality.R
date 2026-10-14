@@ -19,14 +19,14 @@ get_hscp_locality <- function(version = "latest", col_select = NULL) {
   if (version == "latest") {
     hscp_locality_path <- find_latest_file(
       directory = hscp_locality_dir,
-      regexp = "HSCP Localities_DZ11_Lookup_\\d{8}\\.",
+      regexp = "HSCP Localities_DZ11_Lookup_[0-9]{8}[.]",
       selection_method = "file_name"
     )
   } else {
     if (
       !stringr::str_detect(
         version,
-        "^20\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])$"
+        "^20[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$"
       )
     ) {
       cli::cli_abort(c(
@@ -43,5 +43,5 @@ get_hscp_locality <- function(version = "latest", col_select = NULL) {
     )
   }
 
-  return(read_file(hscp_locality_path, col_select = {{ col_select }}))
+  read_file(hscp_locality_path, col_select = {{ col_select }})
 }

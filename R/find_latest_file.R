@@ -41,11 +41,11 @@ find_latest_file <- function(
       ...
     ) |>
       dplyr::arrange(
-        dplyr::desc(.data$birth_time),
-        dplyr::desc(.data$modification_time),
-        dplyr::desc(.data$path)
+        dplyr::desc(.data[["birth_time"]]),
+        dplyr::desc(.data[["modification_time"]]),
+        dplyr::desc(.data[["path"]])
       ) |>
-      dplyr::pull(.data$path)
+      dplyr::pull("path")
   } else if (selection_method == "file_name") {
     latest_file_options <- fs::dir_info(
       path = directory,
@@ -54,11 +54,11 @@ find_latest_file <- function(
       recurse = FALSE
     ) |>
       dplyr::arrange(
-        dplyr::desc(.data$path),
-        dplyr::desc(.data$birth_time),
-        dplyr::desc(.data$modification_time)
+        dplyr::desc(.data[["path"]]),
+        dplyr::desc(.data[["birth_time"]]),
+        dplyr::desc(.data[["modification_time"]])
       ) |>
-      dplyr::pull(.data$path)
+      dplyr::pull("path")
   } else {
     cli::cli_abort(
       "{.arg selection_method} must be {.val modification_date} or

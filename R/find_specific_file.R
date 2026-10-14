@@ -87,6 +87,7 @@ find_specific_file <- function(directory, lookup_type, version) {
   )
 
   # Handle case where no matching file is found
+  # nolint start object_usage_linter
   if (is.na(file_path)) {
     version_label <- if (lookup_type == "SIMD Postcode") {
       paste(
@@ -100,13 +101,15 @@ find_specific_file <- function(directory, lookup_type, version) {
 
     cli::cli_abort(
       c(
-        x = "{.val {lookup_type}} version {.val {version_label}} is NOT available",
+        x = "{.val {lookup_type}} version {.val {version_label}}
+        is NOT available",
         i = "Contact phs.geography@phs.scot"
       ),
       call = NULL,
       rlang_backtrace_on_error = "none"
     )
   }
+  # nolint end
 
   file_path
 }
