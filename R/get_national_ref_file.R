@@ -67,7 +67,8 @@ get_national_ref_file <- function(filename, col_select = NULL) {
       cli::cli_abort(
         c(
           not_found_msg,
-          i = "Did you mean: {.or {.val {available_file_stems[close_match_indices]}}}?"
+          i = "Did you mean:
+          {.or {.val {available_file_stems[close_match_indices]}}}?"
         )
       )
     }

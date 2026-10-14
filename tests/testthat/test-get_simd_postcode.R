@@ -29,6 +29,7 @@ test_that("simd_postcode is returned", {
   simd_postcode <- suppressMessages(get_simd_postcode())
 
   expect_s3_class(simd_postcode, "tbl_df")
+  expect_named(simd_postcode)
 
   expect_length(unique(simd_postcode[["hb2019"]]), 14L)
   expect_length(unique(simd_postcode[["hscp2019"]]), 31L)

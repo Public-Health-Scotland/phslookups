@@ -42,13 +42,13 @@ read_file <- function(path, col_select = NULL, ...) {
   }
 
   lookup <- switch(ext,
-    "rds" = tibble::as_tibble(readr::read_rds(file = path)),
-    "csv" = readr::read_csv(
+    rds = tibble::as_tibble(readr::read_rds(file = path)),
+    csv = readr::read_csv(
       file = path,
-      guess_max = 50000,
+      guess_max = 50000L,
       progress = FALSE,
       show_col_types = FALSE,
-      lazy = .Platform$OS.type == "unix",
+      lazy = .Platform[["OS.type"]] == "unix",
       ...
     ),
     parquet = tibble::as_tibble(arrow::read_parquet(
@@ -64,5 +64,5 @@ read_file <- function(path, col_select = NULL, ...) {
     lookup <- dplyr::select(lookup, {{ col_select }})
   }
 
-  return(lookup)
+  lookup
 }

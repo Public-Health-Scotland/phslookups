@@ -83,8 +83,8 @@ get_simd_postcode <- function(
     ))
   }
 
-  return(read_file(
+  read_file(
     simd_postcode_path,
     col_select = {{ col_select }}
-  ))
+  )
 }

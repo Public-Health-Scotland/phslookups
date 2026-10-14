@@ -37,11 +37,11 @@ get_spd <- function(version = "latest", col_select = NULL) {
   if (version == "latest") {
     spd_path <- find_latest_file(
       directory = spd_dir,
-      regexp = "Scottish_Postcode_Directory_\\d{4}_[1-2]\\.parquet",
+      regexp = "Scottish_Postcode_Directory_[0-9]{4}_[1-2][.]parquet",
       selection_method = "file_name"
     )
   } else {
-    if (!stringr::str_detect(version, "^20\\d{2}_[1-2]$")) {
+    if (!stringr::str_detect(version, "^20[0-9]{2}_[1-2]$")) {
       cli::cli_abort(c(
         x = "Invalid version name: {.val {version}}",
         i = "It should follow pattern YYYY_1 or YYYY_2",
@@ -76,5 +76,5 @@ get_spd <- function(version = "latest", col_select = NULL) {
     inform_metadata_access(spd)
   }
 
-  return(spd)
+  spd
 }

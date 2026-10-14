@@ -25,7 +25,7 @@ find_preferred_version <- function(
     stringsAsFactors = FALSE
   )
 
-  path_list <- fs::path(path_combs$directories, path_combs$file_names)
+  path_list <- fs::path(path_combs[["directories"]], path_combs[["file_names"]])
 
-  path_list[fs::file_exists(path_list)][1L]
+  dplyr::first(path_list[fs::file_exists(path_list)])
 }

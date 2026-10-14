@@ -19,6 +19,7 @@ test_that("spd is returned", {
   spd <- suppressMessages(get_spd())
 
   expect_s3_class(spd, "tbl_df")
+  expect_named(spd)
 
   expect_length(unique(spd[["hb2019"]]), 14L)
   expect_length(unique(spd[["hscp2019"]]), 31L)

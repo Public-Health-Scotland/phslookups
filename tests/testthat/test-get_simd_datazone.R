@@ -18,7 +18,6 @@ test_that("simd_datazone is returned", {
   simd_datazone <- suppressMessages(get_simd_datazone())
 
   expect_s3_class(simd_datazone, "tbl_df")
-
   expect_length(unique(simd_datazone[["hb2019"]]), 14L)
   expect_length(unique(simd_datazone[["hscp2019"]]), 31L)
   expect_length(unique(simd_datazone[["ca2019"]]), 32L)
