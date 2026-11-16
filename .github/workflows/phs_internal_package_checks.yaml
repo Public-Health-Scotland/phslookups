@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   PHS-checks:
-    uses: Public-Health-Scotland/actions/.github/workflows/phs_package_checks_internal.yaml@v3.1.0
+    uses: Public-Health-Scotland/actions/.github/workflows/phs_package_checks_internal.yaml@v3.1.1
     with:
       run_tests: true
       lint: true
