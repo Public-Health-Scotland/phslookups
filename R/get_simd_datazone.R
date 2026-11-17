@@ -22,8 +22,7 @@ get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
       "DataZone",
       "\\d{4}",
       "_simd",
-      "\\d{4}(:?v2)?",
-      "\\.rds"
+      "\\d{4}(:?v2)?"
     )
   } else {
     valid_simd_version <- stringr::str_detect(
@@ -60,8 +59,7 @@ get_simd_datazone <- function(simd_version = "latest", col_select = NULL) {
       "DataZone",
       "\\d{4}",
       "_simd",
-      simd_version,
-      "\\.rds"
+      simd_version
     )
   }
 

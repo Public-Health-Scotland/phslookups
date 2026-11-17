@@ -36,8 +36,7 @@ get_simd_postcode <- function(
       "postcode_",
       ifelse(postcode_version == "latest", "\\d{4}_[1-2]", postcode_version),
       "_simd",
-      ifelse(simd_version == "latest", "\\d{4}(:?v[1-2])?", simd_version),
-      "\\.parquet"
+      ifelse(simd_version == "latest", "\\d{4}(:?v[1-2])?", simd_version)
     )
 
     simd_postcode_path <- find_latest_file(
