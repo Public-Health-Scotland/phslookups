@@ -244,11 +244,15 @@ get_pop_est <- function(
       )
       file_name_re <- paste0(
         level,
-        version_match[
-          ,
-          2L
-        ],
+        version_match[, 2L],
         shared_file_re
+      )
+    } else if (identical(level, "DataZone") && version <= "2001") {
+      cli::cli_abort(
+        c(
+          x = "Population files for DataZone_{version} are not readable with {.pkg phslookups}.",
+          i = "However, you may be able to fetch it directly from {.dir {pop_dir}}."
+        )
       )
     }
 
@@ -297,13 +301,13 @@ get_pop_est <- function(
   }
 
   if (identical(version, "latest")) {
-    # nolint start object_usage_linter
     version_info <- stringr::str_extract(
       fs::path_file(pop_path),
       "^([A-z]+)([0-9]{4})",
       group = c(1L, 2L)
     )
 
+    # nolint start object_usage_linter
     cli::cli_inform(c(
       v = "Using the latest available geography:
       {.val {version_info[1]}{version_info[2]}}.",
